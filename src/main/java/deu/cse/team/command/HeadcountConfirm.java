@@ -1,6 +1,5 @@
 package deu.cse.team.command;
 
-//구매 확정 및 취소(뒤로가기)
         
 public class HeadcountConfirm {
 

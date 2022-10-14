@@ -18,6 +18,6 @@ public class IndividualCommand implements Command{
     @Override
     public String execute(){
         headcountConfirm.individual();
-        return "individual";
+        return "개인";
     }
 }

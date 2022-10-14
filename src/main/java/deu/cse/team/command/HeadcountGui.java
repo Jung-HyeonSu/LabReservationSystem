@@ -4,6 +4,8 @@
  */
 package deu.cse.team.command;
 
+import static javax.swing.JOptionPane.showMessageDialog;
+
 /**
  *
  * @author PC
@@ -13,8 +15,16 @@ public class HeadcountGui extends javax.swing.JFrame {
     /**
      * Creates new form HeadcountGui
      */
+    RemoteControl remoteControl = new RemoteControl();
+
+    HeadcountConfirm headcountConfirm = new HeadcountConfirm();
+
+    IndividualCommand individual = new IndividualCommand(headcountConfirm);
+    TeamCommand team = new TeamCommand(headcountConfirm);
+    
     public HeadcountGui() {
         initComponents();
+        remoteControl.setCommand(0, individual, team);
     }
 
     /**
@@ -126,7 +136,17 @@ public class HeadcountGui extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        String headCount = "";
+        if (jRadioButton1.isSelected()) {
+                headCount = remoteControl.A_ButtonWasPushed(0);
+                showMessageDialog(null, headCount);
+            } else if (jRadioButton2.isSelected()) {
+                headCount = remoteControl.B_ButtonWasPushed(0);
+                showMessageDialog(null, headCount+" 인원수: "+jTextField1.getText());
+            }
         
+
+        dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**

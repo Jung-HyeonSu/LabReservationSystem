@@ -19,6 +19,6 @@ public class TeamCommand implements Command{
     @Override
     public String execute(){
         headcountConfirm.team();
-        return "team";
+        return "팀";
     }
 }
