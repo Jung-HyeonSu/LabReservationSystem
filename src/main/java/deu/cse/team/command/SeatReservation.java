@@ -112,7 +112,8 @@ public class SeatReservation extends javax.swing.JFrame {
 
         jLabel1.setText("빈자리");
 
-        jLabel2.setText("빈자리");
+        jLabel2.setForeground(new java.awt.Color(255, 0, 0));
+        jLabel2.setText("사용중");
 
         jCheckBox2.setText("2번 좌석");
 
