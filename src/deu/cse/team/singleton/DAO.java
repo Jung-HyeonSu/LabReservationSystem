@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package main.java.deu.cse.team.singleton;
+package deu.cse.team.singleton;
 
 /**
  *
@@ -67,7 +67,7 @@ public class DAO {
         boolean result = false;
         try {
             con = DriverManager.getConnection(
-                    "oracle:jdbc:thin:@sedb.deu.ac.kr:1521:orcl", "b20183215", "20183215");
+                    "jdbc:oracle:thin:@sedb.deu.ac.kr:1521:orcl", "b20183215", "20183215");
             result = true;
         } catch (Exception e) {
             System.out.println("연결 실패 : " + e.getMessage());
@@ -130,7 +130,7 @@ public class DAO {
                         account.setPhonenumber(rs.getString("phonenumber"));
                         account.setWarning(rs.getInt("warning"));
                         account.setPower(rs.getString("power"));
-                        account.setAllowed(rs.getBoolean("access"));
+                        account.setAllowed(rs.getBoolean("allowed"));
 
                         list.add(account);
                     }
