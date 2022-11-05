@@ -4,14 +4,29 @@
  */
 package deu.cse.team.noticeBoard;
 
+import deu.cse.team.noticeBoard.DAO.DTO;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.naming.NamingException;
+
 /**
  *
- * @author user
+ * @author eotkd99
  */
 public class MBoard extends javax.swing.JFrame {
 
-    public MBoard() {
+    public static String pid="admin";
+    public MBoard() throws SQLException, NamingException {
         initComponents();
+        if(pid.equals("admin")){
+            this.sanctionsBtn.setVisible(true);
+        }else{
+            this.sanctionsBtn.setVisible(false);
+        }
+       /* DTO dto = new DTO();
+        dto.boardSelect();*/
+
     }
 
     @SuppressWarnings("unchecked")
@@ -23,6 +38,7 @@ public class MBoard extends javax.swing.JFrame {
         writeBtn = new javax.swing.JButton();
         sanctionsBtn = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(500, 300));
@@ -75,7 +91,7 @@ public class MBoard extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -112,6 +128,13 @@ public class MBoard extends javax.swing.JFrame {
 
         jLabel1.setText("클릭 시 상세보기");
 
+        jButton1.setText("새로고침");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -125,9 +148,10 @@ public class MBoard extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(writeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(sanctionsBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(writeBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
+                            .addComponent(sanctionsBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(24, 24, 24))))
         );
         layout.setVerticalGroup(
@@ -136,11 +160,13 @@ public class MBoard extends javax.swing.JFrame {
                 .addContainerGap(10, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(writeBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(sanctionsBtn))
+                        .addComponent(sanctionsBtn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(31, 31, 31))
         );
@@ -153,19 +179,24 @@ public class MBoard extends javax.swing.JFrame {
     }//GEN-LAST:event_writeBtnActionPerformed
 
     private void sanctionsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sanctionsBtnActionPerformed
-       new sanctionsDlg().setVisible(true);
+        new sanctionsDlg().setVisible(true);
     }//GEN-LAST:event_sanctionsBtnActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        new MdetailView().setVisible(true);
+        if(this.pid.equals("admin")){
+           new detailView().setVisible(true);
+       }else{
+           new checkPerm().setVisible(true);
+       }
     }//GEN-LAST:event_jTable1MouseClicked
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       /* DTO dto = new DTO();
+        dto.boardSelect();*/
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -182,17 +213,22 @@ public class MBoard extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(MBoard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
 
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MBoard().setVisible(true);
+                try {
+                    new MBoard().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(MBoard.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (NamingException ex) {
+                    Logger.getLogger(MBoard.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
