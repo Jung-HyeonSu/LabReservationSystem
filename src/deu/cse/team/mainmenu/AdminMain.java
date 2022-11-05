@@ -4,6 +4,7 @@
  */
 package deu.cse.team.mainmenu;
 
+import deu.cse.team.register.AdminRegister;
 import deu.cse.team.singleton.DAO;
 import deu.cse.team.singleton.TokenDTO;
 import java.io.IOException;
@@ -237,6 +238,11 @@ public class AdminMain extends javax.swing.JFrame {
         });
 
         jButton2.setText("관리자 계정 생성");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("사용자 계정 관리");
 
@@ -343,6 +349,12 @@ public class AdminMain extends javax.swing.JFrame {
             Logger.getLogger(AdminMain.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        AdminRegister adminRegister = new AdminRegister();
+        adminRegister.setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
