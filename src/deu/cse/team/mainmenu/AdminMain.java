@@ -224,6 +224,7 @@ public class AdminMain extends javax.swing.JFrame {
 
         jLabel2.setText("사번:");
 
+        jLabel3.setForeground(new java.awt.Color(0, 0, 255));
         jLabel3.setText("jLabel3");
 
         jLabel4.setText("jLabel4");
@@ -266,22 +267,21 @@ public class AdminMain extends javax.swing.JFrame {
                 .addComponent(jLabel3)
                 .addGap(73, 73, 73))
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(227, 227, 227)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton2)
-                            .addComponent(jLabel1)
-                            .addComponent(jButton3)
-                            .addComponent(jButton5)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(237, 237, 237)
-                        .addComponent(jButton4))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(244, 244, 244)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton7)
-                            .addComponent(jButton6))))
+                .addGap(227, 227, 227)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jButton2)
+                        .addComponent(jButton3)
+                        .addComponent(jButton5)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(10, 10, 10)
+                            .addComponent(jButton4))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(17, 17, 17)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jButton7)
+                                .addComponent(jButton6))))
+                    .addComponent(jLabel1))
                 .addContainerGap(232, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -296,7 +296,7 @@ public class AdminMain extends javax.swing.JFrame {
                     .addComponent(jLabel4)
                     .addComponent(jButton1)
                     .addComponent(jLabel8))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addComponent(jButton2)
                 .addGap(18, 18, 18)
                 .addComponent(jButton3)
@@ -308,7 +308,7 @@ public class AdminMain extends javax.swing.JFrame {
                 .addComponent(jButton6)
                 .addGap(27, 27, 27)
                 .addComponent(jButton7)
-                .addContainerGap(51, Short.MAX_VALUE))
+                .addGap(39, 39, 39))
         );
 
         pack();
@@ -405,7 +405,7 @@ public class AdminMain extends javax.swing.JFrame {
     private javax.swing.JDialog jDialog3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
+    public javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;

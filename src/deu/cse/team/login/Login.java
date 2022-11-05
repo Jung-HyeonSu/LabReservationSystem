@@ -133,11 +133,13 @@ public class Login extends javax.swing.JFrame {
                 check = true;
                 if (power.equals("X")) { 
                     StudentMain studentMain = new StudentMain();
+                    studentMain.jLabel3.setText(stu_id);
                     studentMain.setVisible(true);
                     dispose();
                 }
                 else {
                     AdminMain adminMain = new AdminMain();
+                    adminMain.jLabel3.setText(stu_id);
                     adminMain.setVisible(true);
                     dispose();
                 }
