@@ -95,9 +95,11 @@ public class AccountDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "Account [stu_id=" + stu_id + ", password=" + password + ", name=" + name + ", phonenumber="
-                + phonenumber + ", warning=" + warning + ", power="
-                + power + ", allowed=" + allowed + "]";
+        String str = String.format("%s\t%s\t%s\t%s\t%s\t%s\t%s",
+                     stu_id, password, name,
+                     phonenumber, warning, power,
+                     allowed);
+        return str;
     }
 
 }

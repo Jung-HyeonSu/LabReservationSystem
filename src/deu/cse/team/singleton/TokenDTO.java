@@ -37,7 +37,9 @@ public class TokenDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "Token [token_value=" + token_value + "]";
+        String str = String.format("%s",
+                     token_value);
+        return str;
     }
 
 }
