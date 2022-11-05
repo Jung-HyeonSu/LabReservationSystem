@@ -95,7 +95,7 @@ public class DAO {
     // 모든 테이블의 모든 데이터를 읽어서 List<Account> 타입에 저장해서 리턴하는 메서드.
     // Select문을 이용. 결과는 ResultSet에 저장됨. (위에서 선언했음)
     // 여기서 AccountDTO는 DTO클래스 AccountDTO를 의미.
-    public List<AccountDTO> getList() {
+    public List<AccountDTO> getAccountList() {
         // 데이터를 저장할 변수 생성.
         //(여기서 객체 생성을 안하는 이유는 접속이 되었을 때만 객체생성을 해야 의미가 있기 때문에.
         //접속 안됬는데 객체를 생성한다면 이 DB에 데이터를 넣을수 있는지 없는지 판단할 기준이 애매해짐.
@@ -146,6 +146,32 @@ public class DAO {
 
         return list;
     }
+    
+    public String getTokenList() {
+        String value = null;
+        String sql = "SELECT * FROM TOKEN";
+        if (connect()) {
+            try {
+                stmt = con.createStatement();
+                rs = stmt.executeQuery(sql);
+                if (stmt != null) { 
+                    
+                    //데이터를 읽어서 list에 저장
+                    while (rs.next()) {
+                        value = rs.getString("token_value");
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            // 연결에 실패했을 때 작업
+            System.out.println("데이터베이스 연결에 실패했습니다.");
+            System.exit(0);
+        }
+        
+        return value;
+    }
 
     //account 테이블에 데이터를 삽입하는 메서드
     public boolean InsertAccount(AccountDTO account) {
@@ -166,6 +192,35 @@ public class DAO {
                 pstmt.setInt(5, account.getWarning());
                 pstmt.setString(6, account.getPower());
                 pstmt.setBoolean(7, account.isAllowed());
+
+                int r = pstmt.executeUpdate();
+
+                if (r > 0) {
+                    result = true;
+                }
+                //데이터베이스 생성 객체 해제
+                pstmt.close();
+                this.close();
+
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+
+        } else {
+            System.out.println("데이터베이스 연결에 실패");
+            System.exit(0);
+        }
+
+        return result;
+    }
+    
+    public boolean UpdateToken(TokenDTO token, String oldToken, String newToken) {
+        boolean result = false;
+
+        if (this.connect()) {
+            try {
+                String sql = "UPDATE token SET token_value="+newToken+" WHERE token_value =" + oldToken; 
+                PreparedStatement pstmt = con.prepareStatement(sql);
 
                 int r = pstmt.executeUpdate();
 
