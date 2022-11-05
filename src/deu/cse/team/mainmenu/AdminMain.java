@@ -4,6 +4,8 @@
  */
 package deu.cse.team.mainmenu;
 
+import deu.cse.team.singleton.DAO;
+import deu.cse.team.singleton.TokenDTO;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -24,6 +26,7 @@ public class AdminMain extends javax.swing.JFrame {
      */
     public AdminMain() {
         initComponents();
+        loadToken();
     }
 
     /**
@@ -313,6 +316,8 @@ public class AdminMain extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        String oldToken = jLabel4.getText();
+        String newToken=null;
         try {
             Date date = new Date();
             Random random = new Random();
@@ -326,8 +331,14 @@ public class AdminMain extends javax.swing.JFrame {
                     break;
                 }
             }
-            String hashValue = Integer.toString(value);
-            jLabel4.setText(hashValue);
+            newToken = Integer.toString(value);
+            jLabel4.setText(newToken);
+            
+            //디비저장
+            DAO dao = DAO.getInstance();
+            TokenDTO dto = new TokenDTO();
+            dao.UpdateToken(dto,oldToken,newToken);
+            
         }catch (Exception ex) {
             Logger.getLogger(AdminMain.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -366,6 +377,11 @@ public class AdminMain extends javax.swing.JFrame {
                 new AdminMain().setVisible(true);
             }
         });
+    }
+    
+    private void loadToken(){
+        DAO dao = DAO.getInstance();
+        jLabel4.setText(dao.getTokenList());
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
