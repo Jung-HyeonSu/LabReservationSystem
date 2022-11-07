@@ -67,7 +67,7 @@ public class DAO {
         boolean result = false;
         try {
             con = DriverManager.getConnection(
-                    "jdbc:oracle:thin:@sedb.deu.ac.kr:1521:orcl", "b20183215", "20183215");
+                    "jdbc:oracle:thin:@sedb.deu.ac.kr:1521:orcl", "b20183207", "20183207");
             result = true;
         } catch (Exception e) {
             System.out.println("연결 실패 : " + e.getMessage());
@@ -215,7 +215,6 @@ public class DAO {
     }
     
     
-   
     public boolean UpdateToken(TokenDTO token, String oldToken, String newToken) {
         boolean result = false;
 
