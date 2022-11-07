@@ -4,7 +4,7 @@
  */
 package deu.cse.team.mainmenu;
 
-import deu.cse.team.management.MgmtAccount;
+import deu.cse.team.accountManagement.Accountmamagement;
 import deu.cse.team.register.AdminRegister;
 import deu.cse.team.singleton.AccountDTO;
 import deu.cse.team.singleton.DAO;
@@ -315,7 +315,7 @@ public class AdminMain extends javax.swing.JFrame {
         // TODO add your handling code here:
         
         
-        MgmtAccount mgmtAccount = new MgmtAccount();
+        Accountmamagement mgmtAccount = new Accountmamagement();
         mgmtAccount.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
