@@ -147,6 +147,41 @@ public class DAO {
         return list;
     }
     
+    public List<ClassTimetableDTO> getTimetableList() {
+        List<ClassTimetableDTO> list = null;
+        String sql = "SELECT * FROM classtimetable";
+        if (connect()) {
+            try {
+                stmt = con.createStatement();
+                if (stmt != null) { 
+                    rs = stmt.executeQuery(sql);
+                    list = new ArrayList<ClassTimetableDTO>();
+                    while (rs.next()) {
+                        ClassTimetableDTO timetable = new ClassTimetableDTO();
+                        timetable.setClassnumber(rs.getString("classnumber"));
+                        timetable.setTime1(rs.getString("time1"));
+                        timetable.setTime2(rs.getString("time2"));
+                        timetable.setTime3(rs.getString("time3"));
+                        timetable.setTime4(rs.getString("time4"));
+                        timetable.setTime5(rs.getString("time5"));
+                        timetable.setTime6(rs.getString("time6"));
+                        timetable.setTime7(rs.getString("time7"));
+                        timetable.setTime8(rs.getString("time8"));
+
+                        list.add(timetable);
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("데이터베이스 연결에 실패했습니다.");
+            System.exit(0);
+        }
+
+        return list;
+    }
+    
     public String getTokenList() {
         String value = null;
         String sql = "SELECT * FROM TOKEN";
