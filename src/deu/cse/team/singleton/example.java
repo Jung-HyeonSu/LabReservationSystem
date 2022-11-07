@@ -15,28 +15,22 @@ public class example {
     public static void main(String[] args) {
         DAO dao = DAO.getInstance();
         //삽입
-        AccountDTO dto = new AccountDTO();
-        dto.setStu_id("20183215");
-        dto.setPassword("abcd");
-        dto.setName("정현수");
-        dto.setPhonenumber("01066885399");
-        dto.setWarning(0);
-        dto.setPower("O");
-        dto.setAllowed(false);
-        boolean r = dao.InsertAccount(dto);
+        ClassTimetableDTO dto = new ClassTimetableDTO();
+        dto.setClassnumber("918");
+        dto.setTime1("　,　,　,　,　,　,　");
+        dto.setTime2("　,　,　,　,　,　,　");
+        dto.setTime3("　,　,　,　,　,　,　");
+        dto.setTime4("　,　,　,　,　,　,　");
+        dto.setTime5("　,　,　,　,　,　,　");
+        dto.setTime6("　,　,　,　,　,　,　");
+        dto.setTime7("　,　,　,　,　,　,　");
+        dto.setTime8("　,　,　,　,　,　,　");
+        boolean r = dao.InsertC(dto);
         
         if (r) {
             System.out.println("삽입에 성공했습니다.");
         } else {
             System.out.println("삽입에 실패했습니다.");
-        }
-        
-        
-        List<AccountDTO> list = dao.getList();
-        //list의 모든 데이터에 접근해서 출력
-        for (AccountDTO account : list) {
-            //출력하는 메서드에 참조형 변수를 사용하면 toString()메서드가 호출되서 출력됩니다.
-            System.out.println(account);
         }
     }
 

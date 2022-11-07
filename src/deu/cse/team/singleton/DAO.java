@@ -248,24 +248,29 @@ public class DAO {
 
         return result;
     }
-    public boolean InsertReservation(AccountDTO account) {
+    
+    public boolean InsertC(ClassTimetableDTO time) {
         boolean result = false;
 
         if (this.connect()) {
             try {
                 //값이 삽입되어야 하는 자리에는 물음표
-                String sql = "INSERT INTO account VALUES (?,?,?,?,?,?,?)"; //모든 컬럼에 값을 넣으므로 컬럼명 생략.
+                String sql = "INSERT INTO classtimetable VALUES (?,?,?,?,?,?,?,?,?)"; //모든 컬럼에 값을 넣으므로 컬럼명 생략.
                 PreparedStatement pstmt = con.prepareStatement(sql);
                 
                 //VALUES의 ?에 값을 바인딩. (바인딩 : ?에 들어갔어야 하는 원래 데이터 값을 입력.
                 //바인딩 방법. set자료형(컬럼, 들어갈 데이터); 
-                pstmt.setString(1, account.getStu_id());
-                pstmt.setString(2, account.getPassword());
-                pstmt.setString(3, account.getName());
-                pstmt.setString(4, account.getPhonenumber());
-                pstmt.setInt(5, account.getWarning());
-                pstmt.setString(6, account.getPower());
-                pstmt.setBoolean(7, account.isAllowed());
+                pstmt.setString(1, time.getClassnumber());
+                pstmt.setString(2, time.getTime1());
+                pstmt.setString(3, time.getTime2());
+                pstmt.setString(4, time.getTime3());
+                pstmt.setString(5, time.getTime4());
+                pstmt.setString(6, time.getTime5());
+                pstmt.setString(7, time.getTime6());
+                pstmt.setString(8, time.getTime7());
+                pstmt.setString(9, time.getTime8());
+                
+
 
                 int r = pstmt.executeUpdate();
 
