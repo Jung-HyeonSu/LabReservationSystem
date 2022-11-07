@@ -12,8 +12,9 @@ package deu.cse.team.accountManagement;
 public class editaccount extends javax.swing.JFrame {
 
     /**
-     * Creates new form editaccount
-     */
+    2022.11.07 [최초작성자 20183207 김성찬]
+    사용자 계정관리
+    */
      String id;
      String password;
      String name;
