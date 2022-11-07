@@ -69,7 +69,7 @@ public class ClassTimetable extends javax.swing.JFrame {
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "916", "915", "918", "911" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "915", "916", "918", "911" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
@@ -84,6 +84,11 @@ public class ClassTimetable extends javax.swing.JFrame {
         });
 
         jButton3.setText("조회");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -148,22 +153,22 @@ public class ClassTimetable extends javax.swing.JFrame {
             for (int j = 1; j < 8; j++) {
                 switch (j) {
                     case 1:
-                        if ((model.getValueAt(i, j).toString()).equals("X")) {
-                            time[i] = "X,";
+                        if ("".equals(model.getValueAt(i, j).toString())) {
+                            time[i] = " ,";
                         } else {
                             time[i] = model.getValueAt(i, j).toString() + ",";
                         }
                         break;
                     case 7:
-                        if ((model.getValueAt(i, j).toString()).equals("X")) {
-                            time[i] += "X";
+                        if ("".equals(model.getValueAt(i, j).toString())) {
+                            time[i] += " ";
                         } else {
                             time[i] += model.getValueAt(i, j).toString();
                         }
                         break;
                     default:
-                        if ((model.getValueAt(i, j).toString()).equals("X")) {
-                            time[i] += "X,";
+                        if ("".equals(model.getValueAt(i, j).toString())) {
+                            time[i] += " ,";
                         } else {
                             time[i] += model.getValueAt(i, j).toString() + ",";
                         }
@@ -175,9 +180,10 @@ public class ClassTimetable extends javax.swing.JFrame {
 
         String classnum = jComboBox1.getSelectedItem().toString();
         dao.UpdateTimetable(dto, classnum, time[0], time[1], time[2], time[3], time[4], time[5], time[6], time[7]);
+        loadTimeTable();
         showMessageDialog(null, "시간표가 저장되었습니다.");
 
-        //dao.UpdateToken(dto, oldToken, newToken);
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -188,6 +194,11 @@ public class ClassTimetable extends javax.swing.JFrame {
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        loadTimeTable();
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     void loadTimeTable() {
         DefaultTableModel model = (DefaultTableModel) jTable2.getModel();

@@ -179,8 +179,8 @@
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="4">
-            <StringItem index="0" value="916"/>
-            <StringItem index="1" value="915"/>
+            <StringItem index="0" value="915"/>
+            <StringItem index="1" value="916"/>
             <StringItem index="2" value="918"/>
             <StringItem index="3" value="911"/>
           </StringArray>
@@ -205,6 +205,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="&#xc870;&#xd68c;"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3ActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
