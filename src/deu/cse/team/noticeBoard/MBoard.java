@@ -4,12 +4,8 @@
  */
 package deu.cse.team.noticeBoard;
 
-
-
-import deu.cse.team.singleton.BoardDTO;
-import deu.cse.team.singleton.DAO;
+import deu.cse.team.noticeBoard.DAO.DTO;
 import java.sql.SQLException;
-import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.NamingException;
@@ -20,10 +16,7 @@ import javax.naming.NamingException;
  */
 public class MBoard extends javax.swing.JFrame {
 
-    public static String pid="adin";
-    DAO dao = DAO.getInstance();
-    BoardDTO b = new BoardDTO();
-           
+    public static String pid="admin";
     public MBoard() throws SQLException, NamingException {
         initComponents();
         if(pid.equals("admin")){
@@ -31,7 +24,9 @@ public class MBoard extends javax.swing.JFrame {
         }else{
             this.sanctionsBtn.setVisible(false);
         }
-        init();
+       /* DTO dto = new DTO();
+        dto.boardSelect();*/
+
     }
 
     @SuppressWarnings("unchecked")
@@ -189,17 +184,15 @@ public class MBoard extends javax.swing.JFrame {
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         if(this.pid.equals("admin")){
-           int x = jTable1.getSelectedRow();
-           detailView a = new detailView();
-           a.setNo(x);
-           a.setVisible(true);
+           new detailView().setVisible(true);
        }else{
            new checkPerm().setVisible(true);
        }
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       init();
+       /* DTO dto = new DTO();
+        dto.boardSelect();*/
     }//GEN-LAST:event_jButton1ActionPerformed
 
     public static void main(String args[]) {
@@ -242,20 +235,4 @@ public class MBoard extends javax.swing.JFrame {
     private javax.swing.JButton sanctionsBtn;
     private javax.swing.JButton writeBtn;
     // End of variables declaration//GEN-END:variables
-    public void init(){
-           try {
-               Iterator<BoardDTO> it = dao.boardSelect().iterator();
-               int i = 0;	
-               while(it.hasNext()) {
-                   b=it.next();
-                   jTable1.setValueAt(b.getBNUM(), i, 0);
-                   jTable1.setValueAt(b.getTITLE(), i, 1);
-                   jTable1.setValueAt(b.getSID(), i, 2);
-                   jTable1.setValueAt(b.getDATE(), i, 3);
-                   jTable1.setValueAt(b.getTYPE(), i, 4);
-                   i++;
-               }
-           } catch (SQLException | NamingException e1) {
-           }
-    }
 }

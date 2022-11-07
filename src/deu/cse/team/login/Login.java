@@ -9,7 +9,6 @@ import deu.cse.team.mainmenu.StudentMain;
 import deu.cse.team.register.Register;
 import deu.cse.team.singleton.AccountDTO;
 import deu.cse.team.singleton.DAO;
-import deu.cse.team.singleton.StudentDTO;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -22,7 +21,6 @@ public class Login extends javax.swing.JFrame {
     /**
      * Creates new form Login
      */
-    public static StudentDTO s;
     public Login() {
         initComponents();
     }
@@ -144,7 +142,7 @@ public class Login extends javax.swing.JFrame {
             power = accountlist.get(i).getPower();
             if (stu_id.equals(SignInIdField.getText()) && password.equals(SignInPwField.getText())) {
                 JOptionPane.showMessageDialog(null, "로그인 성공");
-                check = true; s = dao.AccountSelect(SignInIdField.getText());
+                check = true;
                 if (power.equals("X")) { 
                     StudentMain studentMain = new StudentMain();
                     studentMain.jLabel3.setText(stu_id);

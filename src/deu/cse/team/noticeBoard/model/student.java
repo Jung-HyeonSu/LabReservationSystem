@@ -2,18 +2,26 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package deu.cse.team.singleton;
+package deu.cse.team.noticeBoard.model;
 
 /**
  *
- * @author eotkd
+ * @author user
  */
-public class StudentDTO {
+public class student {
         String SID;
         String SPS;
         String PHONE;
         int WNUM;
         boolean STOP;
+
+    public student(String SID, String PASS, String PHONE, int WNUM, boolean stop) {
+        this.SID = SID;
+        this.SPS = PASS;
+        this.PHONE = PHONE;
+        this.WNUM = WNUM;
+        this.STOP = stop;
+    }
 
     public String getSID() {
         return SID;
