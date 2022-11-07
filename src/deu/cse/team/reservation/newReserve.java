@@ -5,6 +5,8 @@ import deu.cse.team.command.RemoteControl;
 import deu.cse.team.command.Reservation;
 import deu.cse.team.command.ReservationCancelCommand;
 import deu.cse.team.command.ReservationOkCommand;
+import deu.cse.team.singleton.AccountDTO;
+import deu.cse.team.singleton.ReservationDTO;
 import javax.swing.JCheckBox;
 import static javax.swing.JOptionPane.showMessageDialog;
 
@@ -21,6 +23,8 @@ public class newReserve extends javax.swing.JFrame {
     int max =38;
     JCheckBox[] seatnumber = new JCheckBox[max];
     int row=0;
+    String starttime;
+    String endtime;
     String Message ="예약 완료\n"+"DB에서 이용규칙 가져오기. 관리자는 이용수칙을 DB에 저장하고 수정도 가능해야함";
     String seatname;
     RemoteControl remoteControl = new RemoteControl();
@@ -205,7 +209,9 @@ public class newReserve extends javax.swing.JFrame {
         // TODO add your handling code here:
         if ("ok".equals(remoteControl.A_ButtonWasPushed(1))) {
             showMessageDialog(null, Message);            
-        }        
+        }
+    ReservationDTO adto = new ReservationDTO(,)
+    
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
