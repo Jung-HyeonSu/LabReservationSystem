@@ -6,7 +6,10 @@ import deu.cse.team.command.Reservation;
 import deu.cse.team.command.ReservationCancelCommand;
 import deu.cse.team.command.ReservationOkCommand;
 import deu.cse.team.singleton.AccountDTO;
+import deu.cse.team.singleton.DAO;
 import deu.cse.team.singleton.ReservationDTO;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import javax.swing.JCheckBox;
 import static javax.swing.JOptionPane.showMessageDialog;
 
@@ -20,51 +23,43 @@ public class newReserve extends javax.swing.JFrame {
         2022.11.07 [최초작성자 20183207 김성찬]
         사용자 계정관리
     */
-    int max =38;
-    JCheckBox[] seatnumber = new JCheckBox[max];
+     int max =38;
+    JCheckBox[] seatcheckbox = new JCheckBox[max];
     int row=0;
     String starttime;
     String endtime;
-    String Message ="예약 완료\n"+"DB에서 이용규칙 가져오기. 관리자는 이용수칙을 DB에 저장하고 수정도 가능해야함";
-    String seatname;
+    String seatnumber;
+    String Message ="예약 완료";
+    //"DB에서 이용규칙 가져오기. 관리자는 이용수칙을 DB에 저장하고 수정도 가능해야함";
     RemoteControl remoteControl = new RemoteControl();
     Reservation reservation = new Reservation();
     ReservationOkCommand reservationOk = new ReservationOkCommand(reservation);
     ReservationCancelCommand reservationCancel = new ReservationCancelCommand(reservation);    
-    public newReserve() {
-        initComponents();
+    DAO dao = DAO.getInstance();  
+    public newReserve() {        
+        initComponents();        
         remoteControl.setCommand(1, reservationOk, reservationCancel);
         max=40;//값가져와서 변경하기
         setSeat();
-        responsiblename.setText("이름 가져오기");
-        String time1="1";
-        String time2="1";
-        String time3="1";
-        String time4="1";
-        String time5="1";
-        String time6="1";
-        String time7="1";
-        String time8="1";
-        String classnumber = "111";
-        String sql = "UPDATE classtimetable SET time1="+time1+",time2 ="+time2+",time3 ="+time3+",time4 ="+time4 +",time5 ="+time5+",time6 ="+time6+",time7 ="+time7+",time8 ="+time8+ "WHERE classnumber =" + classnumber;
-        System.out.println(sql);
+        responsiblename.setText("이름가져오기");
     }
     
     
-    void setSeat(){
+     void setSeat(){
         for (int k = 0; k < max; k++) {
-                seatname=null;
-                seatname = Integer.toString(((k+1)+(row*8))) + "번 좌석";            
-                seatnumber[k] = new JCheckBox();
-                seatnumber[k].setText(seatname);
+                seatnumber=null;
+                seatnumber = Integer.toString(((k+1)+(row*8))) + "번 좌석";
+                seatcheckbox[k] = new JCheckBox();
+                seatcheckbox[k].setText(seatnumber);
                 if (k>=4) {
-                    seatnumber[k].setBounds(80*k+130,50*row+170,80,30);
+                    seatcheckbox[k].setBounds(80*k+130,50*row+170,80,30);
                 }
                 else
-                    seatnumber[k].setBounds(80*k+80,50*row+170,80,30);
-                System.out.println(80*k+80);
-                seatnumber[k].setVisible(true);
-                add(seatnumber[k]);
+                    seatcheckbox[k].setBounds(80*k+80,50*row+170,80,30);
+                seatcheckbox[k].setVisible(true);
+                add(seatcheckbox[k]);
+                seatcheckbox[k].addItemListener(new clickseat(((k+1)+(row*8))));
+                
                 if (row*8+k==max-1) break;
                 if (k==7){
                     row++;
@@ -72,6 +67,16 @@ public class newReserve extends javax.swing.JFrame {
                 }
             }
     }
+     public class clickseat implements ItemListener   {
+                String value;
+                clickseat(int k){
+                    this.value=Integer.toString(k);
+                }
+                @Override
+                public void itemStateChanged(ItemEvent e) {
+                    seatnumber = value;
+                }
+     }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -84,7 +89,7 @@ public class newReserve extends javax.swing.JFrame {
 
         jLabel31 = new javax.swing.JLabel();
         responsiblename = new javax.swing.JLabel();
-        jLabel33 = new javax.swing.JLabel();
+        classnumber = new javax.swing.JLabel();
         settotal = new javax.swing.JLabel();
         jLabel35 = new javax.swing.JLabel();
         changebtn = new javax.swing.JButton();
@@ -102,8 +107,8 @@ public class newReserve extends javax.swing.JFrame {
         responsiblename.setForeground(new java.awt.Color(0, 0, 255));
         responsiblename.setText("홍길동");
 
-        jLabel33.setFont(new java.awt.Font("맑은 고딕", 1, 36)); // NOI18N
-        jLabel33.setText("915 강의실");
+        classnumber.setFont(new java.awt.Font("맑은 고딕", 1, 36)); // NOI18N
+        classnumber.setText("915 강의실");
 
         settotal.setText("예약 가능한 좌석 수:");
 
@@ -164,14 +169,14 @@ public class newReserve extends javax.swing.JFrame {
                         .addComponent(jButton1)
                         .addGap(72, 72, 72)
                         .addComponent(jButton2))
-                    .addComponent(jLabel33))
+                    .addComponent(classnumber))
                 .addGap(291, 291, 291))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(32, 32, 32)
-                .addComponent(jLabel33)
+                .addComponent(classnumber)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel31)
@@ -206,11 +211,16 @@ public class newReserve extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        if ("ok".equals(remoteControl.A_ButtonWasPushed(1))) {
+
+                    if ("ok".equals(remoteControl.A_ButtonWasPushed(1))) {
             showMessageDialog(null, Message);            
         }
-    ReservationDTO adto = new ReservationDTO(,)
+        String time[] = resertime.getText().split("~");
+        starttime = time[0].trim();
+        endtime = time[1].trim();
+        ReservationDTO rdto = new ReservationDTO(dao.getReserLength(),Integer.parseInt(seatnumber),responsiblename.getText(),classnumber.getText(),starttime,endtime);
+        boolean checkReservation = dao.InsertReservation(rdto);
+            
     
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -240,6 +250,7 @@ public class newReserve extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(newReserve.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -251,10 +262,10 @@ public class newReserve extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton changebtn;
+    private javax.swing.JLabel classnumber;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel31;
-    private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel resertime;
     private javax.swing.JLabel resertimearea;

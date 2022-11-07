@@ -14,8 +14,11 @@ import java.io.Serializable;
 
 public class ReservationDTO implements Serializable {
 
-    private String reser_number;
-    private String stu_id;
+    private int reser_number;
+    private int seat_number;
+
+    
+    private String Id;
     private String classnumber;
     private String reser_starttime;
     private String reser_endtime;
@@ -24,29 +27,36 @@ public class ReservationDTO implements Serializable {
         super();
     }
 
-    public ReservationDTO(String reser_number,String stu_id,String classnumber,String reser_starttime,String reser_endtime) {
+    public ReservationDTO(int reser_number,int seat_number, String Id,String classnumber,String reser_starttime,String reser_endtime) {
         super();
         this.reser_number = reser_number;
-        this.stu_id = stu_id;
+        this.Id = Id;
         this.classnumber = classnumber;
         this.reser_starttime = reser_starttime;
         this.reser_endtime = reser_endtime;
     }
 
-    public String getReser_number() {
+    public int getReser_number() {
         return reser_number;
     }
 
-    public void setReser_number(String reser_number) {
+    public void setReser_number(int reser_number) {
         this.reser_number = reser_number;
     }
-
-    public String getStu_id() {
-        return stu_id;
+    public int getSeat_number() {
+        return seat_number;
     }
 
-    public void setStu_id(String stu_id) {
-        this.stu_id = stu_id;
+    public void setSeat_number(int seat_number) {
+        this.seat_number = seat_number;
+    }
+
+    public String getId() {
+        return Id;
+    }
+
+    public void setStu_id(String Id) {
+        this.Id = Id;
     }
 
     public String getClassnumber() {
@@ -76,7 +86,7 @@ public class ReservationDTO implements Serializable {
     @Override
     public String toString() {
         String str = String.format("%s\t%s\t%s\t%s\t%s",
-                     reser_number,stu_id,classnumber,reser_starttime,reser_endtime);
+                     reser_number,Id,classnumber,reser_starttime,reser_endtime);
         return str;
     }
 

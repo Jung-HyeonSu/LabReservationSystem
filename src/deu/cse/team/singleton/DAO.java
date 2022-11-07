@@ -209,6 +209,7 @@ public class DAO {
     }
 
     //account 테이블에 데이터를 삽입하는 메서드
+        
     public boolean InsertAccount(AccountDTO account) {
         boolean result = false;
 
@@ -247,6 +248,67 @@ public class DAO {
         }
 
         return result;
+    }
+    public boolean InsertReservation(ReservationDTO reservation) {
+        boolean result = false;
+        if (this.connect()) {
+            try {
+                //값이 삽입되어야 하는 자리에는 물음표
+                String sql = "INSERT INTO reservation VALUES (?,?,?,?,?,?)"; //모든 컬럼에 값을 넣으므로 컬럼명 생략.
+                PreparedStatement pstmt = con.prepareStatement(sql);
+                //VALUES의 ?에 값을 바인딩. (바인딩 : ?에 들어갔어야 하는 원래 데이터 값을 입력.
+                pstmt.setInt(1, reservation.getReser_number());
+                pstmt.setInt(2, reservation.getSeat_number());
+                pstmt.setString(3, reservation.getId());
+                pstmt.setString(4, reservation.getClassnumber());
+                pstmt.setString(5, reservation.getReser_starttime());
+                pstmt.setString(6, reservation.getReser_endtime());
+
+                int r = pstmt.executeUpdate();
+
+                if (r > 0) {
+                    result = true;
+                }
+                //데이터베이스 생성 객체 해제
+                pstmt.close();
+                this.close();
+
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+
+        } else {
+            System.out.println("데이터베이스 연결에 실패");
+            System.exit(0);
+        }
+
+        return result;
+    }
+    public int getReserLength() {
+        int count = 0;
+        if (this.connect()) {
+            try {
+                //값이 삽입되어야 하는 자리에는 물음표
+                String sql = "SELECT * FROM reservation";
+                PreparedStatement pstmt = con.prepareStatement(sql);
+                stmt = con.createStatement();
+                if (stmt != null) { //위 객체가 Null이 아니라는 것은 무언가를 받아왔다는 의미. SQL문장을 받아온 것.
+                    //sql구문 실행 (Select문의 결과는 ResultSet에 저장. (위에서 선언))
+                    rs = stmt.executeQuery(sql);
+                    while (rs.next()) {
+                        count++;
+                    }
+                }
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+
+        } else {
+            System.out.println("데이터베이스 연결에 실패");
+            System.exit(0);
+        }
+
+        return count;
     }
     
     public boolean InsertC(ClassTimetableDTO time) {
