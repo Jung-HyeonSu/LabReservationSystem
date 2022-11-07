@@ -2,13 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package deu.cse.team.noticeBoard.model;
+package deu.cse.team.singleton;
 
 /**
  *
- * @author user
+ * @author eotkd
  */
-public class board {
+public class BoardDTO {
         int NO;
         String TITLE;
         String CONTENT;

@@ -4,6 +4,9 @@
  */
 package deu.cse.team.noticeBoard;
 
+import deu.cse.team.singleton.BoardDTO;
+import deu.cse.team.singleton.DAO;
+import deu.cse.team.singleton.StudentDTO;
 import javax.swing.JOptionPane;
 
 /**
@@ -15,6 +18,9 @@ public class writeDlg extends javax.swing.JFrame {
     /**
      * Creates new form sanctionsDlg
      */
+     DAO dao = DAO.getInstance();
+    BoardDTO b = new BoardDTO();
+    StudentDTO s = new StudentDTO();
     public writeDlg() {
         initComponents();
         if(MBoard.pid.equals("admin")){
@@ -26,7 +32,6 @@ public class writeDlg extends javax.swing.JFrame {
         }
         
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -141,6 +146,7 @@ public class writeDlg extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        dao.insert(jTextField1.getText(), jTextArea1.getText(), jComboBox1.getSelectedItem().toString());
         JOptionPane.showMessageDialog(null, "등록 완료.");
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed

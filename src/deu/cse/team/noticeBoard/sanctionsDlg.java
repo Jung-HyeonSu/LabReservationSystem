@@ -4,6 +4,9 @@
  */
 package deu.cse.team.noticeBoard;
 
+import deu.cse.team.singleton.BoardDTO;
+import deu.cse.team.singleton.DAO;
+import deu.cse.team.singleton.StudentDTO;
 import javax.swing.JOptionPane;
 
 /**
@@ -14,7 +17,11 @@ public class sanctionsDlg extends javax.swing.JFrame {
 
     /**
      * Creates new form writeDlg
+     * 
      */
+    DAO dao = DAO.getInstance();
+    BoardDTO b = new BoardDTO();
+    StudentDTO s = new StudentDTO();
     public sanctionsDlg() {
         initComponents();
     }
@@ -196,7 +203,8 @@ public class sanctionsDlg extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       JOptionPane.showMessageDialog(null, "제재 완료.");
+       dao.stopUpdate(true);
+       JOptionPane.showMessageDialog(null, "정지 완료.");
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed

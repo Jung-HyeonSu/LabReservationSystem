@@ -16,6 +16,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.PreparedStatement;
+import javax.naming.NamingException;
 
 public class DAO {
     // 2022. 11. 05 [최초작성자 정현수]
@@ -423,5 +424,122 @@ public class DAO {
 
         return result;
     }
+    
+        public void insert(String s1, String s2, String s3){
+             if (this.connect()) {
+		String sql="insert into board(title,content,type) values(?,?,?)";
+		try {
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setString(1, s1);
+			st.setString(2, s2);
+			st.setString(3, s3);
+			st.executeUpdate();
+		} catch (SQLException e) {
+		} 
+                } else {
+            System.out.println("데이터베이스 연결에 실패");
+            System.exit(0);
+        }
+	}
+	
+	public void boardUpdate(String s1, String s2, String s3, int s4){
+             if (this.connect()) {
+        
+		String sql="update board set title=? ,content=? ,type=? where no=?";
+		try {
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setString(1, s1);
+			st.setString(2, s2);
+			st.setString(3, s3);
+                        st.setInt(4, s4);
+			st.executeUpdate();
+		} catch (SQLException e) {
+		} 
+                } else {
+            System.out.println("데이터베이스 연결에 실패");
+            System.exit(0);
+        }
+	}
 
+	public void boardDelete(String s1) {
+             if (this.connect()) {
+        
+		String sql="delete from board where no=?";
+		try {
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setString(1, s1);
+			st.executeUpdate();
+		} catch (SQLException e) {
+		} 
+                } else {
+            System.out.println("데이터베이스 연결에 실패");
+            System.exit(0);
+        }
+	}
+
+	public ArrayList<BoardDTO> boardSelect() throws SQLException ,NamingException {
+            ArrayList<BoardDTO> a = new ArrayList<>();
+             if (this.connect()) {
+        
+		
+		String sql="select * from board";
+		
+		try {
+			PreparedStatement st = con.prepareStatement(sql);
+			ResultSet rs = st.executeQuery();
+			while(rs.next()) {
+				BoardDTO b = new BoardDTO();
+				b.setBNUM(rs.getInt(1));
+				b.setSID(rs.getString(2));
+                                b.setTITLE(rs.getString(3));
+                                b.setCONTENT(rs.getString(4));
+                                b.setDATE(rs.getString(5));
+                                b.setBPS(rs.getString(6));
+			}
+		} catch (SQLException e) {
+		} 
+                } else {
+            System.out.println("데이터베이스 연결에 실패");
+            System.exit(0);
+        }
+		return a;
+	}
+        
+        public StudentDTO AccountSelect(String s1){
+            StudentDTO b = new StudentDTO();
+             if (this.connect()) {
+		
+		String sql="select * from where sid"+s1;
+		try {
+			PreparedStatement st = con.prepareStatement(sql);
+			ResultSet rs = st.executeQuery();
+			while(rs.next()) {
+                            b.setSID(rs.getString(1));
+                            b.setPASS(rs.getString(2));
+			}
+		} catch (SQLException e) {
+		} 
+		
+                } else {
+            System.out.println("데이터베이스 연결에 실패");
+            System.exit(0);
+        }
+             return b;
+	}
+        
+        public void stopUpdate(boolean s1){
+             if (this.connect()) {
+        
+		String sql="update board set stop=true where sid=?";
+		try {
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setBoolean(1, s1);
+			st.executeUpdate();
+		} catch (SQLException e) {
+		} 
+                } else {
+            System.out.println("데이터베이스 연결에 실패");
+            System.exit(0);
+        }
+	}
 }
