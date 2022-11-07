@@ -124,7 +124,7 @@ public class DAO {
 
                         //DTO클래스의 변수에 값을 세팅하기 위해 Set메서드를 이용하고.
                         //Select의 결과를 컬럼 단위로 읽어오기 위해서 'get변수타입(컬럼명)' 메서드를 이용
-                        account.setStu_id(rs.getString("stu_id"));
+                        account.setId(rs.getString("id"));
                         account.setPassword(rs.getString("password"));
                         account.setName(rs.getString("name"));
                         account.setPhonenumber(rs.getString("phonenumber"));
@@ -221,7 +221,7 @@ public class DAO {
                 
                 //VALUES의 ?에 값을 바인딩. (바인딩 : ?에 들어갔어야 하는 원래 데이터 값을 입력.
                 //바인딩 방법. set자료형(컬럼, 들어갈 데이터); 
-                pstmt.setString(1, account.getStu_id());
+                pstmt.setString(1, account.getId());
                 pstmt.setString(2, account.getPassword());
                 pstmt.setString(3, account.getName());
                 pstmt.setString(4, account.getPhonenumber());
@@ -311,6 +311,7 @@ public class DAO {
         return count;
     }
     
+    /*
     public boolean InsertC(ClassTimetableDTO time) {
         boolean result = false;
 
@@ -355,7 +356,7 @@ public class DAO {
         return result;
     }
    
-    
+    */
     public boolean UpdateToken(TokenDTO token, String oldToken, String newToken) {
         boolean result = false;
 

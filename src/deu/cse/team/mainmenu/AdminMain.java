@@ -4,11 +4,13 @@
  */
 package deu.cse.team.mainmenu;
 
-import deu.cse.team.accountManagement.Accountmamagement;
+import deu.cse.team.accountManagement.Accountmanagement;
 import deu.cse.team.register.AdminRegister;
 import deu.cse.team.singleton.AccountDTO;
 import deu.cse.team.singleton.DAO;
 import deu.cse.team.singleton.TokenDTO;
+import deu.cse.team.timetable.ClassTimetable;
+import deu.cse.team.timetable.SeminarTimetable;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -72,10 +74,25 @@ public class AdminMain extends javax.swing.JFrame {
         jLabel6.setText("실습실 시간표 입력");
 
         jButton10.setText("수업 시간표 ");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
 
         jButton11.setText("특강 및 세미나");
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
+            }
+        });
 
         jButton15.setText("닫기");
+        jButton15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton15ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jDialog2Layout = new javax.swing.GroupLayout(jDialog2.getContentPane());
         jDialog2.getContentPane().setLayout(jDialog2Layout);
@@ -201,6 +218,11 @@ public class AdminMain extends javax.swing.JFrame {
         });
 
         jButton4.setText("시간표 입력");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setText("실습실 사용 현황");
 
@@ -313,11 +335,33 @@ public class AdminMain extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        
-        
-        Accountmamagement mgmtAccount = new Accountmamagement();
+        Accountmanagement mgmtAccount = new Accountmanagement();
         mgmtAccount.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        jDialog2.setVisible(true);
+        jDialog2.setLocationRelativeTo(this);
+        jDialog2.setSize(350, 270);
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        // TODO add your handling code here:
+        ClassTimetable classtimetable = new ClassTimetable();
+        classtimetable.setVisible(true);
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
+        // TODO add your handling code here:
+        jDialog2.dispose();
+    }//GEN-LAST:event_jButton15ActionPerformed
+
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        // TODO add your handling code here:
+        SeminarTimetable seminarTimetable = new SeminarTimetable();
+        seminarTimetable.setVisible(true);
+    }//GEN-LAST:event_jButton11ActionPerformed
 
     /**
      * @param args the command line arguments

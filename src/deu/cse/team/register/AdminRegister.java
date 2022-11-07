@@ -161,7 +161,7 @@ public class AdminRegister extends javax.swing.JFrame {
         DAO dao = DAO.getInstance();
         //삽입
         AccountDTO dto = new AccountDTO();
-        dto.setStu_id(jTextField1.getText());
+        dto.setId(jTextField1.getText());
         dto.setPassword(jTextField2.getText());
         dto.setName(jTextField3.getText());
         dto.setPhonenumber(jTextField4.getText() + jTextField6.getText() + jTextField7.getText());

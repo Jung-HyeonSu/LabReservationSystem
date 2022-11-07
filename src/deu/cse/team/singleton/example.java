@@ -25,13 +25,13 @@ public class example {
         dto.setTime6("X,X,X,X,X,X,X");
         dto.setTime7("X,X,X,X,X,X,X");
         dto.setTime8("X,X,X,X,X,X,X");
-        boolean r = dao.InsertC(dto);
+        //boolean r = dao.InsertC(dto);
         
-        if (r) {
+       /* if (r) {
             System.out.println("삽입에 성공했습니다.");
         } else {
             System.out.println("삽입에 실패했습니다.");
-        }
+        }*/
     }
 
 }

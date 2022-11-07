@@ -137,7 +137,7 @@ public class Login extends javax.swing.JFrame {
         String power = null;
         boolean check = false;
         for (int i = 0; i < accountlist.size(); i++) {
-            stu_id = accountlist.get(i).getStu_id();
+            stu_id = accountlist.get(i).getId();
             password = accountlist.get(i).getPassword();
             power = accountlist.get(i).getPower();
             if (stu_id.equals(SignInIdField.getText()) && password.equals(SignInPwField.getText())) {

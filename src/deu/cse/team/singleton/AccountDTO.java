@@ -14,7 +14,7 @@ import java.io.Serializable;
 
 public class AccountDTO implements Serializable {
 
-    private String stu_id;
+    private String id;
     private String password;
     private String name;
     private String phonenumber;
@@ -26,9 +26,9 @@ public class AccountDTO implements Serializable {
         super();
     }
 
-    public AccountDTO(String stu_id, String password, String name, String phonenumber, int warning, String power, boolean allowed) {
+    public AccountDTO(String id, String password, String name, String phonenumber, int warning, String power, boolean allowed) {
         super();
-        this.stu_id = stu_id;
+        this.id = id;
         this.password = password;
         this.name = name;
         this.phonenumber = phonenumber;
@@ -37,12 +37,12 @@ public class AccountDTO implements Serializable {
         this.allowed = allowed;
     }
 
-    public String getStu_id() {
-        return stu_id;
+    public String getId() {
+        return id;
     }
 
-    public void setStu_id(String stu_id) {
-        this.stu_id = stu_id;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getPassword() {
@@ -96,7 +96,7 @@ public class AccountDTO implements Serializable {
     @Override
     public String toString() {
         String str = String.format("%s\t%s\t%s\t%s\t%s\t%s\t%s",
-                     stu_id, password, name,
+                     id, password, name,
                      phonenumber, warning, power,
                      allowed);
         return str;

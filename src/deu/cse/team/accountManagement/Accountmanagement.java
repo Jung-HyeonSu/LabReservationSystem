@@ -15,7 +15,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Seongchan
  */
-public class Accountmamagement extends javax.swing.JFrame {
+public class Accountmanagement extends javax.swing.JFrame {
 
     /**
     2022.11.05 [최초작성자 20183207 김성찬]
@@ -36,14 +36,14 @@ public class Accountmamagement extends javax.swing.JFrame {
         power =(String) accountTable.getValueAt(row, 5);
    }
      public void getInformation(int number){
-         id = accountlist.get(number).getStu_id();
+         id = accountlist.get(number).getId();
          username=accountlist.get(number).getName();
          phonenumber=accountlist.get(number).getPhonenumber();
          warning=accountlist.get(number).getWarning();
          power=accountlist.get(number).getPower();
          allowed=accountlist.get(number).isAllowed();
      }
-    public Accountmamagement() {
+    public Accountmanagement() {
         initComponents();
         DAO dao = DAO.getInstance();
         accountlist = dao.getAccountList();
@@ -199,20 +199,21 @@ public class Accountmamagement extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Accountmamagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Accountmanagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Accountmamagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Accountmanagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Accountmamagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Accountmanagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Accountmamagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Accountmanagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Accountmamagement().setVisible(true);
+                new Accountmanagement().setVisible(true);
             }
         });
     }
