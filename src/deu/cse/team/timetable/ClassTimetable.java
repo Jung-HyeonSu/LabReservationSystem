@@ -148,22 +148,22 @@ public class ClassTimetable extends javax.swing.JFrame {
             for (int j = 1; j < 8; j++) {
                 switch (j) {
                     case 1:
-                        if (model.getValueAt(i, j).toString().equals("")) {
-                            time[i] = "　,";
+                        if ((model.getValueAt(i, j).toString()).equals("X")) {
+                            time[i] = "X,";
                         } else {
                             time[i] = model.getValueAt(i, j).toString() + ",";
                         }
                         break;
                     case 7:
-                        if (model.getValueAt(i, j).toString().equals("")) {
-                            time[i] = "　";
+                        if ((model.getValueAt(i, j).toString()).equals("X")) {
+                            time[i] += "X";
                         } else {
                             time[i] += model.getValueAt(i, j).toString();
                         }
                         break;
                     default:
-                        if (model.getValueAt(i, j).toString().equals("")) {
-                            time[i] += "　,";
+                        if ((model.getValueAt(i, j).toString()).equals("X")) {
+                            time[i] += "X,";
                         } else {
                             time[i] += model.getValueAt(i, j).toString() + ",";
                         }
