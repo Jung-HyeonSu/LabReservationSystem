@@ -214,6 +214,7 @@ public class DAO {
         return result;
     }
     
+   
     
     public boolean UpdateToken(TokenDTO token, String oldToken, String newToken) {
         boolean result = false;
@@ -223,6 +224,45 @@ public class DAO {
                 String sql = "UPDATE token SET token_value="+newToken+" WHERE token_value =" + oldToken; 
                 PreparedStatement pstmt = con.prepareStatement(sql);
 
+                int r = pstmt.executeUpdate();
+
+                if (r > 0) {
+                    result = true;
+                }
+                //데이터베이스 생성 객체 해제
+                pstmt.close();
+                this.close();
+
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+
+        } else {
+            System.out.println("데이터베이스 연결에 실패");
+            System.exit(0);
+        }
+
+        return result;
+    }
+    
+    public boolean UpdateTimetable(ClassTimetableDTO classtimetable, String classnumber,
+            String time1, String time2,String time3,String time4,String time5,String time6,String time7,String time8) {
+        boolean result = false;
+
+        if (this.connect()) {
+            try {
+                String sql = "UPDATE classtimetable SET time1=(?),time2 =(?),time3 =(?),time4 =(?),time5 =(?),time6 =(?),time7 =(?),time8 =(?) WHERE classnumber =" + classnumber;
+
+                PreparedStatement pstmt = con.prepareStatement(sql);
+                pstmt.setString(1, time1);
+                pstmt.setString(2, time2);
+                pstmt.setString(3, time3);
+                pstmt.setString(4, time4);
+                pstmt.setString(5, time5);
+                pstmt.setString(6, time6);
+                pstmt.setString(7, time7);
+                pstmt.setString(8, time8);
+                
                 int r = pstmt.executeUpdate();
 
                 if (r > 0) {
