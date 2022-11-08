@@ -6,12 +6,15 @@ import deu.cse.team.command.Reservation;
 import deu.cse.team.command.ReservationCancelCommand;
 import deu.cse.team.command.ReservationOkCommand;
 import deu.cse.team.singleton.AccountDTO;
+import deu.cse.team.singleton.ClassTimetableDTO;
 import deu.cse.team.singleton.DAO;
 import deu.cse.team.singleton.ReservationDTO;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Calendar;
+import java.util.List;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -39,7 +42,10 @@ public class afterReserve extends javax.swing.JFrame {
     Reservation reservation = new Reservation();
     ReservationOkCommand reservationOk = new ReservationOkCommand(reservation);
     ReservationCancelCommand reservationCancel = new ReservationCancelCommand(reservation);    
-    DAO dao = DAO.getInstance(); 
+    DAO dao = DAO.getInstance();
+    //[좌석][예약]해서 좌석별 시간별 리스트를 가져오고선택한시간에 있으면 설정
+    List<ClassTimetableDTO> cdto = dao.getTimetableList();
+    
     
     public afterReserve() {        
         initComponents();        

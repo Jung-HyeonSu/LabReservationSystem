@@ -16,22 +16,23 @@ public class example {
         DAO dao = DAO.getInstance();
         //삽입
         ClassTimetableDTO dto = new ClassTimetableDTO();
-        dto.setClassnumber("916");
-        dto.setTime1("X,X,X,X,X,X,X");
-        dto.setTime2("X,X,X,X,X,X,X");
-        dto.setTime3("X,X,X,X,X,X,X");
-        dto.setTime4("X,X,X,X,X,X,X");
-        dto.setTime5("X,X,X,X,X,X,X");
-        dto.setTime6("X,X,X,X,X,X,X");
-        dto.setTime7("X,X,X,X,X,X,X");
+        dto.setClassnumber("915");
+        dto.setTime1("1,2,3,4,5,6,7");
+        dto.setTime2(" , , , , , , ");
+        dto.setTime3(" , , , , , , ");
+        dto.setTime4(" , , , , , , ");
+        dto.setTime5(" , , , , , , ");
+        dto.setTime6(" , , , , , , ");
+        dto.setTime7(" , , , , , , ");
         dto.setTime8("X,X,X,X,X,X,X");
-        //boolean r = dao.InsertC(dto);
+        boolean r = dao.InsertC(dto);
         
-       /* if (r) {
+        
+        if (r) {
             System.out.println("삽입에 성공했습니다.");
         } else {
             System.out.println("삽입에 실패했습니다.");
-        }*/
+        }
     }
 
 }
