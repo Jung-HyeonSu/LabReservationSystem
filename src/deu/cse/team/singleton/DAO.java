@@ -345,6 +345,40 @@ public class DAO {
 
         return count;
     }
+    public List<ReservationDTO> getReservationList(){
+        List<ReservationDTO> list = null;
+        if (this.connect()) {
+            try {
+                //값이 삽입되어야 하는 자리에는 물음표
+                String sql = "SELECT * FROM reservation";
+                PreparedStatement pstmt = con.prepareStatement(sql);
+                stmt = con.createStatement();
+                if (stmt != null) { //위 객체가 Null이 아니라는 것은 무언가를 받아왔다는 의미. SQL문장을 받아온 것.
+                    //sql구문 실행 (Select문의 결과는 ResultSet에 저장. (위에서 선언))
+                    rs = stmt.executeQuery(sql);
+                    while (rs.next()) {
+                        ReservationDTO reserList = new ReservationDTO();
+                        reserList.setReser_number(rs.getInt("reser_number"));
+                        reserList.setSeat_number(rs.getInt("seat_number"));
+                        reserList.setId(rs.getString("id"));
+                        reserList.setClassnumber(rs.getString("classnumber"));
+                        reserList.setReser_starttime(rs.getString("reser_starttime"));
+                        reserList.setReser_endtime(rs.getString("reser_endtime"));
+                        reserList.setClassadmin(rs.getString("classadmin"));
+                        reserList.setOk(rs.getString("ok"));
+                    }
+                }
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+
+        } else {
+            System.out.println("데이터베이스 연결에 실패");
+            System.exit(0);
+        }
+
+        return list;
+    }
     
     /*
     public boolean InsertC(ClassTimetableDTO time) {

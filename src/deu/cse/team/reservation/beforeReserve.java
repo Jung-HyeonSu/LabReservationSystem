@@ -5,19 +5,14 @@ import deu.cse.team.command.RemoteControl;
 import deu.cse.team.command.Reservation;
 import deu.cse.team.command.ReservationCancelCommand;
 import deu.cse.team.command.ReservationOkCommand;
-import deu.cse.team.singleton.AccountDTO;
 import deu.cse.team.singleton.ClassTimetableDTO;
 import deu.cse.team.singleton.DAO;
 import deu.cse.team.singleton.ReservationDTO;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.Calendar;
 import java.util.List;
 import javax.swing.JCheckBox;
-import javax.swing.JDialog;
-import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
@@ -339,7 +334,7 @@ public class beforeReserve extends javax.swing.JFrame {
         String time[] = resertime.getText().split("~");
         starttime = time[0].trim();
         endtime = time[1].trim();
-        ReservationDTO rdto = new ReservationDTO(dao.getReserLength(),Integer.parseInt(seatnumber),responsiblename.getText(),classnumber.getText(),starttime,endtime);
+        ReservationDTO rdto = new ReservationDTO(dao.getReserLength(),Integer.parseInt(seatnumber),responsiblename.getText(),classnumber.getText(),starttime,endtime,"-","1");
         boolean checkReservation = dao.InsertReservation(rdto);  
     }//GEN-LAST:event_nextbtnActionPerformed
 
