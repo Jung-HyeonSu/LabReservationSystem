@@ -29,11 +29,11 @@ public class Accountmanagement extends javax.swing.JFrame {
      boolean allowed;
      List<AccountDTO>  accountlist;
      public void selectuser(int row){
-       id = (String) accountTable.getValueAt(row, 1);
-        username = (String) accountTable.getValueAt(row, 2);
-        phonenumber = (String) accountTable.getValueAt(row, 3);
-        warning = (int) accountTable.getValueAt(row, 4);
-        power =(String) accountTable.getValueAt(row, 5);
+       id = (String) accountTable.getValueAt(1, row);
+        username = (String) accountTable.getValueAt(2, row);
+        phonenumber = (String) accountTable.getValueAt(3, row);
+        warning = (int) accountTable.getValueAt(4, row);
+        power =(String) accountTable.getValueAt(5, row);
    }
      public void getInformation(int number){
          id = accountlist.get(number).getId();
