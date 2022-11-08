@@ -18,22 +18,26 @@ public class ReservationDTO implements Serializable {
     private int seat_number;
 
     
-    private String Id;
+    private String id;
     private String classnumber;
     private String reser_starttime;
     private String reser_endtime;
+    private String classadmin;
+    private String ok;
 
     public ReservationDTO() {
         super();
     }
 
-    public ReservationDTO(int reser_number,int seat_number, String Id,String classnumber,String reser_starttime,String reser_endtime) {
+    public ReservationDTO(int reser_number,int seat_number, String id, String classnumber,String reser_starttime,String reser_endtime,String classadmin,String ok) {
         super();
         this.reser_number = reser_number;
-        this.Id = Id;
+        this.id = id;
         this.classnumber = classnumber;
         this.reser_starttime = reser_starttime;
         this.reser_endtime = reser_endtime;
+        this.classadmin = classadmin;
+        this.ok = ok;
     }
 
     public int getReser_number() {
@@ -52,11 +56,11 @@ public class ReservationDTO implements Serializable {
     }
 
     public String getId() {
-        return Id;
+        return id;
     }
 
-    public void setStu_id(String Id) {
-        this.Id = Id;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getClassnumber() {
@@ -83,10 +87,27 @@ public class ReservationDTO implements Serializable {
         this.reser_endtime = reser_endtime;
     }
 
+    public String getClassadmin() {
+        return classadmin;
+    }
+
+    public void setClassadmin(String classadmin) {
+        this.classadmin = classadmin;
+    }
+
+    public String getOk() {
+        return ok;
+    }
+
+    public void setOk(String ok) {
+        this.ok = ok;
+    }
+    
+
     @Override
     public String toString() {
-        String str = String.format("%s\t%s\t%s\t%s\t%s",
-                     reser_number,Id,classnumber,reser_starttime,reser_endtime);
+        String str = String.format("%s\t%s\t%s\t%s\t%s\t%s\t%s",
+                     reser_number,id,classnumber,reser_starttime,reser_endtime,classadmin,ok);
         return str;
     }
 
