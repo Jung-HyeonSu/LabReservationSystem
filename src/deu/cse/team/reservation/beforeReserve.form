@@ -177,7 +177,7 @@
                   <Group type="102" attributes="0">
                       <Component id="settotal" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jLabel35" min="-2" max="-2" attributes="0"/>
+                      <Component id="seattotal" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
@@ -210,7 +210,7 @@
                   <Component id="jLabel31" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="responsiblename" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="settotal" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel35" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="seattotal" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -261,7 +261,7 @@
         <Property name="text" type="java.lang.String" value="&#xc608;&#xc57d; &#xac00;&#xb2a5;&#xd55c; &#xc88c;&#xc11d; &#xc218;:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel35">
+    <Component class="javax.swing.JLabel" name="seattotal">
       <Properties>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="33" green="0" red="ff" type="rgb"/>

@@ -24,7 +24,7 @@ public class afterReserve extends javax.swing.JFrame {
         2022.11.07 [최초작성자 20183207 김성찬]
         사용자 계정관리
     */
-     int max =38;
+     int max =40;
     JCheckBox[] seatcheckbox = new JCheckBox[max];
     int row=0;
     String starttime;
@@ -38,8 +38,27 @@ public class afterReserve extends javax.swing.JFrame {
     ReservationCancelCommand reservationCancel = new ReservationCancelCommand(reservation);    
     DAO dao = DAO.getInstance();
     //[좌석][예약]해서 좌석별 시간별 리스트를 가져오고선택한시간에 있으면 설정
-    List<ClassTimetableDTO> cdto = dao.getTimetableList();
-
+    boolean [][] reserseat = new boolean[max][8];
+    List<ReservationDTO> rdto = dao.getReserList();
+    
+    void getreserseat(){
+        int numberValue;
+        int reserStartValue;
+        int reserEndValue;
+        for (int i = 0; i < rdto.size(); i++) {
+            numberValue = rdto.get(i).getSeat_number();
+            System.out.println(rdto.get(i).getReser_starttime());
+            reserStartValue = Integer.parseInt(rdto.get(i).getReser_starttime().split(":")[0]);
+            if (reserStartValue>=17) {
+                System.out.println(rdto.get(i).getReser_starttime());            
+                reserEndValue = Integer.parseInt(rdto.get(i).getReser_endtime().split(":")[0]);
+                for (int j = reserStartValue-17; j < reserEndValue-17; j++) {
+                reserseat[numberValue][j]=true;//예약이 되어있다.
+            }
+            }
+            
+        }
+    }
     
     
     public afterReserve() {        
@@ -47,32 +66,43 @@ public class afterReserve extends javax.swing.JFrame {
         remoteControl.setCommand(1, reservationOk, reservationCancel);
         max=40;//값가져와서 변경하기
         setSeat();
-        responsiblename.setText("이름가져오기");         
+        getreserseat();
+        responsiblename.setText("이름가져오기");
+        
+        for (int i = 0; i < max; i++) {
+            for (int j = 0; j < 8; j++) {
+                System.out.print(reserseat[i][j]+" ");
+            }
+            System.out.println("");
+        }
     }
     
     
      void setSeat(){
+         int count = 0;
         for (int k = 0; k < max; k++) {
                 seatnumber=null;
-                seatnumber = Integer.toString(((k+1)+(row*8))) + "번 좌석";
+                seatnumber = Integer.toString(((count+1)+(row*8))) + "번 좌석";
                 seatcheckbox[k] = new JCheckBox();
                 seatcheckbox[k].setText(seatnumber);
-                if (k>=4) {
-                    seatcheckbox[k].setBounds(80*k+130,50*row+170,80,30);
+                if (count>=4) {
+                    seatcheckbox[k].setBounds(80*count+130,50*row+170,80,30);
                 }
                 else
-                    seatcheckbox[k].setBounds(80*k+80,50*row+170,80,30);
+                    seatcheckbox[k].setBounds(80*count+80,50*row+170,80,30);
                 seatcheckbox[k].setVisible(true);
                 add(seatcheckbox[k]);
-                seatcheckbox[k].addItemListener(new clickseat(((k+1)+(row*8))));
+                seatcheckbox[k].addItemListener(new clickseat(((count+1)+(row*8))));
                 
-                if (row*8+k==max-1) break;
-                if (k==7){
+                if (row*8+count==max-1) break;
+                if (count==7){
                     row++;
-                    k=-1;
+                    count=-1;
                 }
+                count++;
             }
-    }
+            }
+    
      public class clickseat implements ItemListener   {
                 String value;
                 clickseat(int k){
@@ -105,11 +135,11 @@ public class afterReserve extends javax.swing.JFrame {
         responsiblename = new javax.swing.JLabel();
         classnumber = new javax.swing.JLabel();
         settotal = new javax.swing.JLabel();
-        jLabel35 = new javax.swing.JLabel();
+        seattotal = new javax.swing.JLabel();
         changebtn = new javax.swing.JButton();
         resertimearea = new javax.swing.JLabel();
         resertime = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        nextbtn = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
         jLabel1.setFont(new java.awt.Font("맑은 고딕", 1, 24)); // NOI18N
@@ -198,8 +228,8 @@ public class afterReserve extends javax.swing.JFrame {
 
         settotal.setText("예약 가능한 좌석 수:");
 
-        jLabel35.setForeground(new java.awt.Color(255, 0, 51));
-        jLabel35.setText("0/30");
+        seattotal.setForeground(new java.awt.Color(255, 0, 51));
+        seattotal.setText("0/30");
 
         changebtn.setText("시간 변경");
         changebtn.addActionListener(new java.awt.event.ActionListener() {
@@ -212,10 +242,10 @@ public class afterReserve extends javax.swing.JFrame {
 
         resertime.setText("17:00 ~ 18:00");
 
-        jButton1.setText("다음");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        nextbtn.setText("다음");
+        nextbtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                nextbtnActionPerformed(evt);
             }
         });
 
@@ -242,7 +272,7 @@ public class afterReserve extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(settotal)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel35)))
+                        .addComponent(seattotal)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel31)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -252,7 +282,7 @@ public class afterReserve extends javax.swing.JFrame {
                 .addContainerGap(311, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addComponent(nextbtn)
                         .addGap(72, 72, 72)
                         .addComponent(jButton2))
                     .addComponent(classnumber))
@@ -268,7 +298,7 @@ public class afterReserve extends javax.swing.JFrame {
                     .addComponent(jLabel31)
                     .addComponent(responsiblename)
                     .addComponent(settotal)
-                    .addComponent(jLabel35))
+                    .addComponent(seattotal))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(changebtn)
@@ -276,7 +306,7 @@ public class afterReserve extends javax.swing.JFrame {
                     .addComponent(resertime))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 302, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
+                    .addComponent(nextbtn)
                     .addComponent(jButton2))
                 .addGap(19, 19, 19))
         );
@@ -298,26 +328,43 @@ public class afterReserve extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void nextbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextbtnActionPerformed
         if ("ok".equals(remoteControl.A_ButtonWasPushed(1))) {
             showMessageDialog(null, Message);            
         }
         String time[] = resertime.getText().split("~");
         starttime = time[0].trim();
         endtime = time[1].trim();
-        ReservationDTO rdto = new ReservationDTO(dao.getReserLength(),Integer.parseInt(seatnumber),responsiblename.getText(),classnumber.getText(),starttime,endtime,"-","0");
+        System.out.println(starttime);
+        System.out.println(endtime);
+        ReservationDTO rdto = new ReservationDTO(dao.getReserLength(),Integer.parseInt(seatnumber)-1,responsiblename.getText(),classnumber.getText(),starttime,endtime,"-","0");
         boolean checkReservation = dao.InsertReservation(rdto);  
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_nextbtnActionPerformed
 
     private void changebtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changebtn1ActionPerformed
         // TODO add your handling code here:
-        int starttime = Integer.parseInt(starttimebox.getSelectedItem().toString());
-        int endtime = Integer.parseInt(endtimebox.getSelectedItem().toString());
-        if (starttime>endtime) showMessageDialog(null, "시작 시간이 종료 시간보다 클 수는 없습니다.");
-        else if (starttime == endtime) showMessageDialog(null, "시작 시간이 종료 시간과 같을 수는 없습니다.");
+        starttime = starttimebox.getSelectedItem().toString();
+        endtime = endtimebox.getSelectedItem().toString();  
+        if (Integer.parseInt(starttime) > Integer.parseInt(endtime)) showMessageDialog(null, "시작 시간이 종료 시간보다 클 수는 없습니다.");
+        else if (Integer.parseInt(starttime) == Integer.parseInt(endtime)) showMessageDialog(null, "시작 시간이 종료 시간과 같을 수는 없습니다.");
         else{
             editTime.dispose();
             resertime.setText(starttime+":00 ~ "+endtime+":00");
+            for (int i = 0; i < max; i++) {
+                int icount=0;
+                for (int j = Integer.parseInt(starttime)-17; j < Integer.parseInt(endtime)-17; j++) {
+                    if (reserseat[i][j]==true) {                        
+                        seatcheckbox[i].setEnabled(false);
+                        seatcheckbox[i].setSelected(false);   
+                        icount++;
+                        break;
+                    }
+                }// 시간표랑 비교하는 알고리즘
+                if (icount==0) {
+                    seatcheckbox[i].setEnabled(true);
+                }
+            }
+            
         }  
        
     }//GEN-LAST:event_changebtn1ActionPerformed
@@ -376,16 +423,16 @@ public class afterReserve extends javax.swing.JFrame {
     private javax.swing.JLabel classnumber;
     private javax.swing.JDialog editTime;
     private javax.swing.JComboBox<String> endtimebox;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel31;
-    private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jlabel;
+    private javax.swing.JButton nextbtn;
     public javax.swing.JLabel resertime;
     private javax.swing.JLabel resertimearea;
     private javax.swing.JLabel responsiblename;
+    private javax.swing.JLabel seattotal;
     private javax.swing.JLabel settotal;
     private javax.swing.JComboBox<String> starttimebox;
     // End of variables declaration//GEN-END:variables

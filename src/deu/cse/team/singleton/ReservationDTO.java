@@ -32,6 +32,7 @@ public class ReservationDTO implements Serializable {
     public ReservationDTO(int reser_number,int seat_number, String id, String classnumber,String reser_starttime,String reser_endtime,String classadmin,String ok) {
         super();
         this.reser_number = reser_number;
+        this.seat_number=seat_number;
         this.id = id;
         this.classnumber = classnumber;
         this.reser_starttime = reser_starttime;
