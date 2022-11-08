@@ -8,6 +8,7 @@ package deu.cse.team.singleton;
  *
  * @author PC
  */
+import deu.cse.team.login.Login;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -624,4 +625,64 @@ public class DAO {
 
         return result;
     }
+    public void boardInsert(String s1, String s2, String s3){
+		String sql="insert into board values(no.NEXTVAL,?,?,?,?,?)";
+		try {
+
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setString(1, s1);
+			st.setString(2, s2);
+                        st.setString(3, Login.S.getSID());
+			st.setString(4, Login.S.getPASS());
+                        st.setString(5, s3);
+                        
+			st.executeUpdate();
+		} catch (SQLException e) {}
+			
+	}
+	
+	public void boardUpdate(String s1, String s2, String s3, String s4, int n1){
+		String sql="update board set no=no.NEXTVAL, title=?, content=?, sid=?, sps=?, type=? where no=?";
+		try {
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setString(1, s1);
+			st.setString(2, s2);
+                        st.setString(3, Login.S.getSID());
+			st.setString(4, Login.S.getPASS());
+                        st.setString(5, s3);
+                        st.setInt(6, n1);
+                        
+			st.executeUpdate();
+		} catch (SQLException e) {}
+	}
+
+	public void boardDelete(int n1) {
+		String sql="delete from board where no=?";
+		try {
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setInt(1, n1);
+			st.executeUpdate();
+		} catch (SQLException e) {}
+	}
+
+	public ArrayList<BoardDTO> boardSelect() {
+		
+		ArrayList<BoardDTO> a = new ArrayList<>();
+		String sql="select no, title, content, date, type from board";
+		
+		try {
+			PreparedStatement st = con.prepareStatement(sql);
+			rs = st.executeQuery();
+			while(rs.next()) {
+				BoardDTO mc = new BoardDTO();
+				mc.setBNUM(rs.getInt(1));
+				mc.setTITLE(rs.getString(2));
+                                mc.setSID(rs.getString(3));
+				mc.setDATE(rs.getString(4));
+                                mc.setTYPE(rs.getString(5));
+				a.add(mc);
+			}
+		} catch (SQLException e) {} 
+		return a;
+	}
 }
