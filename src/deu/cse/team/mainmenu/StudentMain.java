@@ -4,6 +4,7 @@
  */
 package deu.cse.team.mainmenu;
 
+import deu.cse.team.accountManagement.AccountInfo;
 import deu.cse.team.timetable.ShowClassTimetable;
 
 /**
@@ -109,6 +110,11 @@ public class StudentMain extends javax.swing.JFrame {
         });
 
         jButton5.setText("계정 관리");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         jButton6.setText("게시판");
 
@@ -180,6 +186,12 @@ public class StudentMain extends javax.swing.JFrame {
         ShowClassTimetable classtimetable = new ShowClassTimetable();
         classtimetable.setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        AccountInfo accountInfo = new AccountInfo(jLabel3.getText());
+        accountInfo.setVisible(true);
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments

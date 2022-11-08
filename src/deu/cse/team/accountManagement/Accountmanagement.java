@@ -172,7 +172,7 @@ public class Accountmanagement extends javax.swing.JFrame {
         // TODO add your handling code here:
         int row = accountTable.getSelectedRow();
         selectuser(row);
-        new editaccount(id,username,phonenumber,warning,power,allowed);
+        new Editaccount(id,username,phonenumber,warning,power,allowed);
     }//GEN-LAST:event_editbtnActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
