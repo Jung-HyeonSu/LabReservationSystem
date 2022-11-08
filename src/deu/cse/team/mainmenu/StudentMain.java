@@ -5,7 +5,12 @@
 package deu.cse.team.mainmenu;
 
 import deu.cse.team.accountManagement.AccountInfo;
+import deu.cse.team.noticeBoard.MBoard;
 import deu.cse.team.timetable.ShowClassTimetable;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.naming.NamingException;
 
 /**
  *
@@ -117,6 +122,11 @@ public class StudentMain extends javax.swing.JFrame {
         });
 
         jButton6.setText("게시판");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("학번:");
 
@@ -192,6 +202,10 @@ public class StudentMain extends javax.swing.JFrame {
         AccountInfo accountInfo = new AccountInfo(jLabel3.getText());
         accountInfo.setVisible(true);
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+       new MBoard("no").setVisible(true);
+    }//GEN-LAST:event_jButton6ActionPerformed
 
     /**
      * @param args the command line arguments

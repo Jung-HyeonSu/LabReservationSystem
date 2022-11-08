@@ -20,10 +20,11 @@ import javax.naming.NamingException;
  */
 public class MBoard extends javax.swing.JFrame {
 
-    public static String pid="adin";
-    public MBoard() throws SQLException, NamingException {
+    public static String pid;
+    public MBoard(String s) {
         initComponents();
-        init();
+        //init();
+        pid=s;
         if(pid.equals("admin")){
             this.sanctionsBtn.setVisible(true);
         }else{
@@ -31,7 +32,6 @@ public class MBoard extends javax.swing.JFrame {
         }
        
     }
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -196,7 +196,7 @@ public class MBoard extends javax.swing.JFrame {
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       init();
+       //init();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     public static void main(String args[]) {
@@ -220,13 +220,7 @@ public class MBoard extends javax.swing.JFrame {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                try {
-                    new MBoard().setVisible(true);
-                } catch (SQLException ex) {
-                    Logger.getLogger(MBoard.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (NamingException ex) {
-                    Logger.getLogger(MBoard.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                new MBoard("").setVisible(true);
             }
         });
     }

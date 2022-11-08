@@ -368,6 +368,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="&#xac8c;&#xc2dc;&#xd310; &#xd655;&#xc778;"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton7ActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel8">
       <Properties>

@@ -5,6 +5,7 @@
 package deu.cse.team.mainmenu;
 
 import deu.cse.team.accountManagement.Accountmanagement;
+import deu.cse.team.noticeBoard.MBoard;
 import deu.cse.team.register.AdminRegister;
 import deu.cse.team.singleton.AccountDTO;
 import deu.cse.team.singleton.DAO;
@@ -12,6 +13,7 @@ import deu.cse.team.singleton.TokenDTO;
 import deu.cse.team.timetable.EditClassTimetable;
 import deu.cse.team.timetable.SeminarTimetable;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -20,6 +22,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.naming.NamingException;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -229,6 +232,11 @@ public class AdminMain extends javax.swing.JFrame {
         jButton6.setText("예약 승인");
 
         jButton7.setText("게시판 확인");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         jLabel8.setText("토큰값:");
 
@@ -362,6 +370,10 @@ public class AdminMain extends javax.swing.JFrame {
         SeminarTimetable seminarTimetable = new SeminarTimetable();
         seminarTimetable.setVisible(true);
     }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        new MBoard("admin").setVisible(true);
+    }//GEN-LAST:event_jButton7ActionPerformed
 
     /**
      * @param args the command line arguments
