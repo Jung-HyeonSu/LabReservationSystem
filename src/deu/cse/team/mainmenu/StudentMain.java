@@ -4,6 +4,8 @@
  */
 package deu.cse.team.mainmenu;
 
+import deu.cse.team.timetable.ShowClassTimetable;
+
 /**
  *
  * @author PC
@@ -100,6 +102,11 @@ public class StudentMain extends javax.swing.JFrame {
         jButton3.setText("좌석 현황 조회");
 
         jButton4.setText("실습실 시간표 조회");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setText("계정 관리");
 
@@ -167,6 +174,12 @@ public class StudentMain extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        ShowClassTimetable classtimetable = new ShowClassTimetable();
+        classtimetable.setVisible(true);
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments

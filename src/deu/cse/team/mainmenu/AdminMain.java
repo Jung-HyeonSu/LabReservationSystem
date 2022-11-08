@@ -9,7 +9,7 @@ import deu.cse.team.register.AdminRegister;
 import deu.cse.team.singleton.AccountDTO;
 import deu.cse.team.singleton.DAO;
 import deu.cse.team.singleton.TokenDTO;
-import deu.cse.team.timetable.ClassTimetable;
+import deu.cse.team.timetable.EditClassTimetable;
 import deu.cse.team.timetable.SeminarTimetable;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -348,7 +348,7 @@ public class AdminMain extends javax.swing.JFrame {
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         // TODO add your handling code here:
-        ClassTimetable classtimetable = new ClassTimetable();
+        EditClassTimetable classtimetable = new EditClassTimetable();
         classtimetable.setVisible(true);
     }//GEN-LAST:event_jButton10ActionPerformed
 
