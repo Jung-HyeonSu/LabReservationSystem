@@ -456,6 +456,41 @@ public class DAO {
         return result;
     }
     
+    public boolean UpdateAccount(AccountDTO account, String id, String password, String name, String phonenumber, int warning, String power, boolean allowed){
+        boolean result = false;
+
+        if (this.connect()) {
+            try {
+                String sql = "UPDATE account SET password =(?),name =(?),phonenumber =(?), warning =(?), power = (?), allowed = (?) WHERE id =" + id;
+
+                PreparedStatement pstmt = con.prepareStatement(sql);
+                pstmt.setString(1, password);
+                pstmt.setString(2, name);
+                pstmt.setString(3, phonenumber);
+                pstmt.setInt(4, warning);
+                pstmt.setString(5, power);
+                pstmt.setBoolean(6, allowed);
+                int r = pstmt.executeUpdate();
+
+                if (r > 0) {
+                    result = true;
+                }
+                //데이터베이스 생성 객체 해제
+                pstmt.close();
+                this.close();
+
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+
+        } else {
+            System.out.println("데이터베이스 연결에 실패");
+            System.exit(0);
+        }
+
+        return result;
+    }
+    
     public boolean UpdateTimetable(ClassTimetableDTO classtimetable, String classnumber,
             String time1, String time2,String time3,String time4,String time5,String time6,String time7,String time8) {
         boolean result = false;
