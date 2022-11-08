@@ -5,6 +5,7 @@
 package deu.cse.team.mainmenu;
 
 import deu.cse.team.accountManagement.AccountInfo;
+import deu.cse.team.login.Login;
 import deu.cse.team.noticeBoard.MBoard;
 import deu.cse.team.timetable.ShowClassTimetable;
 import java.sql.SQLException;
@@ -49,6 +50,7 @@ public class StudentMain extends javax.swing.JFrame {
         jButton6 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jButton11 = new javax.swing.JButton();
 
         jLabel4.setText("예약 관리");
 
@@ -99,7 +101,7 @@ public class StudentMain extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("맑은 고딕", 0, 24)); // NOI18N
-        jLabel1.setText("학생 메인");
+        jLabel1.setText("학생 메뉴");
 
         jButton1.setText("예약");
 
@@ -133,6 +135,13 @@ public class StudentMain extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(0, 0, 255));
         jLabel3.setText("jLabel3");
 
+        jButton11.setText("로그아웃");
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -159,10 +168,13 @@ public class StudentMain extends javax.swing.JFrame {
                 .addContainerGap(138, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3)
-                .addGap(39, 39, 39))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton11)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel3)))
+                .addGap(27, 27, 27))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -185,7 +197,9 @@ public class StudentMain extends javax.swing.JFrame {
                 .addComponent(jButton5)
                 .addGap(33, 33, 33)
                 .addComponent(jButton6)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton11)
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         pack();
@@ -206,6 +220,12 @@ public class StudentMain extends javax.swing.JFrame {
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
        new MBoard("no").setVisible(true);
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        // TODO add your handling code here:
+        new Login().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jButton11ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -246,6 +266,7 @@ public class StudentMain extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
