@@ -200,6 +200,7 @@ public class sanctionsDlg extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        
         JOptionPane.showMessageDialog(null, "경고 완료.");
     }//GEN-LAST:event_jButton3ActionPerformed
 

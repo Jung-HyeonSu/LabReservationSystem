@@ -4,6 +4,7 @@
  */
 package deu.cse.team.noticeBoard;
 
+import deu.cse.team.singleton.DAO;
 import javax.swing.JOptionPane;
 
 /**
@@ -26,7 +27,7 @@ public class writeDlg extends javax.swing.JFrame {
         }
         
     }
-
+    DAO dao = DAO.getInstance();
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -141,6 +142,7 @@ public class writeDlg extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        dao.boardInsert(jTextField1.getText(), jTextArea1.getText(), jComboBox1.getSelectedItem().toString());
         JOptionPane.showMessageDialog(null, "등록 완료.");
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -178,6 +180,8 @@ public class writeDlg extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(writeDlg.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 

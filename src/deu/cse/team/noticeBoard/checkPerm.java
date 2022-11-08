@@ -4,6 +4,9 @@
  */
 package deu.cse.team.noticeBoard;
 
+import deu.cse.team.login.Login;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author user
@@ -89,8 +92,11 @@ public class checkPerm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        new detailView().setVisible(true);
-        dispose();
+        if(Login.S.getPASS().equals(jTextField1.getText())){
+                    new detailView().setVisible(true);
+                    dispose();
+        }else
+            JOptionPane.showMessageDialog(null, "비밀번호 확인.");
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -122,6 +128,7 @@ public class checkPerm extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(checkPerm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */

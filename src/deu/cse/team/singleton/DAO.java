@@ -611,7 +611,7 @@ public class DAO {
                 }
                 //데이터베이스 생성 객체 해제
                 pstmt.close();
-                
+             
                 this.close();
 
             } catch (SQLException e) {
@@ -641,11 +641,11 @@ public class DAO {
 			
 	}
 	
-	public void boardUpdate(String s1, String s2, String s3, String s4, int n1){
-		String sql="update board set no=no.NEXTVAL, title=?, content=?, sid=?, sps=?, type=? where no=?";
+	public void boardUpdate(String s1, String s2 ,String s3, int n1){
+		String sql="update board set title=?, content=?, sid=?, sps=?, type=? where no=?";
 		try {
 			PreparedStatement st = con.prepareStatement(sql);
-			st.setString(1, s1);
+                        st.setString(1, s1);
 			st.setString(2, s2);
                         st.setString(3, Login.S.getSID());
 			st.setString(4, Login.S.getPASS());
@@ -665,24 +665,34 @@ public class DAO {
 		} catch (SQLException e) {}
 	}
 
-	public ArrayList<BoardDTO> boardSelect() {
-		
-		ArrayList<BoardDTO> a = new ArrayList<>();
-		String sql="select no, title, content, date, type from board";
-		
-		try {
-			PreparedStatement st = con.prepareStatement(sql);
-			rs = st.executeQuery();
-			while(rs.next()) {
-				BoardDTO mc = new BoardDTO();
-				mc.setBNUM(rs.getInt(1));
-				mc.setTITLE(rs.getString(2));
-                                mc.setSID(rs.getString(3));
-				mc.setDATE(rs.getString(4));
-                                mc.setTYPE(rs.getString(5));
-				a.add(mc);
-			}
-		} catch (SQLException e) {} 
-		return a;
-	}
+	public List<BoardDTO> boardSelect() {
+        List<BoardDTO> list = null;
+       String sql="select no, title, content, wdate, type from board";
+
+        if (connect()) {
+            try {
+                stmt = con.createStatement();
+                if (stmt != null) { 
+                    rs = stmt.executeQuery(sql);
+
+                    list = new ArrayList<>();
+
+                    while (rs.next()) {
+                        BoardDTO mc = new BoardDTO();
+			mc.setBNUM(rs.getInt(1));
+			mc.setTITLE(rs.getString(2));
+                        mc.setSID(rs.getString(4));
+			mc.setDATE(rs.getString(6));
+                        mc.setTYPE(rs.getString(7));
+			list.add(mc);
+                    }
+                }
+            } catch (SQLException e) {}
+        } else {
+            System.out.println("데이터베이스 연결에 실패했습니다.");
+            System.exit(0);
+        }
+
+        return list;
+    }
 }

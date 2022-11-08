@@ -25,8 +25,7 @@ public class example {
         dto.setTime6(" , , , , , , ");
         dto.setTime7(" , , , , , , ");
         dto.setTime8("X,X,X,X,X,X,X");
-        boolean r = dao.InsertC(dto);
-        
+        boolean r = dao.InsertC(dto);  
         
         if (r) {
             System.out.println("삽입에 성공했습니다.");
