@@ -4,6 +4,7 @@
  */
 package deu.cse.team.command;
 
+import deu.cse.team.reservation.beforeReserve;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
@@ -18,12 +19,17 @@ public class HeadcountGui extends javax.swing.JFrame {
     RemoteControl remoteControl = new RemoteControl();
 
     HeadcountConfirm headcountConfirm = new HeadcountConfirm();
-
+    String headCount = "";
     IndividualCommand individual = new IndividualCommand(headcountConfirm);
     TeamCommand team = new TeamCommand(headcountConfirm);
-    
-    public HeadcountGui() {
+    String starttime="09:00";
+    String endtime="10:00";
+    String check;
+    public HeadcountGui( String starttime, String endtime, String check) {
         initComponents();
+        this.starttime=starttime;
+        this.endtime=endtime;
+        this.check=check;
         remoteControl.setCommand(0, individual, team);
     }
 
@@ -40,9 +46,9 @@ public class HeadcountGui extends javax.swing.JFrame {
         jRadioButton1 = new javax.swing.JRadioButton();
         jRadioButton2 = new javax.swing.JRadioButton();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        usernumber = new javax.swing.JTextField();
+        cancel = new javax.swing.JButton();
+        nextbtn = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -66,14 +72,14 @@ public class HeadcountGui extends javax.swing.JFrame {
 
         jLabel1.setText("인원수:");
 
-        jTextField1.setEnabled(false);
+        usernumber.setEnabled(false);
 
-        jButton1.setText("이전");
+        cancel.setText("이전");
 
-        jButton2.setText("다음");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        nextbtn.setText("다음");
+        nextbtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                nextbtnActionPerformed(evt);
             }
         });
 
@@ -88,16 +94,16 @@ public class HeadcountGui extends javax.swing.JFrame {
                 .addGap(81, 81, 81)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton2)
+                        .addComponent(nextbtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton1))
+                        .addComponent(cancel))
                     .addComponent(jRadioButton2)
                     .addComponent(jRadioButton1)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(13, 13, 13)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(usernumber, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel2))
                 .addContainerGap(81, Short.MAX_VALUE))
         );
@@ -113,11 +119,11 @@ public class HeadcountGui extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(usernumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(cancel)
+                    .addComponent(nextbtn))
                 .addGap(18, 18, 18))
         );
 
@@ -126,28 +132,42 @@ public class HeadcountGui extends javax.swing.JFrame {
 
     private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
         // TODO add your handling code here:
-        jTextField1.setEnabled(true);
+        usernumber.setEnabled(true);
     }//GEN-LAST:event_jRadioButton2ActionPerformed
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
         // TODO add your handling code here:
-        jTextField1.setEnabled(false);
+        usernumber.setEnabled(false);
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void nextbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextbtnActionPerformed
         // TODO add your handling code here:
-        String headCount = "";
+        
         if (jRadioButton1.isSelected()) {
                 headCount = remoteControl.A_ButtonWasPushed(0);
                 showMessageDialog(null, headCount);
+                beforeReserve br = new beforeReserve(starttime,endtime,1); //수정필
+                    br.setVisible(true);
+                    br.setSize(818, 477);
             } else if (jRadioButton2.isSelected()) {
                 headCount = remoteControl.B_ButtonWasPushed(0);
-                showMessageDialog(null, headCount+" 인원수: "+jTextField1.getText());
+                showMessageDialog(null, headCount+" 인원수: "+usernumber.getText());
+                if (check=="before") {
+                    beforeReserve br = new beforeReserve(starttime,endtime,Integer.parseInt(usernumber.getText())); //수정필
+                    br.setVisible(true);
+                    br.setSize(818, 477);
+                }
+                else{
+                    afterResreve ar = new afterResreve(starttime,endtime,Integer.parseInt(usernumber.getText())); //수정필
+                    ar.setVisible(true);
+                    ar.setSize(818, 477);
+                }
+                
             }
         
 
         dispose();
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_nextbtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -179,19 +199,19 @@ public class HeadcountGui extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new HeadcountGui().setVisible(true);
+                new HeadcountGui("09:00","10:00","before").setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton cancel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JButton nextbtn;
+    private javax.swing.JTextField usernumber;
     // End of variables declaration//GEN-END:variables
 }

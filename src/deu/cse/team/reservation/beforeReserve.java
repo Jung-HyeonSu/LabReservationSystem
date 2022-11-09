@@ -1,4 +1,3 @@
-
 package deu.cse.team.reservation;
 
 import deu.cse.team.command.HeadcountGui;
@@ -24,117 +23,125 @@ import static javax.swing.JOptionPane.showMessageDialog;
 public class beforeReserve extends javax.swing.JFrame {
 
     /**
-        2022.11.07 [최초작성자 20183207 김성찬]
-        사용자 계정관리
-    */
-    boolean isselected=false;
-    int max =40;
-    int row =0;
-    int checkboxcount=0; //좌석 선택한 수 체크
+     * 2022.11.07 [최초작성자 20183207 김성찬] 사용자 계정관리
+     */
+    boolean isselected = false;
+    int max = 40;
+    int row = 0;
+    int headcount = 1;
+    int checkboxcount = 0; //좌석 선택한 수 체크
     String starttime;
     String endtime;
     String seatnumber;
-    String Message ="예약 완료";
+    String Message = "예약 완료";
     //"DB에서 이용규칙 가져오기. 관리자는 이용수칙을 DB에 저장하고 수정도 가능해야함";
     RemoteControl remoteControl = new RemoteControl();
     Reservation reservation = new Reservation();
     ReservationOkCommand reservationOk = new ReservationOkCommand(reservation);
-    ReservationCancelCommand reservationCancel = new ReservationCancelCommand(reservation);    
-    DAO dao = DAO.getInstance(); 
+    ReservationCancelCommand reservationCancel = new ReservationCancelCommand(reservation);
     JCheckBox[] seatcheckbox = new JCheckBox[max];
     Calendar c = Calendar.getInstance();
-    int dayofWeek = c.get(Calendar.DAY_OF_WEEK);//요일 판단 일 ~ 토 = 1 ~ 7
-    boolean[] classTime = new boolean [9];//수업시간있는지 확인하는 객체  | true = 수업 O false = 수업 X    
-    List<ClassTimetableDTO> cdto = dao.getTimetableList();
-    boolean [][] reserseat = new boolean[max][9];
+    DAO dao = DAO.getInstance();
+
+    boolean[][] reserseat = new boolean[max][9];
     List<ReservationDTO> rdto = dao.getReserList();
-    
-    public beforeReserve() {        
-        initComponents();        
+
+    public beforeReserve(String starttime, String endtime, int headcount) {
+        initComponents();
+        this.starttime = starttime;
+        this.endtime = endtime;
+        this.headcount = headcount;
+        resertime.setText(starttime + ":00 ~ " + endtime + ":00");
         remoteControl.setCommand(1, reservationOk, reservationCancel);
         //max=40;//값가져와서 변경하기
         setSeat();
-        getSchedule();
+        rdto = dao.getReserList();
         getreserseat();
         responsiblename.setText("이름가져오기");
-        System.out.println(dayofWeek);
+        nextbtn.setEnabled(true);
         for (int j = 0; j < max; j++) {
-            seatcheckbox[j].setEnabled(false);
+            seatcheckbox[j].setEnabled(true);
             seatcheckbox[j].setSelected(false);
         }
+        int resercount = 0;
+        for (int i = 0; i < max; i++) {
+            for (int j = Integer.parseInt(starttime) - 9; j < Integer.parseInt(endtime) - 9; j++) {
+                if (reserseat[i][j] == true) {
+                    seatcheckbox[i].setEnabled(false);
+                    seatcheckbox[i].setSelected(false);
+                    resercount++;
+                    break;
+                }
+
+            }// 예약이랑 비교하는 알고리즘
+            seattotal.setText(resercount + "/" + max);
+        }
     }
-    
-     void getreserseat(){
+
+    void getreserseat() {
         int numberValue;
         int reserStartValue;
         int reserEndValue;
         for (int i = 0; i < rdto.size(); i++) {
             numberValue = rdto.get(i).getSeat_number();
-            System.out.println(rdto.get(i).getReser_starttime());
             reserStartValue = Integer.parseInt(rdto.get(i).getReser_starttime().split(":")[0]);
-            if (reserStartValue<17) {
-                System.out.println(rdto.get(i).getReser_starttime());            
+            if (reserStartValue < 17) {
                 reserEndValue = Integer.parseInt(rdto.get(i).getReser_endtime().split(":")[0]);
-                for (int j = reserStartValue-9; j < reserEndValue-9; j++) {
-                reserseat[numberValue][j]=true;//예약이 되어있다.
+                for (int j = reserStartValue - 9; j < reserEndValue - 9; j++) {
+                    reserseat[numberValue][j] = true;//예약이 되어있다.
+                }
             }
-            }
-            
         }
+//                        }
     }
-    
-    void getSchedule(){
-        classTime[0] = !(cdto.get(0).getTime1().split(",")[dayofWeek-2].equals(" ")); //0=방 번호 915 916 917 918 | 0,1,2,3
-        classTime[1] = !(cdto.get(0).getTime2().split(",")[dayofWeek-2].equals(" ")); 
-        classTime[2] = !(cdto.get(0).getTime3().split(",")[dayofWeek-2].equals(" "));
-        classTime[3] = !(cdto.get(0).getTime4().split(",")[dayofWeek-2].equals(" "));
-        classTime[4] = !(cdto.get(0).getTime5().split(",")[dayofWeek-2].equals(" "));
-        classTime[5] = !(cdto.get(0).getTime6().split(",")[dayofWeek-2].equals(" "));
-        classTime[6] = !(cdto.get(0).getTime7().split(",")[dayofWeek-2].equals(" "));
-        classTime[7] = !(cdto.get(0).getTime8().split(",")[dayofWeek-2].equals(" "));
-        classTime[8] = false;
-    }
-    
-     void setSeat(){
+
+    void setSeat() {
         int count = 0;
-        for (int k = 0; k < max; k++) {            
-                seatnumber=null;
-                seatnumber = Integer.toString(((count+1)+(row*8))) + "번 좌석";
-                seatcheckbox[k] = new JCheckBox();
-                seatcheckbox[k].setText(seatnumber);
-                if (count>=4) {
-                    seatcheckbox[k].setBounds(80*count+130,50*row+170,80,30);
-                }
-                else
-                    seatcheckbox[k].setBounds(80*count+80,50*row+170,80,30);
-                seatcheckbox[k].setVisible(true);
-                add(seatcheckbox[k]);
-                
-                seatcheckbox[k].addItemListener(new clickseat(((count+1)+(row*8))));
-                
-                if (row*8+count==max-1) break;
-                if (count==7){
-                    row++;
-                    count=-1;
-                }
-                count++;
+        for (int k = 0; k < max; k++) {
+            seatnumber = null;
+            seatnumber = Integer.toString(((count + 1) + (row * 8))) + "번 좌석";
+            seatcheckbox[k] = new JCheckBox();
+            seatcheckbox[k].setText(seatnumber);
+            if (count >= 4) {
+                seatcheckbox[k].setBounds(80 * count + 130, 50 * row + 170, 80, 30);
+            } else {
+                seatcheckbox[k].setBounds(80 * count + 80, 50 * row + 170, 80, 30);
             }
+            seatcheckbox[k].setVisible(true);
+            add(seatcheckbox[k]);
+
+            seatcheckbox[k].addItemListener(new clickseat(((count + 1) + (row * 8))));
+
+            if (row * 8 + count == max - 1) {
+                break;
+            }
+            if (count == 7) {
+                row++;
+                count = -1;
+            }
+            count++;
         }
-    
-     
-    public class clickseat implements ItemListener   {
-                String value;
-                clickseat(int k){
-                    this.value=Integer.toString(k);
-                    
-                }
-                @Override
-                public void itemStateChanged(ItemEvent e) {
-                    if (e.getStateChange()==1)checkboxcount++;
-                    else checkboxcount--;
-                    isselected=true;
-                    seatnumber = value;
-                }
+    }
+
+    public class clickseat implements ItemListener {
+
+        String value;
+
+        clickseat(int k) {
+            this.value = Integer.toString(k);
+
+        }
+
+        @Override
+        public void itemStateChanged(ItemEvent e) {
+            if (e.getStateChange() == 1) {
+                checkboxcount++;
+            } else {
+                checkboxcount--;
+            }
+            isselected = true;
+            seatnumber = value;
+        }
     }
 
     /**
@@ -159,7 +166,6 @@ public class beforeReserve extends javax.swing.JFrame {
         classnumber = new javax.swing.JLabel();
         settotal = new javax.swing.JLabel();
         seattotal = new javax.swing.JLabel();
-        changebtn = new javax.swing.JButton();
         resertimearea = new javax.swing.JLabel();
         resertime = new javax.swing.JLabel();
         nextbtn = new javax.swing.JButton();
@@ -254,13 +260,6 @@ public class beforeReserve extends javax.swing.JFrame {
         seattotal.setForeground(new java.awt.Color(255, 0, 51));
         seattotal.setText("0/30");
 
-        changebtn.setText("시간 변경");
-        changebtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                changebtnActionPerformed(evt);
-            }
-        });
-
         resertimearea.setText("예약 시간:");
 
         resertime.setText("시간을 선택하세요");
@@ -289,14 +288,12 @@ public class beforeReserve extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(resertimearea)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(resertime)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(changebtn))
+                        .addComponent(resertime))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(settotal)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(seattotal)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 405, Short.MAX_VALUE)
                 .addComponent(jLabel31)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(responsiblename)
@@ -324,10 +321,9 @@ public class beforeReserve extends javax.swing.JFrame {
                     .addComponent(seattotal))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(changebtn)
                     .addComponent(resertimearea)
                     .addComponent(resertime))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 302, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 308, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(nextbtn)
                     .addComponent(jButton2))
@@ -336,12 +332,6 @@ public class beforeReserve extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void changebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changebtnActionPerformed
-        editTime.setVisible(true);
-        editTime.setLocationRelativeTo(this);
-        editTime.setSize(450, 400);
-    }//GEN-LAST:event_changebtnActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
@@ -352,86 +342,37 @@ public class beforeReserve extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void nextbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextbtnActionPerformed
-        
+
 //        for (int i = 0; i < max; i++) {
 //            if (seatcheckbox[i].getSelectedObjects()==null) {
 //            System.out.println("1");    
 //            }
 //            
 //        }
-        if (isselected && checkboxcount==1) { //단체예약이면 단체로 바꿔줄 예정
-            if ("ok".equals(remoteControl.A_ButtonWasPushed(1))) showMessageDialog(null, Message); 
+        if (isselected && checkboxcount == headcount) { //단체예약이면 단체로 바꿔줄 예정
+            if ("ok".equals(remoteControl.A_ButtonWasPushed(1))) {
+                showMessageDialog(null, Message);
+            }
             String time[] = resertime.getText().split("~");
             starttime = time[0].trim();
             endtime = time[1].trim();
-            ReservationDTO rdto = new ReservationDTO(dao.getReserLength(),Integer.parseInt(seatnumber)-1,responsiblename.getText(),classnumber.getText(),starttime,endtime,"-","1");
-            boolean checkReservation = dao.InsertReservation(rdto);  
+            String today = Integer.toString(c.get(Calendar.YEAR)) + "/" + Integer.toString(c.get(Calendar.MONTH) + 1) + "/" + Integer.toString(c.get(Calendar.DATE));
+            System.out.println(today);
+            for (int i = 0; i < headcount; i++) {
+                ReservationDTO rdto = new ReservationDTO(dao.getReserLength(), Integer.parseInt(seatnumber) - 1, responsiblename.getText(), classnumber.getText(), today, starttime, endtime, "-", "1");
+                boolean checkReservation = dao.InsertReservation(rdto);
+            }
+
+            dispose();
+        } else {
+            showMessageDialog(null, "예약 명단보다 선택한 좌석이 많거나 적습니다");
         }
-        else showMessageDialog(null, "좌석을 선택하세요"); 
-        
+
     }//GEN-LAST:event_nextbtnActionPerformed
 
     private void changebtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changebtn1ActionPerformed
-        // TODO add your handling code here:
-        starttime = starttimebox.getSelectedItem().toString();
-        endtime = endtimebox.getSelectedItem().toString();     
-        boolean iscount=false;
-        if (Integer.parseInt(starttime) > Integer.parseInt(endtime)) showMessageDialog(null, "시작 시간이 종료 시간보다 클 수는 없습니다.");
-        else if (Integer.parseInt(starttime) == Integer.parseInt(endtime)) showMessageDialog(null, "시작 시간이 종료 시간과 같을 수는 없습니다.");
-        
-        else{
-            editTime.dispose();
-            resertime.setText(starttime+":00 ~ "+endtime+":00");
-            rdto = dao.getReserList();
-            getreserseat();
-            for (int i = Integer.parseInt(starttime)-9; i < Integer.parseInt(endtime)-9; i++) {
-                if (classTime[i]==true) {
-                    iscount=true;
-                    for (int j = 0; j < max; j++) {
-                        seatcheckbox[j].setEnabled(false);
-                        seatcheckbox[j].setSelected(false);
-                    }
-                    nextbtn.setEnabled(false);
-                    showMessageDialog(null, "선택한 시간사이에 수업이 있습니다.");
-                    break;
-                }
-            }// 시간표랑 비교하는 알고리즘
-            if (!iscount) {
-                nextbtn.setEnabled(true);
-                for (int j = 0; j < max; j++) {
-                            seatcheckbox[j].setEnabled(true);
-                            seatcheckbox[j].setSelected(false);
-                }
-                int resercount=0;
-                for (int i = 0; i < max; i++) {
-                    
-                    for (int j = Integer.parseInt(starttime)-9; j < Integer.parseInt(endtime)-9; j++) {
-                        if (reserseat[i][j]==true) {                        
-                            seatcheckbox[i].setEnabled(false);
-                            seatcheckbox[i].setSelected(false);   
-                            resercount++;
-                            break;
-                        }
-                    }// 시간표랑 비교하는 알고리즘
-//                    if (tmpcount==0) {
-//                        seatcheckbox[i].setEnabled(true);
-//                        }
-                }
-                seattotal.setText(resercount+"/"+max);
-                if (resercount>=0) {
-                    
-                    HeadcountGui h = new HeadcountGui(); 
-                    //gui라서 안으로 넣어야할듯 아니면 코드가 안됨 <<현수한테 물어보기
-                    //classnumber에서 방 번호 짤라서 변수로 활용하면 방 번호 뜨게할듯?
-                    h.setVisible(true);
-                    showMessageDialog(null, "선택한 시간에 예약한 사람이 25명이 넘습니다.\n선택예약으로 이동합니다.");
-                }
-                System.out.println(resercount);
-                
-            }
 
-        }
-                
+
     }//GEN-LAST:event_changebtn1ActionPerformed
 
     private void cancelbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelbtnActionPerformed
@@ -472,14 +413,13 @@ public class beforeReserve extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new beforeReserve().setVisible(true);
+                new beforeReserve("9", "17", 1).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelbtn;
-    private javax.swing.JButton changebtn;
     private javax.swing.JButton changebtn1;
     private javax.swing.JLabel classnumber;
     private javax.swing.JDialog editTime;
@@ -498,4 +438,3 @@ public class beforeReserve extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> starttimebox;
     // End of variables declaration//GEN-END:variables
 }
-

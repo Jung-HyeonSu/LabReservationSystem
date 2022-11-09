@@ -5,20 +5,43 @@
 package deu.cse.team.mainmenu;
 
 import deu.cse.team.command.HeadcountGui;
+import deu.cse.team.reservation.beforeReserve;
+import deu.cse.team.singleton.ClassTimetableDTO;
 import deu.cse.team.singleton.DAO;
+import java.util.Calendar;
+import java.util.List;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
  *
  * @author Seongchan
  */
-public class time extends javax.swing.JFrame {
+public class beforetime extends javax.swing.JFrame {
 
     /**
      * Creates new form time
      */
-    public time() {
+    boolean[] classTime = new boolean [9];//수업시간있는지 확인하는 객체  | true = 수업 O false = 수업 X    
+    DAO dao = DAO.getInstance();
+    List<ClassTimetableDTO> cdto = dao.getTimetableList();
+    Calendar c = Calendar.getInstance();
+    int isClass=0;
+    int dayofWeek = c.get(Calendar.DAY_OF_WEEK);//요일 판단 일 ~ 토 = 1 ~ 7
+    int max=40;
+    public beforetime() {
         initComponents();
+        getSchedule();
+    }
+    void getSchedule(){
+        classTime[0] = !(cdto.get(3).getTime1().split(",")[dayofWeek-2].equals(" ")); //0=방 번호 915 916 917 918 | 0,1,2,3
+        classTime[1] = !(cdto.get(0).getTime2().split(",")[dayofWeek-2].equals(" ")); 
+        classTime[2] = !(cdto.get(0).getTime3().split(",")[dayofWeek-2].equals(" "));
+        classTime[3] = !(cdto.get(0).getTime4().split(",")[dayofWeek-2].equals(" "));
+        classTime[4] = !(cdto.get(0).getTime5().split(",")[dayofWeek-2].equals(" "));
+        classTime[5] = !(cdto.get(0).getTime6().split(",")[dayofWeek-2].equals(" "));
+        classTime[6] = !(cdto.get(0).getTime7().split(",")[dayofWeek-2].equals(" "));
+        classTime[7] = !(cdto.get(0).getTime8().split(",")[dayofWeek-2].equals(" "));
+        classTime[8] = false;        
     }
 
     /**
@@ -47,7 +70,7 @@ public class time extends javax.swing.JFrame {
 
         jLabel3.setText("종료시간");
 
-        changebtn1.setText("변경");
+        changebtn1.setText("설정");
         changebtn1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 changebtn1ActionPerformed(evt);
@@ -126,18 +149,29 @@ public class time extends javax.swing.JFrame {
         
         else{
             int resercount = dao.getReserLength();
-            
-                if (resercount>=0) {
-                    
-                    HeadcountGui h = new HeadcountGui(); 
-                    //gui라서 안으로 넣어야할듯 아니면 코드가 안됨 <<현수한테 물어보기
-                    //classnumber에서 방 번호 짤라서 변수로 활용하면 방 번호 뜨게할듯?
-                    h.setVisible(true);
+                for (int i = Integer.parseInt(starttime)-9; i < Integer.parseInt(endtime)-9; i++) {
+                    if (classTime[i]==true) {
+                        iscount=true;
+                        showMessageDialog(null, "선택한 시간사이에 수업이 있습니다.");
+                        break;
+                    }
+                }// 시간표랑 비교하는 알고리즘
+                if (!iscount) {
+                if (resercount>=2) {
                     showMessageDialog(null, "선택한 시간에 예약한 사람이 25명이 넘습니다.\n선택예약으로 이동합니다.");
+                    HeadcountGui h = new HeadcountGui(starttime,endtime,"before"); 
+                    h.setVisible(true);
+                    
+                }
+                else{
+                    beforeReserve br = new beforeReserve(starttime,endtime,1);//시작시간,종료시간,사람수
+                    br.setVisible(true);
+                    br.setSize(818, 477);
                 }
                 System.out.println(resercount);
                 
             }
+        }
 
         
     }//GEN-LAST:event_changebtn1ActionPerformed
@@ -164,20 +198,21 @@ public class time extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(time.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(beforetime.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(time.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(beforetime.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(time.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(beforetime.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(time.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(beforetime.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new time().setVisible(true);
+                new beforetime().setVisible(true);
             }
         });
     }

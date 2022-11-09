@@ -41,6 +41,10 @@ public class StudentMain extends javax.swing.JFrame {
         jButton8 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
+        jFrame1 = new javax.swing.JFrame();
+        예약시간선택 = new javax.swing.JLabel();
+        beforebtn = new javax.swing.JButton();
+        afterbtn = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -98,12 +102,61 @@ public class StudentMain extends javax.swing.JFrame {
                 .addGap(14, 14, 14))
         );
 
+        예약시간선택.setFont(new java.awt.Font("맑은 고딕", 1, 24)); // NOI18N
+        예약시간선택.setText("예약시간선택");
+
+        beforebtn.setText("17시 이전");
+        beforebtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                beforebtnActionPerformed(evt);
+            }
+        });
+
+        afterbtn.setText("17시 이후");
+        afterbtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                afterbtnActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
+        jFrame1.getContentPane().setLayout(jFrame1Layout);
+        jFrame1Layout.setHorizontalGroup(
+            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jFrame1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(예약시간선택)
+                .addGap(127, 127, 127))
+            .addGroup(jFrame1Layout.createSequentialGroup()
+                .addGap(83, 83, 83)
+                .addComponent(beforebtn)
+                .addGap(69, 69, 69)
+                .addComponent(afterbtn)
+                .addContainerGap(80, Short.MAX_VALUE))
+        );
+        jFrame1Layout.setVerticalGroup(
+            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jFrame1Layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(예약시간선택)
+                .addGap(69, 69, 69)
+                .addGroup(jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(beforebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(afterbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(123, Short.MAX_VALUE))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("맑은 고딕", 0, 24)); // NOI18N
         jLabel1.setText("학생 메뉴");
 
         jButton1.setText("예약");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("예약 관리");
 
@@ -227,6 +280,28 @@ public class StudentMain extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jButton11ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        jFrame1.setVisible(true);
+        jFrame1.setSize(400, 300);
+        
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void beforebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_beforebtnActionPerformed
+        // TODO add your handling code here:
+        beforetime bf = new beforetime();
+        bf.setVisible(true);
+        bf.setSize(400, 300);
+    }//GEN-LAST:event_beforebtnActionPerformed
+
+    private void afterbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_afterbtnActionPerformed
+        // TODO add your handling code here:
+        aftertime af = new aftertime();
+        af.setVisible(true);
+        af.setSize(400, 300);
+    }//GEN-LAST:event_afterbtnActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -264,6 +339,8 @@ public class StudentMain extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton afterbtn;
+    private javax.swing.JButton beforebtn;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
@@ -276,9 +353,11 @@ public class StudentMain extends javax.swing.JFrame {
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JDialog jDialog1;
+    private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     public javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel 예약시간선택;
     // End of variables declaration//GEN-END:variables
 }

@@ -171,8 +171,6 @@
                       <Component id="resertimearea" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="resertime" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="changebtn" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
                       <Component id="settotal" min="-2" max="-2" attributes="0"/>
@@ -180,7 +178,7 @@
                       <Component id="seattotal" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace pref="405" max="32767" attributes="0"/>
               <Component id="jLabel31" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="responsiblename" min="-2" max="-2" attributes="0"/>
@@ -214,11 +212,10 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="changebtn" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="resertimearea" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="resertime" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="302" max="32767" attributes="0"/>
+              <EmptySpace pref="308" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="nextbtn" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -268,14 +265,6 @@
         </Property>
         <Property name="text" type="java.lang.String" value="0/30"/>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JButton" name="changebtn">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="&#xc2dc;&#xac04; &#xbcc0;&#xacbd;"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="changebtnActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="resertimearea">
       <Properties>
