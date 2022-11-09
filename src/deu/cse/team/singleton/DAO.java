@@ -563,7 +563,38 @@ public class DAO {
         return result;
     }
 
-    public boolean DeleteReser(ReservationDTO reservation, String id) {
+    public boolean CancelReser(ReservationDTO reservation, String reser_number) {
+        boolean result = false;
+        if (this.connect()) {
+            try {
+                String sql = "DELETE FROM reservation CASCADE WHERE reser_number=(?)";
+
+                PreparedStatement pstmt = con.prepareStatement(sql);
+                pstmt.setString(1, reser_number);
+    
+                int r = pstmt.executeUpdate();
+
+                if (r > 0) {
+                    result = true;
+                }
+                //데이터베이스 생성 객체 해제
+                pstmt.close();
+             
+                this.close();
+
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+
+        } else {
+            System.out.println("데이터베이스 연결에 실패");
+            System.exit(0);
+        }
+
+        return result;
+    }
+    
+    public boolean DeleteOneReser(ReservationDTO reservation, String id) {
         boolean result = false;
         if (this.connect()) {
             try {
@@ -593,6 +624,8 @@ public class DAO {
 
         return result;
     }
+    
+    
     public void boardInsert(String s1, String s2, String s3){
 		String sql="insert into board values(no.NEXTVAL,?,?,?,?,?)";
 		try {
