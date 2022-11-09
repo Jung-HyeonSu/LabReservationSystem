@@ -7,6 +7,7 @@ package deu.cse.team.mainmenu;
 import deu.cse.team.accountManagement.AccountInfo;
 import deu.cse.team.login.Login;
 import deu.cse.team.noticeBoard.MBoard;
+import deu.cse.team.reservation.reservationManage;
 import deu.cse.team.timetable.ShowClassTimetable;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -159,6 +160,11 @@ public class StudentMain extends javax.swing.JFrame {
         });
 
         jButton2.setText("예약 관리");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("좌석 현황 조회");
 
@@ -301,6 +307,12 @@ public class StudentMain extends javax.swing.JFrame {
         af.setVisible(true);
         af.setSize(400, 300);
     }//GEN-LAST:event_afterbtnActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        reservationManage reservationmanage = new reservationManage(jLabel3.getText());
+        reservationmanage.setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
