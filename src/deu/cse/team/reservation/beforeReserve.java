@@ -10,6 +10,7 @@ import deu.cse.team.singleton.DAO;
 import deu.cse.team.singleton.ReservationDTO;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import javax.swing.JCheckBox;
@@ -32,6 +33,7 @@ public class beforeReserve extends javax.swing.JFrame {
     int checkboxcount = 0; //좌석 선택한 수 체크
     String starttime;
     String endtime;
+    ArrayList<Integer> reserseatnumber = new ArrayList<Integer>(max);
     String seatnumber;
     String Message = "예약 완료";
     //"DB에서 이용규칙 가져오기. 관리자는 이용수칙을 DB에 저장하고 수정도 가능해야함";
@@ -136,11 +138,13 @@ public class beforeReserve extends javax.swing.JFrame {
         public void itemStateChanged(ItemEvent e) {
             if (e.getStateChange() == 1) {
                 checkboxcount++;
+                reserseatnumber.add(Integer.parseInt(value));
             } else {
                 checkboxcount--;
+                reserseatnumber.remove(value);
             }
             isselected = true;
-            seatnumber = value;
+//            seatnumber = value;
         }
     }
 
@@ -359,7 +363,7 @@ public class beforeReserve extends javax.swing.JFrame {
             String today = Integer.toString(c.get(Calendar.YEAR)) + "/" + Integer.toString(c.get(Calendar.MONTH) + 1) + "/" + Integer.toString(c.get(Calendar.DATE));
             System.out.println(today);
             for (int i = 0; i < headcount; i++) {
-                ReservationDTO rdto = new ReservationDTO(dao.getReserLength(), Integer.parseInt(seatnumber) - 1, responsiblename.getText(), classnumber.getText(), today, starttime, endtime, "-", "1");
+                ReservationDTO rdto = new ReservationDTO(dao.getReserLength(), reserseatnumber.get(i) - 1, responsiblename.getText(), classnumber.getText(), today, starttime, endtime, "-", "1");
                 boolean checkReservation = dao.InsertReservation(rdto);
             }
 
