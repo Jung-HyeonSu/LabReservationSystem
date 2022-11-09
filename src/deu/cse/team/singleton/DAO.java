@@ -583,6 +583,39 @@ public class DAO {
 
         return result;
     }
+    
+    public boolean UpdateReser(ReservationDTO reservation, String reser_number,
+            String reser_endtime) {
+        boolean result = false;
+
+        if (this.connect()) {
+            try {
+                String sql = "UPDATE reservation SET reser_endtime=(?) WHERE reser_number =" + reser_number;
+
+                PreparedStatement pstmt = con.prepareStatement(sql);
+                pstmt.setString(1, reser_endtime);
+                
+                int r = pstmt.executeUpdate();
+
+                if (r > 0) {
+                    result = true;
+                }
+                //데이터베이스 생성 객체 해제
+                pstmt.close();
+                this.close();
+
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+
+        } else {
+            System.out.println("데이터베이스 연결에 실패");
+            System.exit(0);
+        }
+
+        return result;
+    }
+    
     public boolean DeleteAccount(AccountDTO account, String id) {
         boolean result = false;
         if (this.connect()) {
