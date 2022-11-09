@@ -20,6 +20,7 @@ public class ReservationDTO implements Serializable {
     
     private String id;
     private String classnumber;
+    private String reser_date;
     private String reser_starttime;
     private String reser_endtime;
     private String classadmin;
@@ -29,12 +30,13 @@ public class ReservationDTO implements Serializable {
         super();
     }
 
-    public ReservationDTO(int reser_number,int seat_number, String id, String classnumber,String reser_starttime,String reser_endtime,String classadmin,String ok) {
+    public ReservationDTO(int reser_number,int seat_number, String id, String classnumber,String reser_date, String reser_starttime,String reser_endtime,String classadmin,String ok) {
         super();
         this.reser_number = reser_number;
         this.seat_number=seat_number;
         this.id = id;
         this.classnumber = classnumber;
+        this.reser_date = reser_date;
         this.reser_starttime = reser_starttime;
         this.reser_endtime = reser_endtime;
         this.classadmin = classadmin;
@@ -72,6 +74,15 @@ public class ReservationDTO implements Serializable {
         this.classnumber = classnumber;
     }
 
+    public String getReser_date() {
+        return reser_date;
+    }
+
+    public void setReser_date(String reser_date) {
+        this.reser_date = reser_date;
+    }
+    
+
     public String getReser_starttime() {
         return reser_starttime;
     }
@@ -107,8 +118,8 @@ public class ReservationDTO implements Serializable {
 
     @Override
     public String toString() {
-        String str = String.format("%s\t%s\t%s\t%s\t%s\t%s\t%s",
-                     reser_number,id,classnumber,reser_starttime,reser_endtime,classadmin,ok);
+        String str = String.format("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s",
+                     reser_number,id,classnumber,reser_date, reser_starttime,reser_endtime,classadmin,ok);
         return str;
     }
 

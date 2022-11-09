@@ -198,6 +198,7 @@ public class DAO {
                         reserList.setSeat_number(rs.getInt("seat_number"));
                         reserList.setId(rs.getString("id"));
                         reserList.setClassnumber(rs.getString("classnumber"));
+                        reserList.setReser_date(rs.getString("reser_date"));
                         reserList.setReser_starttime(rs.getString("reser_starttime"));
                         reserList.setReser_endtime(rs.getString("reser_endtime"));
                         reserList.setClassadmin(rs.getString("classadmin"));
@@ -289,17 +290,18 @@ public class DAO {
         if (this.connect()) {
             try {
                 //값이 삽입되어야 하는 자리에는 물음표
-                String sql = "INSERT INTO reservation VALUES (?,?,?,?,?,?,?,?)"; //모든 컬럼에 값을 넣으므로 컬럼명 생략.
+                String sql = "INSERT INTO reservation VALUES (?,?,?,?,?,?,?,?,?)"; //모든 컬럼에 값을 넣으므로 컬럼명 생략.
                 PreparedStatement pstmt = con.prepareStatement(sql);
                 //VALUES의 ?에 값을 바인딩. (바인딩 : ?에 들어갔어야 하는 원래 데이터 값을 입력.
                 pstmt.setInt(1, reservation.getReser_number());
                 pstmt.setInt(2, reservation.getSeat_number());
                 pstmt.setString(3, reservation.getId());
                 pstmt.setString(4, reservation.getClassnumber());
-                pstmt.setString(5, reservation.getReser_starttime());
-                pstmt.setString(6, reservation.getReser_endtime());
-                pstmt.setString(7, reservation.getClassadmin());
-                pstmt.setString(8, reservation.getOk());
+                pstmt.setString(5, reservation.getReser_date());
+                pstmt.setString(6, reservation.getReser_starttime());
+                pstmt.setString(7, reservation.getReser_endtime());
+                pstmt.setString(8, reservation.getClassadmin());
+                pstmt.setString(9, reservation.getOk());
                 int r = pstmt.executeUpdate();
 
                 if (r > 0) {
@@ -345,40 +347,6 @@ public class DAO {
         }
 
         return count;
-    }
-    public List<ReservationDTO> getReservationList(){
-        List<ReservationDTO> list = null;
-        if (this.connect()) {
-            try {
-                //값이 삽입되어야 하는 자리에는 물음표
-                String sql = "SELECT * FROM reservation";
-                PreparedStatement pstmt = con.prepareStatement(sql);
-                stmt = con.createStatement();
-                if (stmt != null) { //위 객체가 Null이 아니라는 것은 무언가를 받아왔다는 의미. SQL문장을 받아온 것.
-                    //sql구문 실행 (Select문의 결과는 ResultSet에 저장. (위에서 선언))
-                    rs = stmt.executeQuery(sql);
-                    while (rs.next()) {
-                        ReservationDTO reserList = new ReservationDTO();
-                        reserList.setReser_number(rs.getInt("reser_number"));
-                        reserList.setSeat_number(rs.getInt("seat_number"));
-                        reserList.setId(rs.getString("id"));
-                        reserList.setClassnumber(rs.getString("classnumber"));
-                        reserList.setReser_starttime(rs.getString("reser_starttime"));
-                        reserList.setReser_endtime(rs.getString("reser_endtime"));
-                        reserList.setClassadmin(rs.getString("classadmin"));
-                        reserList.setOk(rs.getString("ok"));
-                    }
-                }
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-            }
-
-        } else {
-            System.out.println("데이터베이스 연결에 실패");
-            System.exit(0);
-        }
-
-        return list;
     }
     
     /*
