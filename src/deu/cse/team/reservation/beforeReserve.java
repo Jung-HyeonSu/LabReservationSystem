@@ -1,6 +1,7 @@
 
 package deu.cse.team.reservation;
 
+import deu.cse.team.command.HeadcountGui;
 import deu.cse.team.command.RemoteControl;
 import deu.cse.team.command.Reservation;
 import deu.cse.team.command.ReservationCancelCommand;
@@ -13,6 +14,7 @@ import java.awt.event.ItemListener;
 import java.util.Calendar;
 import java.util.List;
 import javax.swing.JCheckBox;
+import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
@@ -28,6 +30,7 @@ public class beforeReserve extends javax.swing.JFrame {
     boolean isselected=false;
     int max =40;
     int row =0;
+    int checkboxcount=0; //좌석 선택한 수 체크
     String starttime;
     String endtime;
     String seatnumber;
@@ -127,6 +130,8 @@ public class beforeReserve extends javax.swing.JFrame {
                 }
                 @Override
                 public void itemStateChanged(ItemEvent e) {
+                    if (e.getStateChange()==1)checkboxcount++;
+                    else checkboxcount--;
                     isselected=true;
                     seatnumber = value;
                 }
@@ -239,7 +244,7 @@ public class beforeReserve extends javax.swing.JFrame {
 
         responsiblename.setFont(new java.awt.Font("맑은 고딕", 1, 12)); // NOI18N
         responsiblename.setForeground(new java.awt.Color(0, 0, 255));
-        responsiblename.setText("홍길동");
+        responsiblename.setText("조교");
 
         classnumber.setFont(new java.awt.Font("맑은 고딕", 1, 36)); // NOI18N
         classnumber.setText("915 강의실");
@@ -258,7 +263,7 @@ public class beforeReserve extends javax.swing.JFrame {
 
         resertimearea.setText("예약 시간:");
 
-        resertime.setText("9:00 ~ 10:00");
+        resertime.setText("시간을 선택하세요");
 
         nextbtn.setText("다음");
         nextbtn.addActionListener(new java.awt.event.ActionListener() {
@@ -348,13 +353,19 @@ public class beforeReserve extends javax.swing.JFrame {
 
     private void nextbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextbtnActionPerformed
         
-        if (isselected) {
+//        for (int i = 0; i < max; i++) {
+//            if (seatcheckbox[i].getSelectedObjects()==null) {
+//            System.out.println("1");    
+//            }
+//            
+//        }
+        if (isselected && checkboxcount==1) { //단체예약이면 단체로 바꿔줄 예정
             if ("ok".equals(remoteControl.A_ButtonWasPushed(1))) showMessageDialog(null, Message); 
             String time[] = resertime.getText().split("~");
-        starttime = time[0].trim();
-        endtime = time[1].trim();
-        ReservationDTO rdto = new ReservationDTO(dao.getReserLength(),Integer.parseInt(seatnumber)-1,responsiblename.getText(),classnumber.getText(),starttime,endtime,"-","1");
-        boolean checkReservation = dao.InsertReservation(rdto);  
+            starttime = time[0].trim();
+            endtime = time[1].trim();
+            ReservationDTO rdto = new ReservationDTO(dao.getReserLength(),Integer.parseInt(seatnumber)-1,responsiblename.getText(),classnumber.getText(),starttime,endtime,"-","1");
+            boolean checkReservation = dao.InsertReservation(rdto);  
         }
         else showMessageDialog(null, "좌석을 선택하세요"); 
         
@@ -364,7 +375,7 @@ public class beforeReserve extends javax.swing.JFrame {
         // TODO add your handling code here:
         starttime = starttimebox.getSelectedItem().toString();
         endtime = endtimebox.getSelectedItem().toString();     
-        int iscount=0;
+        boolean iscount=false;
         if (Integer.parseInt(starttime) > Integer.parseInt(endtime)) showMessageDialog(null, "시작 시간이 종료 시간보다 클 수는 없습니다.");
         else if (Integer.parseInt(starttime) == Integer.parseInt(endtime)) showMessageDialog(null, "시작 시간이 종료 시간과 같을 수는 없습니다.");
         
@@ -375,7 +386,7 @@ public class beforeReserve extends javax.swing.JFrame {
             getreserseat();
             for (int i = Integer.parseInt(starttime)-9; i < Integer.parseInt(endtime)-9; i++) {
                 if (classTime[i]==true) {
-                    iscount++;
+                    iscount=true;
                     for (int j = 0; j < max; j++) {
                         seatcheckbox[j].setEnabled(false);
                         seatcheckbox[j].setSelected(false);
@@ -385,26 +396,37 @@ public class beforeReserve extends javax.swing.JFrame {
                     break;
                 }
             }// 시간표랑 비교하는 알고리즘
-            if (iscount==0) {
+            if (!iscount) {
                 nextbtn.setEnabled(true);
                 for (int j = 0; j < max; j++) {
                             seatcheckbox[j].setEnabled(true);
                             seatcheckbox[j].setSelected(false);
-            }
-            for (int i = 0; i < max; i++) {
-                int tmpcount=0;
-                for (int j = Integer.parseInt(starttime)-9; j < Integer.parseInt(endtime)-9; j++) {
-                    if (reserseat[i][j]==true) {                        
-                        seatcheckbox[i].setEnabled(false);
-                        seatcheckbox[i].setSelected(false);   
-                        tmpcount++;
-                        break;
-                    }
-                }// 시간표랑 비교하는 알고리즘
-                if (tmpcount==0) {
-                    seatcheckbox[i].setEnabled(true);
-                    }
-            }
+                }
+                int resercount=0;
+                for (int i = 0; i < max; i++) {
+                    
+                    for (int j = Integer.parseInt(starttime)-9; j < Integer.parseInt(endtime)-9; j++) {
+                        if (reserseat[i][j]==true) {                        
+                            seatcheckbox[i].setEnabled(false);
+                            seatcheckbox[i].setSelected(false);   
+                            resercount++;
+                            break;
+                        }
+                    }// 시간표랑 비교하는 알고리즘
+//                    if (tmpcount==0) {
+//                        seatcheckbox[i].setEnabled(true);
+//                        }
+                }
+                seattotal.setText(resercount+"/"+max);
+                if (resercount>=0) {
+                    
+                    HeadcountGui h = new HeadcountGui(); 
+                    //gui라서 안으로 넣어야할듯 아니면 코드가 안됨 <<현수한테 물어보기
+                    //classnumber에서 방 번호 짤라서 변수로 활용하면 방 번호 뜨게할듯?
+                    h.setVisible(true);
+                    showMessageDialog(null, "선택한 시간에 예약한 사람이 25명이 넘습니다.\n선택예약으로 이동합니다.");
+                }
+                System.out.println(resercount);
                 
             }
 
