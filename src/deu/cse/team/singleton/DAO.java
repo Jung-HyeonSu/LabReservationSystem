@@ -594,7 +594,7 @@ public class DAO {
         return result;
     }
     
-    public boolean DeleteOneReser(ReservationDTO reservation, String id) {
+    public boolean DeleteReser(ReservationDTO reservation, String id) {
         boolean result = false;
         if (this.connect()) {
             try {
