@@ -5,6 +5,7 @@
 package deu.cse.team.noticeBoard;
 
 
+import deu.cse.team.login.Login;
 import deu.cse.team.singleton.BoardDTO;
 import deu.cse.team.singleton.DAO;
 import java.sql.SQLException;
@@ -20,18 +21,20 @@ import javax.naming.NamingException;
  */
 public class MBoard extends javax.swing.JFrame {
 
-    public static String pid;
-    public MBoard(String s) {
+    public static String pid="admin";
+    
+    public MBoard() throws SQLException, NamingException {
         initComponents();
-        //init();
-        pid=s;
+        Login.S.setSID("id"); ///임시 지워야함!!!!!!!!!!!!!!
+        Login.S.setPASS("ps"); ///임시 지워야함!!!!!!!!!!!!!!
+        init();
         if(pid.equals("admin")){
             this.sanctionsBtn.setVisible(true);
         }else{
             this.sanctionsBtn.setVisible(false);
         }
-       
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -187,16 +190,15 @@ public class MBoard extends javax.swing.JFrame {
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         if(this.pid.equals("admin")){
-           detailView d = new detailView();
-           d.setIndex(jTable1.getSelectedRow());
-           d.setVisible(true);
+          new detailView(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()).setVisible(true);
+
        }else{
-           new checkPerm().setVisible(true);
+           new checkPerm(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()).setVisible(true);
        }
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       //init();
+       init();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     public static void main(String args[]) {
@@ -220,7 +222,13 @@ public class MBoard extends javax.swing.JFrame {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MBoard("").setVisible(true);
+                try {
+                    new MBoard().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(MBoard.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (NamingException ex) {
+                    Logger.getLogger(MBoard.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -241,15 +249,15 @@ public class MBoard extends javax.swing.JFrame {
             }
 	}
 	Iterator<BoardDTO> it = dao.boardSelect().iterator();
-        BoardDTO b = new BoardDTO();
+        BoardDTO b;
 	int i = 0;	
 	while(it.hasNext()) {
             b=it.next();
-            jTable1.setValueAt(b.getBNUM(), i, 0);
-            jTable1.setValueAt(b.getTITLE(), i, 1);
-            jTable1.setValueAt(b.getSID(), i, 2);
-            jTable1.setValueAt(b.getDATE(), i, 3);
-            jTable1.setValueAt(b.getTYPE(), i, 4);
+            jTable1.setValueAt(b.getNo(), i, 0);
+            jTable1.setValueAt(b.getTitle(), i, 1);
+            jTable1.setValueAt(b.getSid(), i, 2);
+            jTable1.setValueAt(b.getWdate(), i, 3);
+            jTable1.setValueAt(b.getType(), i, 4);
             i++;
 	}
     }

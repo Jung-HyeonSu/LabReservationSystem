@@ -710,74 +710,117 @@ public class DAO {
     }
     
     
-    public void boardInsert(String s1, String s2, String s3){
-		String sql="insert into board values(no.NEXTVAL,?,?,?,?,?)";
-		try {
+    public void boardInsert(BoardDTO b){
+        if (this.connect()) {
+                    try {
+                        String sql="insert into board(no, title, content, sid, sps, type) values(no.NEXTVAL,?,?,?,?,?)";
+                        PreparedStatement st = con.prepareStatement(sql);
+                        st.setString(1, b.getTitle());
+                        st.setString(2, b.getContent());
+                        st.setString(3, b.getSid());
+                        st.setString(4, b.getSps());
+                        st.setString(5, b.getType());
 
+                        st.executeUpdate();
+
+                        st.close();
+                        this.close();
+
+                    } catch (SQLException e) {}
+
+                } else {
+                    System.out.println("데이터베이스 연결에 실패");
+                    System.exit(0);    
+                }
+    }
+	public void boardUpdate(BoardDTO b, int n1){
+        if (this.connect()) {
+                   try {
+                    String sql="update board set title=?, content=?, sid=?, sps=?, type=? where no=?";
 			PreparedStatement st = con.prepareStatement(sql);
-			st.setString(1, s1);
-			st.setString(2, s2);
-                        st.setString(3, Login.S.getSID());
-			st.setString(4, Login.S.getPASS());
-                        st.setString(5, s3);
-                        
-			st.executeUpdate();
-		} catch (SQLException e) {}
-			
-	}
-	
-	public void boardUpdate(String s1, String s2 ,String s3, int n1){
-		String sql="update board set title=?, content=?, sid=?, sps=?, type=? where no=?";
-		try {
-			PreparedStatement st = con.prepareStatement(sql);
-                        st.setString(1, s1);
-			st.setString(2, s2);
-                        st.setString(3, Login.S.getSID());
-			st.setString(4, Login.S.getPASS());
-                        st.setString(5, s3);
+                        st.setString(1, b.getTitle());
+			st.setString(2, b.getContent());
+                        st.setString(3, b.getSid());
+			st.setString(4, b.getSps());
+                        st.setString(5, b.getType());
                         st.setInt(6, n1);
                         
 			st.executeUpdate();
 		} catch (SQLException e) {}
-	}
 
-	public void boardDelete(int n1) {
-		String sql="delete from board where no=?";
-		try {
-			PreparedStatement st = con.prepareStatement(sql);
-			st.setInt(1, n1);
-			st.executeUpdate();
-		} catch (SQLException e) {}
-	}
-
-	public List<BoardDTO> boardSelect() {
-        List<BoardDTO> list = null;
-       String sql="select no, title, content, wdate, type from board";
-
-        if (connect()) {
-            try {
-                stmt = con.createStatement();
-                if (stmt != null) { 
-                    rs = stmt.executeQuery(sql);
-
-                    list = new ArrayList<>();
-
-                    while (rs.next()) {
-                        BoardDTO mc = new BoardDTO();
-			mc.setBNUM(rs.getInt(1));
-			mc.setTITLE(rs.getString(2));
-                        mc.setSID(rs.getString(4));
-			mc.setDATE(rs.getString(6));
-                        mc.setTYPE(rs.getString(7));
-			list.add(mc);
-                    }
+                } else {
+                    System.out.println("데이터베이스 연결에 실패");
+                    System.exit(0);    
                 }
-            } catch (SQLException e) {}
-        } else {
-            System.out.println("데이터베이스 연결에 실패했습니다.");
-            System.exit(0);
         }
 
-        return list;
+	public void boardDelete(int n1){
+        if (this.connect()) {
+                   try {
+                    String sql="delete from board where no="+n1;
+                       System.out.println(sql);
+			PreparedStatement st = con.prepareStatement(sql);
+			st.executeUpdate();
+		} catch (SQLException e) {}
+
+                } else {
+                    System.out.println("데이터베이스 연결에 실패");
+                    System.exit(0);    
+                }
+        }
+        
+    public ArrayList<BoardDTO> boardSelect() {
+           ArrayList<BoardDTO> list= new ArrayList<BoardDTO>();
+  
+            if (connect()) {
+                try {
+                    String sql="select no, title, sid, wdate, type from board";
+                    stmt = con.createStatement();
+                    if (stmt != null) { 
+                        rs = stmt.executeQuery(sql);
+
+                        while (rs.next()) {
+                            BoardDTO mc = new BoardDTO();
+                            mc.setNo(rs.getInt(1));
+                            mc.setTitle(rs.getString(2));
+                            mc.setSid(rs.getString(3));
+                            mc.setWdate(rs.getString(4));
+                            mc.setType(rs.getString(5));
+                            list.add(mc);
+                        }
+                    }
+                } catch (SQLException e) {}
+            } else {
+                System.out.println("데이터베이스 연결에 실패했습니다.");
+                System.exit(0);
+            }
+
+            return list;
+        }
+    
+    public BoardDTO boardNoSelect(int index) {
+           BoardDTO b= new BoardDTO();
+            if (connect()) {
+                try {
+                    stmt = con.createStatement();
+                    String sql="select * from board where no="+index;
+                    if (stmt != null) { 
+                        rs = stmt.executeQuery(sql);
+                        while (rs.next()) {   
+                            b.setNo(rs.getInt(1));
+                            b.setTitle(rs.getString(2));
+                            b.setContent(rs.getString(3));
+                            b.setSid(rs.getString(4));
+                            b.setSps(rs.getString(5));
+                            b.setType(rs.getString(6));
+                            b.setWdate(rs.getString(7));
+                        }
+                    }
+                } catch (SQLException e) {}
+            } else {
+                System.out.println("데이터베이스 연결에 실패했습니다.");
+                System.exit(0);
+            }
+            return b;
     }
 }

@@ -4,6 +4,8 @@
  */
 package deu.cse.team.noticeBoard;
 
+import deu.cse.team.login.Login;
+import deu.cse.team.singleton.BoardDTO;
 import deu.cse.team.singleton.DAO;
 import javax.swing.JOptionPane;
 
@@ -142,7 +144,13 @@ public class writeDlg extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        dao.boardInsert(jTextField1.getText(), jTextArea1.getText(), jComboBox1.getSelectedItem().toString());
+        BoardDTO b=new BoardDTO();
+        b.setTitle(jTextField1.getText());
+        b.setContent(jTextArea1.getText());
+        b.setSid(Login.S.getSID());
+        b.setSps(Login.S.getPASS());
+        b.setType(jComboBox1.getSelectedItem().toString());
+        dao.boardInsert(b);
         JOptionPane.showMessageDialog(null, "등록 완료.");
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed

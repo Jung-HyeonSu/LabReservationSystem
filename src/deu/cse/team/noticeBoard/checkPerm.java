@@ -5,6 +5,8 @@
 package deu.cse.team.noticeBoard;
 
 import deu.cse.team.login.Login;
+import deu.cse.team.singleton.BoardDTO;
+import deu.cse.team.singleton.DAO;
 import javax.swing.JOptionPane;
 
 /**
@@ -16,10 +18,18 @@ public class checkPerm extends javax.swing.JFrame {
     /**
      * Creates new form checkPerm
      */
+    
+    DAO dao = DAO.getInstance();
+    String index1;
     public checkPerm() {
         initComponents();
     }
 
+    public checkPerm(String index){
+        initComponents();
+        BoardDTO t = dao.boardNoSelect(Integer.parseInt(index));
+        index1=index;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -93,7 +103,7 @@ public class checkPerm extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if(Login.S.getPASS().equals(jTextField1.getText())){
-                    new detailView().setVisible(true);
+                    new detailView(index1).setVisible(true);
                     dispose();
         }else
             JOptionPane.showMessageDialog(null, "비밀번호 확인.");

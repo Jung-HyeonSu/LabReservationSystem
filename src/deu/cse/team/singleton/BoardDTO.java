@@ -4,72 +4,80 @@
  */
 package deu.cse.team.singleton;
 
+import java.io.Serializable;
+
+
 /**
  *
  * @author user
  */
-public class BoardDTO {
-     int NO;
-        String TITLE;
-        String CONTENT;
-        String SID;
-        String DATE;
-        String TYPE;
-        String BPS;
+public class BoardDTO implements Serializable{
+        private int no;
+        private String title;
+        private String content;
+        private String sid;
+        private String sps;
+        private String type;
+        private String wdate;
 
-    public int getBNUM() {
-        return NO;
+    public int getNo() {
+        return no;
     }
 
-    public String getTITLE() {
-        return TITLE;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public String getCONTENT() {
-        return CONTENT;
+    public String getContent() {
+        return content;
     }
 
-    public String getSID() {
-        return SID;
+    public String getTitle() {
+        return title;
     }
 
-    public String getDATE() {
-        return DATE;
+    public String getSid() {
+        return sid;
     }
 
-    public String getBPS() {
-        return BPS;
+    public String getSps() {
+        return sps;
     }
 
-    public String getTYPE() {
-        return TYPE;
+    public String getType() {
+        return type;
     }
 
-    public void setBNUM(int BNUM) {
-        this.NO = BNUM;
+
+
+    public void setNo(int no) {
+        this.no = no;
     }
 
-    public void setTITLE(String TITLE) {
-        this.TITLE = TITLE;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public void setCONTENT(String CONTENT) {
-        this.CONTENT = CONTENT;
+    public void setSid(String sid) {
+        this.sid = sid;
     }
 
-    public void setSID(String SID) {
-        this.SID = SID;
+    public void setSps(String sps) {
+        this.sps = sps;
     }
 
-    public void setDATE(String DATE) {
-        this.DATE = DATE;
+
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public void setBPS(String BPS) {
-        this.BPS = BPS;
+    public String getWdate() {
+        return wdate;
     }
 
-    public void setTYPE(String TYPE) {
-        this.TYPE = TYPE;
+    public void setWdate(String wdate) {
+        this.wdate = wdate;
     }
+
+    
 }

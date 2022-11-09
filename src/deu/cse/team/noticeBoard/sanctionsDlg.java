@@ -4,6 +4,10 @@
  */
 package deu.cse.team.noticeBoard;
 
+import deu.cse.team.singleton.AccountDTO;
+import deu.cse.team.singleton.BoardDTO;
+import deu.cse.team.singleton.DAO;
+import java.util.Iterator;
 import javax.swing.JOptionPane;
 
 /**
@@ -17,6 +21,7 @@ public class sanctionsDlg extends javax.swing.JFrame {
      */
     public sanctionsDlg() {
         initComponents();
+        init();
     }
 
     /**
@@ -248,4 +253,22 @@ public class sanctionsDlg extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
+public void init(){
+        DAO dao = DAO.getInstance();
+        for (int j = 0; j < 30; j++) {
+            for(int i=0; i<4; i++){
+                jTable1.setValueAt("", j, i);
+            }
+	}
+	Iterator<AccountDTO> it = dao.getAccountList().iterator();
+        AccountDTO b;
+	int i = 0;	
+	while(it.hasNext()) {
+            b=it.next();
+            jTable1.setValueAt(b.getId(), i, 0);
+            jTable1.setValueAt(b.getName(), i, 1);
+            jTable1.setValueAt(b.getWarning(), i, 2);
+            i++;
+	}
+    }
 }
