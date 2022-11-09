@@ -65,6 +65,7 @@ public class beforeReserve extends javax.swing.JFrame {
         }
         int resercount = 0;
         for (int i = 0; i < max; i++) {
+            System.out.println(starttime);
             for (int j = Integer.parseInt(starttime) - 9; j < Integer.parseInt(endtime) - 9; j++) {
                 if (reserseat[i][j] == true) {
                     seatcheckbox[i].setEnabled(false);

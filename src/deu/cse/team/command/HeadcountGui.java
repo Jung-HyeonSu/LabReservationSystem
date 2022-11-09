@@ -6,7 +6,7 @@ package deu.cse.team.command;
 
 import deu.cse.team.reservation.beforeReserve;
 import deu.cse.team.singleton.ClassInformationDTO;
-import deu.cse.team.singleton.DAO;
+import deu.cse.team.singleton.*;
 import java.util.ArrayList;
 import java.util.List;
 import static javax.swing.JOptionPane.showMessageDialog;
@@ -148,25 +148,38 @@ public class HeadcountGui extends javax.swing.JFrame {
 
     private void nextbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextbtnActionPerformed
         // TODO add your handling code here:
-        
         List<ClassInformationDTO> cid = dao.getClassInformation(); //디비에서 가져왔다가졍
-        int resercount = dao.getClassReserLength(cid.get(0).getClassnumber()); // 첫 강의실 정보 가져오기
+
         if (jRadioButton1.isSelected()) {
             headCount = remoteControl.A_ButtonWasPushed(0);
-            showMessageDialog(null, headCount);
-            if (resercount == cid.get(0).getMaxseat()) {
-                /*
+            showMessageDialog(null, headCount);            
+            
+            for (int i = 0; i < cid.size(); i++) {
+                System.out.println(i);
+                int resercount = dao.getClassReserLength(cid.get(i).getClassnumber()); // 첫 강의실 정보 가져오기
+                if (resercount == cid.get(i).getMaxseat()) {
+                    /*
                         if(room[i].getMax regerlength.getReser(강의실 번호) 강의실 최대인원과 강의실 번호별 예약인원수 가 같은지 확인 for문으로 확인하고 남는 공간이있으면 break걸기
-                 */
-                showMessageDialog(null, "강의실 번호" + "강의실에서 예약을 시작합니다.");
-            }
+                     */
+                    //
+                    System.out.println("resercount = " + resercount);
+                    System.out.println("cid.get(i).getMaxseat() = " + cid.get(i).getMaxseat());
+                }
+                else {
+                    System.out.println("resercount = " + resercount);
+                    System.out.println("cid.get(i).getMaxseat() = " + cid.get(i).getMaxseat());
+                    showMessageDialog(null, cid.get(i).getClassnumber() + " 강의실에서 예약을 시작합니다.");
+                    break;
+                }
+            }            
             beforeReserve br = new beforeReserve(starttime, endtime, 1); //수정필
             br.setVisible(true);
             br.setSize(818, 477);
         } else if (jRadioButton2.isSelected()) {
             headCount = remoteControl.B_ButtonWasPushed(0);
             showMessageDialog(null, headCount + " 인원수: " + usernumber.getText());
-            if (resercount == max || resercount + Integer.parseInt(usernumber.getText()) >= max) {
+            
+            if (resercount == max ||  resercount + Integer.parseInt(headCount) >= cid.get(i).getMaxseat()) {
                 /*
                         if(room[i].getMax regerlength.getReser(강의실 번호) 강의실 최대인원과 강의실 번호별 예약인원수 가 같은지 확인 for문으로 확인하고 남는 공간이있으면 break걸기
                  */
