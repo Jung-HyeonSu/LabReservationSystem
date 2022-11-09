@@ -217,6 +217,57 @@ public class DAO {
 
         return list;
     }
+    public List<ClassInformationDTO> getClassInformation() {
+        List<ClassInformationDTO> list = null;
+        String sql = "SELECT * FROM classinformation";
+        if (connect()) {
+            try {
+                stmt = con.createStatement();
+                if (stmt != null) { 
+                    rs = stmt.executeQuery(sql);
+                    list = new ArrayList<ClassInformationDTO>();
+                    while (rs.next()) {
+                        ClassInformationDTO classinforList = new ClassInformationDTO();
+                        classinforList.setClassnumber(rs.getString("classnumber"));
+                        classinforList.setMaxseat(rs.getInt("maxseat"));
+                        list.add(classinforList);
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("데이터베이스 연결에 실패했습니다.");
+            System.exit(0);
+        }
+
+        return list;
+    }
+    public int getClassReserLength(String classnumber) {
+        int value = 0;
+        String sql = "SELECT * FROM reservation where classnumber = "+classnumber;
+        System.out.println(sql);
+        if (connect()) {
+            try {
+                stmt = con.createStatement();
+                rs = stmt.executeQuery(sql);
+                if (stmt != null) {                     
+                    //데이터를 읽어서 list에 저장
+                    while (rs.next()) {
+                        value++;
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            // 연결에 실패했을 때 작업
+            System.out.println("데이터베이스 연결에 실패했습니다.");
+            System.exit(0);
+        }
+        System.out.println("value = " + value);
+        return value;
+    }
     
     public String getTokenList() {
         String value = null;

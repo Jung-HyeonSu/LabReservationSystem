@@ -1,11 +1,10 @@
 package deu.cse.team.reservation;
 
-import deu.cse.team.command.HeadcountGui;
+
 import deu.cse.team.command.RemoteControl;
 import deu.cse.team.command.Reservation;
 import deu.cse.team.command.ReservationCancelCommand;
 import deu.cse.team.command.ReservationOkCommand;
-import deu.cse.team.singleton.ClassTimetableDTO;
 import deu.cse.team.singleton.DAO;
 import deu.cse.team.singleton.ReservationDTO;
 import java.awt.event.ItemEvent;
@@ -14,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import javax.swing.JCheckBox;
-import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
@@ -84,15 +82,19 @@ public class beforeReserve extends javax.swing.JFrame {
         int numberValue;
         int reserStartValue;
         int reserEndValue;
+        String today = Integer.toString(c.get(Calendar.YEAR)) + "/" + Integer.toString(c.get(Calendar.MONTH) + 1) + "/" + Integer.toString(c.get(Calendar.DATE));
         for (int i = 0; i < rdto.size(); i++) {
             numberValue = rdto.get(i).getSeat_number();
             reserStartValue = Integer.parseInt(rdto.get(i).getReser_starttime().split(":")[0]);
-            if (reserStartValue < 17) {
+            System.out.println(today);
+            System.out.println(rdto.get(i).getReser_date());
+            if (reserStartValue < 17 && today.equals(rdto.get(i).getReser_date()) && rdto.get(i).getOk().equals("1")) { // 예약완료되면 1
                 reserEndValue = Integer.parseInt(rdto.get(i).getReser_endtime().split(":")[0]);
                 for (int j = reserStartValue - 9; j < reserEndValue - 9; j++) {
                     reserseat[numberValue][j] = true;//예약이 되어있다.
                 }
             }
+            System.out.println(numberValue);
         }
 //                        }
     }
@@ -144,7 +146,6 @@ public class beforeReserve extends javax.swing.JFrame {
                 reserseatnumber.remove(value);
             }
             isselected = true;
-//            seatnumber = value;
         }
     }
 

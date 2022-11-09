@@ -5,6 +5,10 @@
 package deu.cse.team.command;
 
 import deu.cse.team.reservation.beforeReserve;
+import deu.cse.team.singleton.ClassInformationDTO;
+import deu.cse.team.singleton.DAO;
+import java.util.ArrayList;
+import java.util.List;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
@@ -17,19 +21,21 @@ public class HeadcountGui extends javax.swing.JFrame {
      * Creates new form HeadcountGui
      */
     RemoteControl remoteControl = new RemoteControl();
-
+    DAO dao = DAO.getInstance();
+    int max = 40;
     HeadcountConfirm headcountConfirm = new HeadcountConfirm();
     String headCount = "";
     IndividualCommand individual = new IndividualCommand(headcountConfirm);
     TeamCommand team = new TeamCommand(headcountConfirm);
-    String starttime="09:00";
-    String endtime="10:00";
+    String starttime = "09:00";
+    String endtime = "10:00";
     String check;
-    public HeadcountGui( String starttime, String endtime, String check) {
+
+    public HeadcountGui(String starttime, String endtime, String check) {
         initComponents();
-        this.starttime=starttime;
-        this.endtime=endtime;
-        this.check=check;
+        this.starttime = starttime;
+        this.endtime = endtime;
+        this.check = check;
         remoteControl.setCommand(0, individual, team);
     }
 
@@ -143,28 +149,40 @@ public class HeadcountGui extends javax.swing.JFrame {
     private void nextbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextbtnActionPerformed
         // TODO add your handling code here:
         
+        List<ClassInformationDTO> cid = dao.getClassInformation(); //디비에서 가져왔다가졍
+        int resercount = dao.getClassReserLength(cid.get(0).getClassnumber()); // 첫 강의실 정보 가져오기
         if (jRadioButton1.isSelected()) {
-                headCount = remoteControl.A_ButtonWasPushed(0);
-                showMessageDialog(null, headCount);
-                beforeReserve br = new beforeReserve(starttime,endtime,1); //수정필
+            headCount = remoteControl.A_ButtonWasPushed(0);
+            showMessageDialog(null, headCount);
+            if (resercount == cid.get(0).getMaxseat()) {
+                /*
+                        if(room[i].getMax regerlength.getReser(강의실 번호) 강의실 최대인원과 강의실 번호별 예약인원수 가 같은지 확인 for문으로 확인하고 남는 공간이있으면 break걸기
+                 */
+                showMessageDialog(null, "강의실 번호" + "강의실에서 예약을 시작합니다.");
+            }
+            beforeReserve br = new beforeReserve(starttime, endtime, 1); //수정필
+            br.setVisible(true);
+            br.setSize(818, 477);
+        } else if (jRadioButton2.isSelected()) {
+            headCount = remoteControl.B_ButtonWasPushed(0);
+            showMessageDialog(null, headCount + " 인원수: " + usernumber.getText());
+            if (resercount == max || resercount + Integer.parseInt(usernumber.getText()) >= max) {
+                /*
+                        if(room[i].getMax regerlength.getReser(강의실 번호) 강의실 최대인원과 강의실 번호별 예약인원수 가 같은지 확인 for문으로 확인하고 남는 공간이있으면 break걸기
+                 */
+                showMessageDialog(null, "강의실 번호" + "강의실에서 예약을 시작합니다.");
+            } else {
+                if (check == "before") {
+                    beforeReserve br = new beforeReserve(starttime, endtime, Integer.parseInt(usernumber.getText())); //수정필
                     br.setVisible(true);
                     br.setSize(818, 477);
-            } else if (jRadioButton2.isSelected()) {
-                headCount = remoteControl.B_ButtonWasPushed(0);
-                showMessageDialog(null, headCount+" 인원수: "+usernumber.getText());
-                if (check=="before") {
-                    beforeReserve br = new beforeReserve(starttime,endtime,Integer.parseInt(usernumber.getText())); //수정필
-                    br.setVisible(true);
-                    br.setSize(818, 477);
-                }
-                else{
-                    afterResreve ar = new afterResreve(starttime,endtime,Integer.parseInt(usernumber.getText())); //수정필
+                } else {
+                    afterResreve ar = new afterResreve(starttime, endtime, Integer.parseInt(usernumber.getText())); //수정필
                     ar.setVisible(true);
                     ar.setSize(818, 477);
                 }
-                
             }
-        
+        }
 
         dispose();
     }//GEN-LAST:event_nextbtnActionPerformed
@@ -199,7 +217,7 @@ public class HeadcountGui extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new HeadcountGui("09:00","10:00","before").setVisible(true);
+                new HeadcountGui("09:00", "10:00", "before").setVisible(true);
             }
         });
     }

@@ -8,6 +8,7 @@ import deu.cse.team.command.HeadcountGui;
 import deu.cse.team.reservation.beforeReserve;
 import deu.cse.team.singleton.ClassTimetableDTO;
 import deu.cse.team.singleton.DAO;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import static javax.swing.JOptionPane.showMessageDialog;
@@ -19,7 +20,7 @@ import static javax.swing.JOptionPane.showMessageDialog;
 public class beforetime extends javax.swing.JFrame {
 
     /**
-     * Creates new form time
+     * 2022.11.9 [최초작성자 20183207 김성찬] 사용자 계정관리
      */
     boolean[] classTime = new boolean [9];//수업시간있는지 확인하는 객체  | true = 수업 O false = 수업 X    
     DAO dao = DAO.getInstance();
@@ -141,14 +142,15 @@ public class beforetime extends javax.swing.JFrame {
     private void changebtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changebtn1ActionPerformed
         // TODO add your handling code here:
         DAO dao = DAO.getInstance(); 
+        
         String starttime = starttimebox.getSelectedItem().toString();
         String endtime = endtimebox.getSelectedItem().toString();     
         boolean iscount=false;
         if (Integer.parseInt(starttime) > Integer.parseInt(endtime)) showMessageDialog(null, "시작 시간이 종료 시간보다 클 수는 없습니다.");
         else if (Integer.parseInt(starttime) == Integer.parseInt(endtime)) showMessageDialog(null, "시작 시간이 종료 시간과 같을 수는 없습니다.");
-        
         else{
             int resercount = dao.getReserLength();
+            //강의실별 예약현황 확인 dao 추가하기
                 for (int i = Integer.parseInt(starttime)-9; i < Integer.parseInt(endtime)-9; i++) {
                     if (classTime[i]==true) {
                         iscount=true;
@@ -157,9 +159,10 @@ public class beforetime extends javax.swing.JFrame {
                     }
                 }// 시간표랑 비교하는 알고리즘
                 if (!iscount) {
-                if (resercount>=2) {
+                    if (resercount>=2) {
                     showMessageDialog(null, "선택한 시간에 예약한 사람이 25명이 넘습니다.\n선택예약으로 이동합니다.");
-                    HeadcountGui h = new HeadcountGui(starttime,endtime,"before"); 
+                    //다음 확인하고 ++
+                    HeadcountGui h = new HeadcountGui(starttime,endtime,"before"); //생성자에 강의실 번호 추가하기
                     h.setVisible(true);
                     
                 }
