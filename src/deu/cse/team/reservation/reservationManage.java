@@ -4,6 +4,11 @@
  */
 package deu.cse.team.reservation;
 
+import deu.cse.team.decorator.HalfTime;
+import deu.cse.team.decorator.OneHourTime;
+import deu.cse.team.decorator.QuarterTime;
+import deu.cse.team.decorator.SeatNumber;
+import deu.cse.team.decorator.Time;
 import deu.cse.team.singleton.DAO;
 import deu.cse.team.singleton.ReservationDTO;
 import java.text.ParseException;
@@ -27,7 +32,8 @@ public class reservationManage extends javax.swing.JFrame {
      */
     String id;
     String reser_number;
-
+    int totalTime = 0;
+    
     public reservationManage() {
         initComponents();
     }
@@ -54,10 +60,18 @@ public class reservationManage extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jDialog2 = new javax.swing.JDialog();
         jLabel5 = new javax.swing.JLabel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jRadioButton3 = new javax.swing.JRadioButton();
         jButton5 = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTable4 = new javax.swing.JTable();
+        jButton6 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
         buttonGroup1 = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -122,15 +136,6 @@ public class reservationManage extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("맑은 고딕", 1, 14)); // NOI18N
         jLabel5.setText("예약 연장");
 
-        buttonGroup1.add(jRadioButton1);
-        jRadioButton1.setText("15분");
-
-        buttonGroup1.add(jRadioButton2);
-        jRadioButton2.setText("30분");
-
-        buttonGroup1.add(jRadioButton3);
-        jRadioButton3.setText("1시간");
-
         jButton5.setText("연장");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -138,38 +143,146 @@ public class reservationManage extends javax.swing.JFrame {
             }
         });
 
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {"15분"},
+                {"30분"},
+                {"1시간"}
+            },
+            new String [] {
+                "추가 시간 선택"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable2);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(53, 53, 53))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(93, 93, 93))
+        );
+
+        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "연장 시간"
+            }
+        ));
+        jScrollPane4.setViewportView(jTable4);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jButton6.setText(">");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
+        jButton7.setText("<");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
+        jButton8.setText("취소");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setText("총 연장 시간:");
+
+        jLabel7.setForeground(new java.awt.Color(0, 0, 255));
+        jLabel7.setText("0시간 00분");
+
         javax.swing.GroupLayout jDialog2Layout = new javax.swing.GroupLayout(jDialog2.getContentPane());
         jDialog2.getContentPane().setLayout(jDialog2Layout);
         jDialog2Layout.setHorizontalGroup(
             jDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDialog2Layout.createSequentialGroup()
-                .addGroup(jDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jDialog2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jDialog2Layout.createSequentialGroup()
-                        .addGap(87, 87, 87)
                         .addGroup(jDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jRadioButton3)
-                            .addComponent(jRadioButton2)
-                            .addComponent(jRadioButton1)
-                            .addComponent(jLabel5))))
-                .addContainerGap(96, Short.MAX_VALUE))
+                            .addGroup(jDialog2Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jButton6)
+                                    .addComponent(jButton7)))
+                            .addGroup(jDialog2Layout.createSequentialGroup()
+                                .addGap(116, 116, 116)
+                                .addComponent(jLabel5)))
+                        .addGap(1, 1, 1)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jDialog2Layout.createSequentialGroup()
+                        .addGap(70, 70, 70)
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(jButton8)))
+                .addContainerGap(21, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialog2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel6)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38))
         );
         jDialog2Layout.setVerticalGroup(
             jDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDialog2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel5)
-                .addGap(18, 18, 18)
-                .addComponent(jRadioButton1)
-                .addGap(18, 18, 18)
-                .addComponent(jRadioButton2)
-                .addGap(18, 18, 18)
-                .addComponent(jRadioButton3)
-                .addGap(18, 18, 18)
-                .addComponent(jButton5)
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addGroup(jDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jDialog2Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(jDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jDialog2Layout.createSequentialGroup()
+                        .addGap(72, 72, 72)
+                        .addComponent(jButton6)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton7)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel7))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addGroup(jDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton5)
+                    .addComponent(jButton8))
+                .addGap(17, 17, 17))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -307,7 +420,7 @@ public class reservationManage extends javax.swing.JFrame {
 
         jDialog2.setVisible(true);
         jDialog2.setLocationRelativeTo(this);
-        jDialog2.setSize(250, 250);
+        jDialog2.setSize(320, 330);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -320,21 +433,37 @@ public class reservationManage extends javax.swing.JFrame {
         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
         DAO dao = DAO.getInstance();
         List<ReservationDTO> reservationList = dao.getReserList();
+        Time time = null;
         for (int i = 0; i < reservationList.size(); i++) {
 
             if (reser_number.equals(Integer.toString(reservationList.get(i).getReser_number()))) {
-
+                time = new SeatNumber(reser_number);
+                for (int j = 0; j < jTable4.getRowCount(); j++) {
+                    if("15분".equals(String.valueOf(jTable4.getValueAt(j, 0)))){
+                        time = new QuarterTime(time);
+                    }
+                    if("30분".equals(String.valueOf(jTable4.getValueAt(j, 0)))){
+                        time = new HalfTime(time);
+                    }
+                    if("1시간".equals(String.valueOf(jTable4.getValueAt(j, 0)))){
+                        time = new OneHourTime(time);
+                    }
+                }
+                
                 for (int j = 0; j < reservationList.size(); j++) {
-                    if (reservationList.get(i).getReser_number() != reservationList.get(j).getReser_number()) {
+                    if ((reservationList.get(i).getSeat_number() == reservationList.get(j).getSeat_number())&&(reservationList.get(i).getReser_number()!= reservationList.get(j).getReser_number())) {
                         if ((reservationList.get(i).getReser_date()).equals(reservationList.get(j).getReser_date()) && (reservationList.get(i).getClassnumber()).equals(reservationList.get(j).getClassnumber()) && (reservationList.get(i).getSeat_number() == reservationList.get(j).getSeat_number())) {
 
                             try {
-
+                                Calendar cal = Calendar.getInstance();
+                                cal.setTime(formatter.parse(reservationList.get(i).getReser_endtime()));
+                                cal.add(Calendar.MINUTE, time.time());
+        
                                 starttime1 = formatter.parse(reservationList.get(i).getReser_starttime());
                                 starttime2 = formatter.parse(reservationList.get(j).getReser_starttime());
-                                endtime1 = formatter.parse(reservationList.get(i).getReser_endtime());
+                                endtime1 = formatter.parse(formatter.format(cal.getTime()));
                                 endtime2 = formatter.parse(reservationList.get(j).getReser_endtime());
-                                if (starttime1.equals(starttime2) || endtime1.equals(endtime2) || endtime1.equals(starttime2)) {
+                                if (starttime1.equals(starttime2) || endtime1.equals(endtime2)) {
                                     isChecked = true;
                                 } else if (starttime1.before(starttime2) && endtime1.after(starttime2)) {
                                     isChecked = true;
@@ -350,20 +479,17 @@ public class reservationManage extends javax.swing.JFrame {
                     }
 
                 }
+                
+                
+                System.out.println(time.getDescription() +time.time());
                 if (isChecked == false) {
                     Calendar cal = Calendar.getInstance();
+                    int str = 0;
                     try {
                         cal.setTime(formatter.parse(reservationList.get(i).getReser_endtime()));
-                        if (jRadioButton1.isSelected() == true) {
-                            cal.add(Calendar.MINUTE, 15);
-                            showMessageDialog(null, "※       연장성공※\n예약이 15분 연장됩니다.");
-                        } else if (jRadioButton2.isSelected() == true) {
-                            cal.add(Calendar.MINUTE, 30);
-                            showMessageDialog(null, "※       연장성공※\n예약이 30분 연장됩니다.");
-                        } else if (jRadioButton3.isSelected() == true) {
-                            cal.add(Calendar.HOUR, 1);
-                            showMessageDialog(null, "※       연장성공※\n예약이 1시간 연장됩니다.");
-                        }
+                        cal.add(Calendar.MINUTE, time.time());
+                        str = time.time();
+                        
 
                     } catch (ParseException ex) {
                         Logger.getLogger(reservationManage.class.getName()).log(Level.SEVERE, null, ex);
@@ -372,7 +498,8 @@ public class reservationManage extends javax.swing.JFrame {
                     ReservationDTO dto = new ReservationDTO();
                     dao.UpdateReser(dto, reser_number, formatter.format(cal.getTime()));
                     loadReserTable();
-                    
+                    showMessageDialog(null, "※       연장성공※\n예약이 "+ Integer.toString(str) +"분 연장됩니다.");
+
                 } else {
                     showMessageDialog(null, "       ※연장실패※\n다른 사용자와 예약 시간이 중복됩니다.");
                 }
@@ -381,6 +508,57 @@ public class reservationManage extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        int row = jTable2.getSelectedRow();
+        DefaultTableModel model = (DefaultTableModel) jTable4.getModel();
+        model.addRow(new Object[]{
+            String.valueOf(jTable2.getValueAt(row, 0))
+        });
+        
+        if("15분".equals(jTable2.getValueAt(row, 0))){
+            totalTime += 15;
+        }
+        else if("30분".equals(jTable2.getValueAt(row, 0))){
+            totalTime += 30;
+        }
+        else if("1시간".equals(jTable2.getValueAt(row, 0))){
+            totalTime += 60;
+        }
+        int hour = totalTime/60;
+        int min = totalTime%60;
+        String str = Integer.toString(hour)+"시간 "+ Integer.toString(min)+"분";
+        jLabel7.setText(str);
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+        int row = jTable4.getSelectedRow();
+        DefaultTableModel model = (DefaultTableModel) jTable4.getModel();
+        
+        
+        if("15분".equals(jTable4.getValueAt(row, 0))){
+            totalTime -= 15;
+        }
+        else if("30분".equals(jTable4.getValueAt(row, 0))){
+            totalTime -= 30;
+        }
+        else if("1시간".equals(jTable4.getValueAt(row, 0))){
+            totalTime -= 60;
+        }
+        int hour = totalTime/60;
+        int min = totalTime%60;
+        
+        String str = Integer.toString(hour)+"시간 "+ Integer.toString(min)+"분";
+        jLabel7.setText(str);
+        model.removeRow(row);
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // TODO add your handling code here:
+        jDialog2.dispose();
+    }//GEN-LAST:event_jButton8ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -441,6 +619,9 @@ public class reservationManage extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JDialog jDialog2;
     private javax.swing.JLabel jLabel1;
@@ -448,10 +629,18 @@ public class reservationManage extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton3;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTable3;
+    private javax.swing.JTable jTable4;
     // End of variables declaration//GEN-END:variables
 }
