@@ -317,34 +317,28 @@ public class reservationManage extends javax.swing.JFrame {
         Date starttime2;
         Date endtime1;
         Date endtime2;
-        SimpleDateFormat formatter = new SimpleDateFormat("mm:ss");
-        if (jRadioButton1.isSelected() == true) {
-            
-            DAO dao = DAO.getInstance();
-            List<ReservationDTO> reservationList = dao.getReserList();
-            for (int i = 0; i < reservationList.size(); i++) {
-                
-                if (reser_number.equals(Integer.toString(reservationList.get(i).getReser_number()))) {
-                    
-                    for (int j = 0; j < reservationList.size(); j++) {
-                        if ((reservationList.get(i).getReser_date()).equals(reservationList.get(j).getReser_date()) && (reservationList.get(i).getClassnumber()).equals(reservationList.get(j).getClassnumber())) {
-                            
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
+        DAO dao = DAO.getInstance();
+        List<ReservationDTO> reservationList = dao.getReserList();
+        for (int i = 0; i < reservationList.size(); i++) {
+
+            if (reser_number.equals(Integer.toString(reservationList.get(i).getReser_number()))) {
+
+                for (int j = 0; j < reservationList.size(); j++) {
+                    if (reservationList.get(i).getReser_number() != reservationList.get(j).getReser_number()) {
+                        if ((reservationList.get(i).getReser_date()).equals(reservationList.get(j).getReser_date()) && (reservationList.get(i).getClassnumber()).equals(reservationList.get(j).getClassnumber()) && (reservationList.get(i).getSeat_number() == reservationList.get(j).getSeat_number())) {
+
                             try {
-                                
+
                                 starttime1 = formatter.parse(reservationList.get(i).getReser_starttime());
                                 starttime2 = formatter.parse(reservationList.get(j).getReser_starttime());
                                 endtime1 = formatter.parse(reservationList.get(i).getReser_endtime());
                                 endtime2 = formatter.parse(reservationList.get(j).getReser_endtime());
-                                if (starttime1.equals(starttime2) || endtime1.equals(endtime2)) {
+                                if (starttime1.equals(starttime2) || endtime1.equals(endtime2) || endtime1.equals(starttime2)) {
                                     isChecked = true;
-                                }
-                                else if (starttime1.before(starttime2) && endtime1.after(starttime2)) {
+                                } else if (starttime1.before(starttime2) && endtime1.after(starttime2)) {
                                     isChecked = true;
-                                }
-                                else if(starttime1.before(endtime2) && endtime1.after(endtime2)){
-                                    isChecked = true;
-                                }
-                                else if(starttime1.before(starttime2)&& endtime1.after(endtime2)){
+                                } else if (starttime1.before(starttime2) && endtime1.after(endtime2)) {
                                     isChecked = true;
                                 }
                             } catch (ParseException ex) {
@@ -352,32 +346,40 @@ public class reservationManage extends javax.swing.JFrame {
 
                             }
                         }
-                        
+
                     }
-                    //업데이트 구문짜기
-                    if(isChecked==false){
-                        Calendar cal = Calendar.getInstance();
-                        try {
-                            cal.setTime(formatter.parse(reservationList.get(i).getReser_endtime()));
+
+                }
+                if (isChecked == false) {
+                    Calendar cal = Calendar.getInstance();
+                    try {
+                        cal.setTime(formatter.parse(reservationList.get(i).getReser_endtime()));
+                        if (jRadioButton1.isSelected() == true) {
                             cal.add(Calendar.MINUTE, 15);
-                        } catch (ParseException ex) {
-                            Logger.getLogger(reservationManage.class.getName()).log(Level.SEVERE, null, ex);
+                            showMessageDialog(null, "※       연장성공※\n예약이 15분 연장됩니다.");
+                        } else if (jRadioButton2.isSelected() == true) {
+                            cal.add(Calendar.MINUTE, 30);
+                            showMessageDialog(null, "※       연장성공※\n예약이 30분 연장됩니다.");
+                        } else if (jRadioButton3.isSelected() == true) {
+                            cal.add(Calendar.HOUR, 1);
+                            showMessageDialog(null, "※       연장성공※\n예약이 1시간 연장됩니다.");
                         }
-                        
-                        ReservationDTO dto = new ReservationDTO();
-                        dao.UpdateReser(dto, reser_number, formatter.format(cal.getTime()));
-                        showMessageDialog(null, "예약시간 늘어남");
+
+                    } catch (ParseException ex) {
+                        Logger.getLogger(reservationManage.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    else{
-                        showMessageDialog(null, "예약시간 중복됨 ㅋㅋ~");
-                    } 
+
+                    ReservationDTO dto = new ReservationDTO();
+                    dao.UpdateReser(dto, reser_number, formatter.format(cal.getTime()));
+                    loadReserTable();
+                    
+                } else {
+                    showMessageDialog(null, "       ※연장실패※\n다른 사용자와 예약 시간이 중복됩니다.");
                 }
             }
-        } else if (jRadioButton2.isSelected() == true) {
-
-        } else if (jRadioButton3.isSelected() == true) {
-
         }
+
+
     }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
