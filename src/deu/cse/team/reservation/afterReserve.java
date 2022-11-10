@@ -54,6 +54,7 @@ public class afterReserve extends javax.swing.JFrame {
         this.endtime = endtime;
         this.max = max;
         this.headcount = headcount;
+        responsiblename.setText(id);
         classnumberarea.setText(classnumber);
         resertime.setText(starttime + ":00 ~ " + endtime + ":00");
         remoteControl.setCommand(1, reservationOk, reservationCancel);

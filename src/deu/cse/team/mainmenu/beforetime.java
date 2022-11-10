@@ -29,7 +29,6 @@ public class beforetime extends javax.swing.JFrame {
     DAO dao = DAO.getInstance();
     List<ClassTimetableDTO> cdto = dao.getTimetableList();
     Calendar c = Calendar.getInstance();
-    int isClass=0;
     int dayofWeek = c.get(Calendar.DAY_OF_WEEK);//요일 판단 일 ~ 토 = 1 ~ 7
     int max=40;
     public beforetime(String id) {
@@ -146,14 +145,14 @@ public class beforetime extends javax.swing.JFrame {
     private void changebtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changebtn1ActionPerformed
         // TODO add your handling code here:
         DAO dao = DAO.getInstance(); 
-        
+        String today = Integer.toString(c.get(Calendar.YEAR)) + "/" + Integer.toString(c.get(Calendar.MONTH) + 1) + "/" + Integer.toString(c.get(Calendar.DATE));
         String starttime = starttimebox.getSelectedItem().toString();
         String endtime = endtimebox.getSelectedItem().toString();     
         boolean iscount=false;
         if (Integer.parseInt(starttime) > Integer.parseInt(endtime)) showMessageDialog(null, "시작 시간이 종료 시간보다 클 수는 없습니다.");
         else if (Integer.parseInt(starttime) == Integer.parseInt(endtime)) showMessageDialog(null, "시작 시간이 종료 시간과 같을 수는 없습니다.");
         else{
-            int resercount = dao.getReserLength();
+            int resercount = dao.getselecttimeReserLength(today,starttime,endtime);            
             //강의실별 예약현황 확인 dao 추가하기
                 for (int i = Integer.parseInt(starttime)-9; i < Integer.parseInt(endtime)-9; i++) {
                     if (classTime[i]==true) {
