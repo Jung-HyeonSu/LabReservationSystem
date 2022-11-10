@@ -405,6 +405,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="&#xd1a0;&#xd070;&#xac12; &#xc778;&#xc99d;"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton9ActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

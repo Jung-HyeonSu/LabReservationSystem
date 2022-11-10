@@ -13,6 +13,7 @@ import deu.cse.team.singleton.DAO;
 import deu.cse.team.singleton.TokenDTO;
 import deu.cse.team.timetable.EditClassTimetable;
 import deu.cse.team.timetable.SeminarTimetable;
+import deu.cse.team.tokenauth.TokenAuth;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -251,6 +252,11 @@ public class AdminMain extends javax.swing.JFrame {
         });
 
         jButton9.setText("토큰값 인증");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -409,6 +415,12 @@ public class AdminMain extends javax.swing.JFrame {
         new Login().setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        // TODO add your handling code here:
+        TokenAuth tokenAuth = new TokenAuth();
+        tokenAuth.setVisible(true);
+    }//GEN-LAST:event_jButton9ActionPerformed
 
     /**
      * @param args the command line arguments
