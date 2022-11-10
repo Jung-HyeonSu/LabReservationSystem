@@ -960,4 +960,95 @@ public class DAO {
                     System.exit(0);    
                 }
         }
+     public List<NoticeDTO> getNoticeList(String id) {
+        List<NoticeDTO> list = null;
+        String sql = "SELECT * FROM notice";
+        if (connect()) {
+            try {
+                stmt = con.createStatement();
+                if (stmt != null) { 
+                    rs = stmt.executeQuery(sql);
+                    list = new ArrayList<NoticeDTO>();
+                    while (rs.next()) {
+                        NoticeDTO noticeList = new NoticeDTO();
+                        noticeList.setName(rs.getString("name"));
+                        noticeList.setContent(rs.getString("content"));
+                        noticeList.setId(rs.getString("id"));
+                        noticeList.setSeperation(rs.getString("seperation"));                       
+                        list.add(noticeList);
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("데이터베이스 연결에 실패했습니다.");
+            System.exit(0);
+        }
+
+        return list;
+    }
+      public boolean InsertNotice(NoticeDTO notice) {
+        boolean result = false;
+        if (this.connect()) {
+            try {
+                //값이 삽입되어야 하는 자리에는 물음표
+                String sql = "INSERT INTO notice VALUES (?,?,?,?)"; //모든 컬럼에 값을 넣으므로 컬럼명 생략.
+                PreparedStatement pstmt = con.prepareStatement(sql);
+                //VALUES의 ?에 값을 바인딩. (바인딩 : ?에 들어갔어야 하는 원래 데이터 값을 입력.
+                pstmt.setString(1, notice.getId());
+                pstmt.setString(2, notice.getContent());
+                pstmt.setString(3, notice.getSeperation());
+                pstmt.setString(4, notice.getName());
+                int r = pstmt.executeUpdate();
+
+                if (r > 0) {
+                    result = true;
+                }
+                //데이터베이스 생성 객체 해제
+                pstmt.close();
+                this.close();
+
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+
+        } else {
+            System.out.println("데이터베이스 연결에 실패");
+            System.exit(0);
+        }
+
+        return result;
+    }
+      public boolean UpdateNotice(NoticeDTO notice, String id, String content, String seperation) {
+        boolean result = false;
+
+        if (this.connect()) {
+            try {
+                String sql = "UPDATE notice SET seperation =(?), content = (?) WHERE id =" + id;
+
+                PreparedStatement pstmt = con.prepareStatement(sql);
+                pstmt.setString(1, seperation);
+                pstmt.setString(2, content);
+                
+                int r = pstmt.executeUpdate();
+
+                if (r > 0) {
+                    result = true;
+                }
+                //데이터베이스 생성 객체 해제
+                pstmt.close();
+                this.close();
+
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+
+        } else {
+            System.out.println("데이터베이스 연결에 실패");
+            System.exit(0);
+        }
+
+        return result;
+    }
 }
