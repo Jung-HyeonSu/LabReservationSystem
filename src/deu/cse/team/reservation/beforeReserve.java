@@ -28,6 +28,7 @@ public class beforeReserve extends javax.swing.JFrame {
     int max = 40;
     int row = 0;
     int headcount = 1;
+    String id;
     int checkboxcount = 0; //좌석 선택한 수 체크
     String starttime;
     String endtime;
@@ -44,20 +45,23 @@ public class beforeReserve extends javax.swing.JFrame {
     DAO dao = DAO.getInstance();
 
     boolean[][] reserseat = new boolean[max][9];
-    List<ReservationDTO> rdto = dao.getReserList();
+    List<ReservationDTO> rdto;
 
-    public beforeReserve(String starttime, String endtime, int headcount) {
+    public beforeReserve(String id,String starttime, String endtime, int headcount, int max,String classnumber) {
         initComponents();
+        this.id=id;
         this.starttime = starttime;
         this.endtime = endtime;
+        this.max=max;
         this.headcount = headcount;
+        classnumberarea.setText(classnumber);
         resertime.setText(starttime + ":00 ~ " + endtime + ":00");
         remoteControl.setCommand(1, reservationOk, reservationCancel);
         //max=40;//값가져와서 변경하기
         setSeat();
-        rdto = dao.getReserList();
+        rdto = dao.getclassReserList(classnumber);
         getreserseat();
-        responsiblename.setText("이름가져오기");
+        responsiblename.setText("조교");        
         nextbtn.setEnabled(true);
         for (int j = 0; j < max; j++) {
             seatcheckbox[j].setEnabled(true);
@@ -65,7 +69,6 @@ public class beforeReserve extends javax.swing.JFrame {
         }
         int resercount = 0;
         for (int i = 0; i < max; i++) {
-            System.out.println(starttime);
             for (int j = Integer.parseInt(starttime) - 9; j < Integer.parseInt(endtime) - 9; j++) {
                 if (reserseat[i][j] == true) {
                     seatcheckbox[i].setEnabled(false);
@@ -87,15 +90,12 @@ public class beforeReserve extends javax.swing.JFrame {
         for (int i = 0; i < rdto.size(); i++) {
             numberValue = rdto.get(i).getSeat_number();
             reserStartValue = Integer.parseInt(rdto.get(i).getReser_starttime().split(":")[0]);
-            System.out.println(today);
-            System.out.println(rdto.get(i).getReser_date());
             if (reserStartValue < 17 && today.equals(rdto.get(i).getReser_date()) && rdto.get(i).getOk().equals("1")) { // 예약완료되면 1
                 reserEndValue = Integer.parseInt(rdto.get(i).getReser_endtime().split(":")[0]);
                 for (int j = reserStartValue - 9; j < reserEndValue - 9; j++) {
                     reserseat[numberValue][j] = true;//예약이 되어있다.
                 }
             }
-            System.out.println(numberValue);
         }
 //                        }
     }
@@ -167,15 +167,17 @@ public class beforeReserve extends javax.swing.JFrame {
         cancelbtn = new javax.swing.JButton();
         starttimebox = new javax.swing.JComboBox<>();
         endtimebox = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
         jLabel31 = new javax.swing.JLabel();
         responsiblename = new javax.swing.JLabel();
-        classnumber = new javax.swing.JLabel();
+        classtext = new javax.swing.JLabel();
         settotal = new javax.swing.JLabel();
         seattotal = new javax.swing.JLabel();
         resertimearea = new javax.swing.JLabel();
         resertime = new javax.swing.JLabel();
         nextbtn = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        classnumberarea = new javax.swing.JLabel();
 
         jLabel1.setFont(new java.awt.Font("맑은 고딕", 1, 24)); // NOI18N
         jLabel1.setText("시간설정");
@@ -249,6 +251,8 @@ public class beforeReserve extends javax.swing.JFrame {
                 .addGap(45, 45, 45))
         );
 
+        jLabel2.setText("jLabel2");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel31.setFont(new java.awt.Font("맑은 고딕", 1, 12)); // NOI18N
@@ -258,8 +262,8 @@ public class beforeReserve extends javax.swing.JFrame {
         responsiblename.setForeground(new java.awt.Color(0, 0, 255));
         responsiblename.setText("조교");
 
-        classnumber.setFont(new java.awt.Font("맑은 고딕", 1, 36)); // NOI18N
-        classnumber.setText("915 강의실");
+        classtext.setFont(new java.awt.Font("맑은 고딕", 1, 36)); // NOI18N
+        classtext.setText("강의실");
 
         settotal.setText("예약 가능한 좌석 수:");
 
@@ -284,6 +288,9 @@ public class beforeReserve extends javax.swing.JFrame {
             }
         });
 
+        classnumberarea.setFont(new java.awt.Font("맑은 고딕", 1, 36)); // NOI18N
+        classnumberarea.setText("915");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -294,46 +301,59 @@ public class beforeReserve extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(resertimearea)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(resertime))
+                        .addComponent(resertime)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 405, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(settotal)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(seattotal)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 405, Short.MAX_VALUE)
+                        .addComponent(seattotal)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(classtext)
+                        .addGap(86, 86, 86)))
                 .addComponent(jLabel31)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(responsiblename)
                 .addGap(44, 44, 44))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(311, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(nextbtn)
-                        .addGap(72, 72, 72)
-                        .addComponent(jButton2))
-                    .addComponent(classnumber))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(nextbtn)
+                .addGap(72, 72, 72)
+                .addComponent(jButton2)
                 .addGap(291, 291, 291))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(330, 330, 330)
+                    .addComponent(classnumberarea)
+                    .addContainerGap(425, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(classnumber)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel31)
-                    .addComponent(responsiblename)
-                    .addComponent(settotal)
-                    .addComponent(seattotal))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(87, 87, 87)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel31)
+                            .addComponent(responsiblename)
+                            .addComponent(settotal)
+                            .addComponent(seattotal)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(44, 44, 44)
+                        .addComponent(classtext)))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(resertimearea)
                     .addComponent(resertime))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 308, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 296, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(nextbtn)
                     .addComponent(jButton2))
                 .addGap(19, 19, 19))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(42, 42, 42)
+                    .addComponent(classnumberarea)
+                    .addContainerGap(386, Short.MAX_VALUE)))
         );
 
         pack();
@@ -363,9 +383,8 @@ public class beforeReserve extends javax.swing.JFrame {
             starttime = time[0].trim();
             endtime = time[1].trim();
             String today = Integer.toString(c.get(Calendar.YEAR)) + "/" + Integer.toString(c.get(Calendar.MONTH) + 1) + "/" + Integer.toString(c.get(Calendar.DATE));
-            System.out.println(today);
             for (int i = 0; i < headcount; i++) {
-                ReservationDTO rdto = new ReservationDTO(dao.getReserLength(), reserseatnumber.get(i) - 1, responsiblename.getText(), classnumber.getText(), today, starttime, endtime, "-", "1");
+                ReservationDTO rdto = new ReservationDTO(dao.getReserLength(), reserseatnumber.get(i) - 1, responsiblename.getText(), classnumberarea.getText(), today, starttime, endtime, "-", "1");
                 boolean checkReservation = dao.InsertReservation(rdto);
             }
 
@@ -419,7 +438,7 @@ public class beforeReserve extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new beforeReserve("9", "17", 1).setVisible(true);
+                new beforeReserve("20183207","9", "17", 1,40,"918").setVisible(true);
             }
         });
     }
@@ -427,11 +446,13 @@ public class beforeReserve extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelbtn;
     private javax.swing.JButton changebtn1;
-    private javax.swing.JLabel classnumber;
+    private javax.swing.JLabel classnumberarea;
+    private javax.swing.JLabel classtext;
     private javax.swing.JDialog editTime;
     private javax.swing.JComboBox<String> endtimebox;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jlabel;

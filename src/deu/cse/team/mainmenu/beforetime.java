@@ -22,6 +22,7 @@ public class beforetime extends javax.swing.JFrame {
     /**
      * 2022.11.9 [최초작성자 20183207 김성찬] 사용자 계정관리
      */
+    String id;
     boolean[] classTime = new boolean [9];//수업시간있는지 확인하는 객체  | true = 수업 O false = 수업 X    
     DAO dao = DAO.getInstance();
     List<ClassTimetableDTO> cdto = dao.getTimetableList();
@@ -29,8 +30,9 @@ public class beforetime extends javax.swing.JFrame {
     int isClass=0;
     int dayofWeek = c.get(Calendar.DAY_OF_WEEK);//요일 판단 일 ~ 토 = 1 ~ 7
     int max=40;
-    public beforetime() {
+    public beforetime(String id) {
         initComponents();
+        this.id=id;
         getSchedule();
     }
     void getSchedule(){
@@ -162,14 +164,15 @@ public class beforetime extends javax.swing.JFrame {
                     if (resercount>=2) {
                     showMessageDialog(null, "선택한 시간에 예약한 사람이 25명이 넘습니다.\n선택예약으로 이동합니다.");
                     //다음 확인하고 ++
-                    HeadcountGui h = new HeadcountGui(starttime,endtime,"before"); //생성자에 강의실 번호 추가하기
+                    HeadcountGui h = new HeadcountGui(starttime,endtime,"before",id); //생성자에 강의실 번호 추가하기
+                        System.out.println(starttime);
                     h.setVisible(true);
                     
                 }
                 else{
-                    beforeReserve br = new beforeReserve(starttime,endtime,1);//시작시간,종료시간,사람수
-                    br.setVisible(true);
-                    br.setSize(818, 477);
+//                    beforeReserve br = new beforeReserve(starttime,endtime,1);//시작시간,종료시간,사람수
+//                    br.setVisible(true);
+//                    br.setSize(818, 477);
                 }
                 System.out.println(resercount);
                 
@@ -215,7 +218,7 @@ public class beforetime extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new beforetime().setVisible(true);
+                new beforetime("20183207").setVisible(true);
             }
         });
     }

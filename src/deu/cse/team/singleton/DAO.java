@@ -217,6 +217,41 @@ public class DAO {
 
         return list;
     }
+        public List<ReservationDTO> getclassReserList(String classnumber) {
+        List<ReservationDTO> list = null;
+        String sql = "SELECT * FROM reservation where classnumber = '"+classnumber+"'";
+        System.out.println(sql);
+        if (connect()) {
+            try {
+                stmt = con.createStatement();
+                if (stmt != null) { 
+                    rs = stmt.executeQuery(sql);
+                    list = new ArrayList<ReservationDTO>();
+                    while (rs.next()) {
+                        ReservationDTO reserList = new ReservationDTO();
+                        reserList.setReser_number(rs.getInt("reser_number"));
+                        reserList.setSeat_number(rs.getInt("seat_number"));
+                        reserList.setId(rs.getString("id"));
+                        reserList.setClassnumber(rs.getString("classnumber"));
+                        reserList.setReser_date(rs.getString("reser_date"));
+                        reserList.setReser_starttime(rs.getString("reser_starttime"));
+                        reserList.setReser_endtime(rs.getString("reser_endtime"));
+                        reserList.setClassadmin(rs.getString("classadmin"));
+                        reserList.setOk(rs.getString("ok"));
+
+                        list.add(reserList);
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("데이터베이스 연결에 실패했습니다.");
+            System.exit(0);
+        }
+
+        return list;
+    }
     public List<ClassInformationDTO> getClassInformation() {
         List<ClassInformationDTO> list = null;
         String sql = "SELECT * FROM classinformation";

@@ -22,6 +22,7 @@ public class HeadcountGui extends javax.swing.JFrame {
      */
     RemoteControl remoteControl = new RemoteControl();
     DAO dao = DAO.getInstance();
+    String id;
     int max = 40;
     HeadcountConfirm headcountConfirm = new HeadcountConfirm();
     String headCount = "";
@@ -31,11 +32,12 @@ public class HeadcountGui extends javax.swing.JFrame {
     String endtime = "10:00";
     String check;
 
-    public HeadcountGui(String starttime, String endtime, String check) {
+    public HeadcountGui(String starttime, String endtime, String check, String id) {
         initComponents();
         this.starttime = starttime;
         this.endtime = endtime;
         this.check = check;
+        this.id = id;
         remoteControl.setCommand(0, individual, team);
     }
 
@@ -152,47 +154,49 @@ public class HeadcountGui extends javax.swing.JFrame {
 
         if (jRadioButton1.isSelected()) {
             headCount = remoteControl.A_ButtonWasPushed(0);
-            showMessageDialog(null, headCount);            
-            
+            showMessageDialog(null, headCount);
+
             for (int i = 0; i < cid.size(); i++) {
-                System.out.println(i);
+                System.out.println("실행되면 안됨");
                 int resercount = dao.getClassReserLength(cid.get(i).getClassnumber()); // 첫 강의실 정보 가져오기
                 if (resercount == cid.get(i).getMaxseat()) {
                     /*
                         if(room[i].getMax regerlength.getReser(강의실 번호) 강의실 최대인원과 강의실 번호별 예약인원수 가 같은지 확인 for문으로 확인하고 남는 공간이있으면 break걸기
                      */
                     //
-                    System.out.println("resercount = " + resercount);
-                    System.out.println("cid.get(i).getMaxseat() = " + cid.get(i).getMaxseat());
-                }
-                else {
-                    System.out.println("resercount = " + resercount);
-                    System.out.println("cid.get(i).getMaxseat() = " + cid.get(i).getMaxseat());
+                } else {
                     showMessageDialog(null, cid.get(i).getClassnumber() + " 강의실에서 예약을 시작합니다.");
-                    break;
-                }
-            }            
-            beforeReserve br = new beforeReserve(starttime, endtime, 1); //수정필
-            br.setVisible(true);
-            br.setSize(818, 477);
-        } else if (jRadioButton2.isSelected()) {
-            headCount = remoteControl.B_ButtonWasPushed(0);
-            showMessageDialog(null, headCount + " 인원수: " + usernumber.getText());
-            
-            if (resercount == max ||  resercount + Integer.parseInt(headCount) >= cid.get(i).getMaxseat()) {
-                /*
-                        if(room[i].getMax regerlength.getReser(강의실 번호) 강의실 최대인원과 강의실 번호별 예약인원수 가 같은지 확인 for문으로 확인하고 남는 공간이있으면 break걸기
-                 */
-                showMessageDialog(null, "강의실 번호" + "강의실에서 예약을 시작합니다.");
-            } else {
-                if (check == "before") {
-                    beforeReserve br = new beforeReserve(starttime, endtime, Integer.parseInt(usernumber.getText())); //수정필
+                    beforeReserve br = new beforeReserve(id, starttime, endtime, 1, cid.get(i).getMaxseat(), cid.get(i).getClassnumber()); //수정필
                     br.setVisible(true);
                     br.setSize(818, 477);
+                    break;
+                }
+            }
+
+        } else if (jRadioButton2.isSelected()) {
+            headCount = remoteControl.B_ButtonWasPushed(0);
+            System.out.println("선택된 인원은 " + usernumber.getText());
+            showMessageDialog(null, headCount + " 인원수: " + usernumber.getText());
+            for (int i = 0; i < cid.size(); i++) {
+                int resercount = dao.getClassReserLength(cid.get(i).getClassnumber()); // 첫 강의실 정보 가져오기
+                if (resercount == max || resercount + Integer.parseInt(usernumber.getText()) >= cid.get(i).getMaxseat()) {
+                    /*
+                        if(room[i].getMax regerlength.getReser(강의실 번호) 강의실 최대인원과 강의실 번호별 예약인원수 가 같은지 확인 for문으로 확인하고 남는 공간이있으면 break걸기
+                     */
+                    
                 } else {
-                    afterResreve ar = new afterResreve(starttime, endtime, Integer.parseInt(usernumber.getText())); //수정필
-                    ar.setVisible(true);
-                    ar.setSize(818, 477);
+                    if (check == "before") {
+                        showMessageDialog(null, cid.get(i).getClassnumber() + "강의실에서 예약을 시작합니다.");
+                        beforeReserve br = new beforeReserve(id, starttime, endtime,Integer.parseInt(usernumber.getText()), cid.get(i).getMaxseat(), cid.get(i).getClassnumber()); //수정필
+                        br.setVisible(true);
+                        br.setSize(818, 477);
+                        
+                        break;
+                    } else {
+//                        afterResreve ar = new afterResreve(starttime, endtime, Integer.parseInt(usernumber.getText())); //수정필
+//                        ar.setVisible(true);
+//                        ar.setSize(818, 477);
+                    }
                 }
             }
         }
@@ -230,7 +234,7 @@ public class HeadcountGui extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new HeadcountGui("09:00", "10:00", "before").setVisible(true);
+                new HeadcountGui("09:00", "10:00", "before", "20183207").setVisible(true);
             }
         });
     }

@@ -147,7 +147,7 @@ public class Login extends javax.swing.JFrame {
                 check = true;
                 if (power.equals("X")) { 
                     StudentMain studentMain = new StudentMain();
-                    studentMain.jLabel3.setText(stu_id);
+                    studentMain.id.setText(stu_id);
                     studentMain.setVisible(true);
                     dispose();
                 }

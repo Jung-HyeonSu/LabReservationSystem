@@ -54,7 +54,7 @@ public class StudentMain extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        idarea = new javax.swing.JLabel();
         jButton11 = new javax.swing.JButton();
 
         jLabel4.setText("예약 관리");
@@ -191,8 +191,8 @@ public class StudentMain extends javax.swing.JFrame {
 
         jLabel2.setText("학번:");
 
-        jLabel3.setForeground(new java.awt.Color(0, 0, 255));
-        jLabel3.setText("jLabel3");
+        idarea.setForeground(new java.awt.Color(0, 0, 255));
+        idarea.setText("20183207");
 
         jButton11.setText("로그아웃");
         jButton11.addActionListener(new java.awt.event.ActionListener() {
@@ -232,7 +232,7 @@ public class StudentMain extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel3)))
+                        .addComponent(idarea)))
                 .addGap(27, 27, 27))
         );
         layout.setVerticalGroup(
@@ -243,7 +243,7 @@ public class StudentMain extends javax.swing.JFrame {
                 .addGap(13, 13, 13)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel3))
+                    .addComponent(idarea))
                 .addGap(10, 10, 10)
                 .addComponent(jButton1)
                 .addGap(33, 33, 33)
@@ -272,7 +272,7 @@ public class StudentMain extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
-        AccountInfo accountInfo = new AccountInfo(jLabel3.getText());
+        AccountInfo accountInfo = new AccountInfo(idarea.getText());
         accountInfo.setVisible(true);
     }//GEN-LAST:event_jButton5ActionPerformed
 
@@ -302,7 +302,7 @@ public class StudentMain extends javax.swing.JFrame {
 
     private void beforebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_beforebtnActionPerformed
         // TODO add your handling code here:
-        beforetime bf = new beforetime();
+        beforetime bf = new beforetime(idarea.getText());
         bf.setVisible(true);
         bf.setSize(400, 300);
     }//GEN-LAST:event_beforebtnActionPerformed
@@ -316,7 +316,7 @@ public class StudentMain extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        reservationManage reservationmanage = new reservationManage(jLabel3.getText());
+        reservationManage reservationmanage = new reservationManage(idarea.getText());
         reservationmanage.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -360,6 +360,7 @@ public class StudentMain extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton afterbtn;
     private javax.swing.JButton beforebtn;
+    public javax.swing.JLabel idarea;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
@@ -375,7 +376,6 @@ public class StudentMain extends javax.swing.JFrame {
     private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    public javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel 예약시간선택;
     // End of variables declaration//GEN-END:variables
