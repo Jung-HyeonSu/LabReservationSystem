@@ -18,7 +18,7 @@ public class sanctionsDlg extends javax.swing.JFrame {
 
     /**
      * Creates new form writeDlg
-     */
+     */DAO d = DAO.getInstance();
     public sanctionsDlg() {
         initComponents();
         init();
@@ -102,7 +102,7 @@ public class sanctionsDlg extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Boolean.class
+                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false
@@ -201,11 +201,17 @@ public class sanctionsDlg extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       String sid =jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString();
+       d.warningAllowed(sid);
        JOptionPane.showMessageDialog(null, "제재 완료.");
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        String sid =jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString();
+        int w =Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 2).toString());
         
+        d.warningUpdate(w, sid);
+        init();
         JOptionPane.showMessageDialog(null, "경고 완료.");
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -261,6 +267,7 @@ public void init(){
             }
 	}
 	Iterator<AccountDTO> it = dao.getAccountList().iterator();
+        
         AccountDTO b;
 	int i = 0;	
 	while(it.hasNext()) {
@@ -268,6 +275,7 @@ public void init(){
             jTable1.setValueAt(b.getId(), i, 0);
             jTable1.setValueAt(b.getName(), i, 1);
             jTable1.setValueAt(b.getWarning(), i, 2);
+            jTable1.setValueAt(b.isAllowed(), i, 3);
             i++;
 	}
     }

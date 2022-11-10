@@ -21,12 +21,21 @@ import javax.naming.NamingException;
  */
 public class MBoard extends javax.swing.JFrame {
 
-    public static String pid="admin";
+    public static String pid="";
     
     public MBoard() throws SQLException, NamingException {
         initComponents();
-        Login.S.setSID("id"); ///임시 지워야함!!!!!!!!!!!!!!
-        Login.S.setPASS("ps"); ///임시 지워야함!!!!!!!!!!!!!!
+        init();
+        if(pid.equals("admin")){
+            this.sanctionsBtn.setVisible(true);
+        }else{
+            this.sanctionsBtn.setVisible(false);
+        }
+    }
+    
+    public MBoard(String s) throws SQLException, NamingException {
+        initComponents();
+        pid=s;
         init();
         if(pid.equals("admin")){
             this.sanctionsBtn.setVisible(true);

@@ -744,8 +744,10 @@ public class DAO {
 			st.setString(4, b.getSps());
                         st.setString(5, b.getType());
                         st.setInt(6, n1);
-                        
+                       
 			st.executeUpdate();
+                         st.close();
+                        this.close();
 		} catch (SQLException e) {}
 
                 } else {
@@ -761,6 +763,8 @@ public class DAO {
                        System.out.println(sql);
 			PreparedStatement st = con.prepareStatement(sql);
 			st.executeUpdate();
+                         st.close();
+                        this.close();
 		} catch (SQLException e) {}
 
                 } else {
@@ -788,6 +792,8 @@ public class DAO {
                             mc.setType(rs.getString(5));
                             list.add(mc);
                         }
+                        stmt.close();
+                        this.close(); 
                     }
                 } catch (SQLException e) {}
             } else {
@@ -815,6 +821,8 @@ public class DAO {
                             b.setType(rs.getString(6));
                             b.setWdate(rs.getString(7));
                         }
+                        stmt.close();
+                        this.close(); 
                     }
                 } catch (SQLException e) {}
             } else {
@@ -823,4 +831,43 @@ public class DAO {
             }
             return b;
     }
+    
+    public void warningUpdate(int w, String sid){
+        if (this.connect()) {
+                   try {
+                       int ww = w+1;
+                    String sql="update Account set warning=? where id=?";
+			PreparedStatement st = con.prepareStatement(sql);
+                        st.setInt(1, ww);
+                        st.setString(2, sid);
+                       
+			st.executeUpdate();
+                        st.close();
+                        this.close(); 
+		} catch (SQLException e) {}
+
+                } else {
+                    System.out.println("데이터베이스 연결에 실패");
+                    System.exit(0);    
+                }
+        }
+    
+     public void warningAllowed(String sid){
+        if (this.connect()) {
+                   try {
+                    String sql="update Account set allowed=? where id=?";
+			PreparedStatement st = con.prepareStatement(sql);
+                        st.setString(1, "1");
+                        st.setString(2, sid);
+                       
+			st.executeUpdate();
+                        st.close();
+                        this.close(); 
+		} catch (SQLException e) {}
+
+                } else {
+                    System.out.println("데이터베이스 연결에 실패");
+                    System.exit(0);    
+                }
+        }
 }
