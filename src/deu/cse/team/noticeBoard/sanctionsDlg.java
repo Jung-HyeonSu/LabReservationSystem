@@ -202,14 +202,14 @@ public class sanctionsDlg extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
        String sid =jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString();
-       d.warningAllowed(sid);
+       d.AllowedUpdate(sid);
+       init();
        JOptionPane.showMessageDialog(null, "제재 완료.");
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         String sid =jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString();
         int w =Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 2).toString());
-        
         d.warningUpdate(w, sid);
         init();
         JOptionPane.showMessageDialog(null, "경고 완료.");
@@ -275,7 +275,7 @@ public void init(){
             jTable1.setValueAt(b.getId(), i, 0);
             jTable1.setValueAt(b.getName(), i, 1);
             jTable1.setValueAt(b.getWarning(), i, 2);
-            jTable1.setValueAt(b.isAllowed(), i, 3);
+            jTable1.setValueAt(b.getAllowed(), i, 3);
             i++;
 	}
     }

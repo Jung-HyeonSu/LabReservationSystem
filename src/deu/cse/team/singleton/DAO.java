@@ -854,7 +854,7 @@ public class DAO {
                        System.out.println(sql);
 			PreparedStatement st = con.prepareStatement(sql);
 			st.executeUpdate();
-                         st.close();
+                        st.close();
                         this.close();
 		} catch (SQLException e) {}
 
@@ -927,7 +927,7 @@ public class DAO {
         if (this.connect()) {
                    try {
                        int ww = w+1;
-                    String sql="update Account set warning=? where id=?";
+                    String sql="update account set warning=? where id=?";
 			PreparedStatement st = con.prepareStatement(sql);
                         st.setInt(1, ww);
                         st.setString(2, sid);
@@ -943,14 +943,13 @@ public class DAO {
                 }
         }
     
-     public void warningAllowed(String sid){
+     public void AllowedUpdate(String sid){
         if (this.connect()) {
                    try {
-                    String sql="update Account set allowed=? where id=?";
+                    String sql="update account set allowed='1' where id=?";
 			PreparedStatement st = con.prepareStatement(sql);
-                        st.setString(1, "1");
-                        st.setString(2, sid);
-                       
+                       st.setString(1, sid);
+                        
 			st.executeUpdate();
                         st.close();
                         this.close(); 

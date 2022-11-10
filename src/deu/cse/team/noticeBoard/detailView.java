@@ -25,8 +25,6 @@ public class detailView extends javax.swing.JFrame {
         initComponents();
         if(MBoard.pid=="admin"){
             jComboBox1.addItem("공지");
-            jComboBox1.addItem("규칙");
-            jButton1.setVisible(false);
         }else{
             jComboBox1.addItem("문의");
             jComboBox1.addItem("신고");
@@ -41,8 +39,6 @@ public class detailView extends javax.swing.JFrame {
 
         if(MBoard.pid=="admin"){
             jComboBox1.addItem("공지");
-            jComboBox1.addItem("규칙");
-            jButton1.setVisible(false);
         }else{
             jComboBox1.addItem("문의");
             jComboBox1.addItem("신고");
