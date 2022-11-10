@@ -486,7 +486,7 @@ public class Accountmanagement extends javax.swing.JFrame {
     private void editbtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editbtn1ActionPerformed
         // TODO add your handling code here:
         String allowedCheck;
-        if("O".equals(jComboBox1.getSelectedItem().toString())){
+        if("O".equals(jComboBox2.getSelectedItem().toString())){
             allowedCheck="1";
         }
         else{
