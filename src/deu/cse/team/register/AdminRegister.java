@@ -167,7 +167,7 @@ public class AdminRegister extends javax.swing.JFrame {
         dto.setPhonenumber(jTextField4.getText() + jTextField6.getText() + jTextField7.getText());
         dto.setWarning(0);
         dto.setPower("O");
-        dto.setAllowed(false);
+        dto.setAllowed(true);
         boolean r = dao.InsertAccount(dto);
 
         if (r) {
