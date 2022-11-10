@@ -381,12 +381,13 @@ public class afterReserve extends javax.swing.JFrame {
             if ("ok".equals(remoteControl.A_ButtonWasPushed(1))) {
                 showMessageDialog(null, Message);
             }
+            
             String time[] = resertime.getText().split("~");
             starttime = time[0].trim();
             endtime = time[1].trim();
             String today = Integer.toString(c.get(Calendar.YEAR)) + "/" + Integer.toString(c.get(Calendar.MONTH) + 1) + "/" + Integer.toString(c.get(Calendar.DATE));
             for (int i = 0; i < headcount; i++) {
-                ReservationDTO rdto = new ReservationDTO(dao.getReserLength(), reserseatnumber.get(i) - 1, id, classnumberarea.getText(), today, starttime, endtime, "-", "1");
+                ReservationDTO rdto = new ReservationDTO(dao.getReserLength(), reserseatnumber.get(i) - 1, id, classnumberarea.getText(), today, starttime, endtime, "-", "0");
                 boolean checkReservation = dao.InsertReservation(rdto);
             }
 

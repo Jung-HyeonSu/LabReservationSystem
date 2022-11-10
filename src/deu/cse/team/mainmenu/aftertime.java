@@ -8,7 +8,10 @@ import deu.cse.team.command.HeadcountGui;
 import deu.cse.team.reservation.afterReserve;
 import deu.cse.team.reservation.beforeReserve;
 import deu.cse.team.singleton.ClassInformationDTO;
+import deu.cse.team.singleton.ClassTimetableDTO;
 import deu.cse.team.singleton.DAO;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import static javax.swing.JOptionPane.showMessageDialog;
 
@@ -22,7 +25,14 @@ public class aftertime extends javax.swing.JFrame {
      * 2022.11.9 [최초작성자 20183207 김성찬] 사용자 계정관리
      */
     String id;
+    boolean[] classTime = new boolean[9];//수업시간있는지 확인하는 객체  | true = 수업 O false = 수업 X    
     DAO dao = DAO.getInstance();
+    List<ClassTimetableDTO> cdto = dao.getTimetableList();
+    Calendar c = Calendar.getInstance();
+    int dayofWeek = c.get(Calendar.DAY_OF_WEEK);//요일 판단 일 ~ 토 = 1 ~ 7
+    int max = 40;
+    int resercount=0;
+    int index = 0;
 
     public aftertime(String id) {
         initComponents();
@@ -69,9 +79,9 @@ public class aftertime extends javax.swing.JFrame {
             }
         });
 
-        starttimebox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "17", "18", "19", "20", "21", "22", "23", "24" }));
+        starttimebox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "9", "10", "11", "12", "13", "14", "15", "16", "17" }));
 
-        endtimebox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "18", "19", "20", "21", "22", "23", "24" }));
+        endtimebox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "10", "11", "12", "13", "14", "15", "16", "17" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -125,39 +135,65 @@ public class aftertime extends javax.swing.JFrame {
 
     private void changebtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changebtn1ActionPerformed
         // TODO add your handling code here:
-
+        DAO dao = DAO.getInstance();
+        String today = Integer.toString(c.get(Calendar.YEAR)) + "/" + Integer.toString(c.get(Calendar.MONTH) + 1) + "/" + Integer.toString(c.get(Calendar.DATE));
         String starttime = starttimebox.getSelectedItem().toString();
         String endtime = endtimebox.getSelectedItem().toString();
         if (Integer.parseInt(starttime) > Integer.parseInt(endtime)) {
             showMessageDialog(null, "시작 시간이 종료 시간보다 클 수는 없습니다.");
         } else if (Integer.parseInt(starttime) == Integer.parseInt(endtime)) {
             showMessageDialog(null, "시작 시간이 종료 시간과 같을 수는 없습니다.");
-        } else {
-            int resercount = dao.getReserLength();
-            if (resercount >= 25) {
-                showMessageDialog(null, "선택한 시간에 예약한 사람이 25명이 넘습니다.\n선택예약으로 이동합니다.");
-                //다음 확인하고 ++
-                HeadcountGui h = new HeadcountGui(starttime, endtime, "after", id); //생성자에 강의실 번호 추가하기
-                System.out.println(starttime);
-                h.setVisible(true);
-
-            } else {
-                List<ClassInformationDTO> cid = dao.getClassInformation(); //디비에서 가져왔다가졍
-                for (int i = 0; i < cid.size(); i++) {
-                    resercount = dao.getClassReserLength(cid.get(i).getClassnumber()); // 첫 강의실 정보 가져오기 시간 추가해서 수정필요
-                    if (resercount == cid.get(i).getMaxseat()) {
-                        showMessageDialog(null, "설정한 시간에 모든강의실에 예약이 완료되어있습니다");
-                    } else {
-                            showMessageDialog(null, cid.get(i).getClassnumber() + "강의실에서 예약을 시작합니다.");
-                            afterReserve ar = new afterReserve(id, starttime, endtime, 1, cid.get(i).getMaxseat(), cid.get(i).getClassnumber());
-                            ar.setVisible(true);
-                            ar.setSize(818, 477);
-                            break;                        
-                    }
+        } else {            
+            //강의실별 예약현황 확인 dao 추가하기
+            List<ClassInformationDTO> cid = dao.getClassInformation(); //디비에서 가져왔다가졍
+            index=0;
+            //1번 17시이후는 시간표가 없으므로 비교 X
+            //index == 테이블에서 가져온 빈 강의실 번호를 가지는 index
+//           1. 시간표랑 비교 /구현 완료
+//           2. 풀방인지 확인
+/*             풀방이면 넘기고 아니면아래로            
+*/
+//           3. 25명 넘는지 확인
+/*              넘으면 개인인지 팀인지 판단하기
+                팀 :  방선택 권한 | 총 예약인원 + 팀인원 >= 방의 총 수용인원 => 다음방으로
+                개인 : 남은 자리 예약하기
+*/      
+//            옵션패널로  방 옮길지 말지 네 아니오 구현하면 될 듯
+//              for문으로  모든 좌석이 예약되었는지 확인하기
+            
+            for ( ; index < cid.size(); index++) {
+                resercount = dao.getselecttimeReserLength(cid.get(index).getClassnumber(),today, starttime, endtime);
+                if (resercount == cid.get(index).getMaxseat()) {
+//              showMessageDialog(null,"설정한 시간에 모든 좌석 예약이 완료되어있습니다");
+                System.out.println(cid.get(index).getClassnumber()+"모든 좌석 예약 완료");
                 }
+//             2. 풀방인지 확인
+/*             풀방이면 넘기고 아니면아래로     /구현 완료  */   
+                
+                else if(resercount >= 25){
+                    showMessageDialog(null, "선택한 시간에 예약한 사람이 25명이 넘습니다.\n선택예약으로 이동합니다.");
+                    //다음 확인하고 ++
+                    HeadcountGui h = new HeadcountGui(starttime, endtime, "before", id, index); //생성자에 강의실 번호 추가하기0
+                    //옮긴다고하면 index +=1로 수정 아니면 그냥 그래도 ㄱㄱ                    
+                    h.setVisible(true);
+                    break;
+                }
+//             3. 25명 넘는지 확인   
+                
+                else if (resercount < 25){
+                    afterReserve ar = new afterReserve(id, starttime, endtime, 1, cid.get(index).getMaxseat(), cid.get(index).getClassnumber());
+                    ar.setVisible(true);
+                    ar.setSize(818, 477);
+                    break;
+                }
+//                    4. 25명 안 넘으면 예약가능한 강의실로 이동 //구현 완
             }
-            System.out.println(resercount);
-
+            if (index == cid.size() ) {
+                showMessageDialog(null, "현재 예약가능한 강의실이 없습니다.");
+                dispose();
+//              5. 모든 강의실이 수업중인경우
+//                 모든 강의실이 예약이 된경우
+            }   
         }
 
 
