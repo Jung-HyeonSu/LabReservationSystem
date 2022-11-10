@@ -30,6 +30,7 @@ public class Login extends javax.swing.JFrame {
         initComponents();
     }
     public static StudentDTO S = new StudentDTO();
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -140,33 +141,39 @@ public class Login extends javax.swing.JFrame {
         String stu_id = null;
         String password = null;
         String power = null;
+        String allowed = null;
         boolean check = false;
         for (int i = 0; i < accountlist.size(); i++) {
             stu_id = accountlist.get(i).getId();
             password = accountlist.get(i).getPassword();
             power = accountlist.get(i).getPower();
+            allowed = accountlist.get(i).getAllowed();
             if (stu_id.equals(SignInIdField.getText()) && password.equals(SignInPwField.getText())) {
-                S.setSID(SignInIdField.getText()); S.setPASS(SignInPwField.getText());
-                JOptionPane.showMessageDialog(null, "로그인 성공");
                 check = true;
-                if (power.equals("X")) { 
-                    StudentMain studentMain = new StudentMain();
-                    studentMain.idarea.setText(stu_id);
-                    studentMain.setVisible(true);
-                    dispose();
+                if ("1".equals(allowed)) {
+                    if (power.equals("X")) {
+                        StudentMain studentMain = new StudentMain();
+                        studentMain.idarea.setText(stu_id);
+                        studentMain.setVisible(true);
+                        dispose();
+                    } else {
+                        AdminMain adminMain = new AdminMain();
+                        adminMain.jLabel3.setText(stu_id);
+                        adminMain.setVisible(true);
+                        dispose();
+                    }
+                    JOptionPane.showMessageDialog(null, "로그인 성공");
                 }
-                else {
-                    AdminMain adminMain = new AdminMain();
-                    adminMain.jLabel3.setText(stu_id);
-                    adminMain.setVisible(true);
-                    dispose();
+                else{
+                    JOptionPane.showMessageDialog(null, "관리자에게 토큰값 인증을 요청하세요.");
                 }
+
             }
         }
-        if(check==false){
+        if (check == false) {
             JOptionPane.showMessageDialog(null, "로그인 실패");
         }
-        
+
     }//GEN-LAST:event_SignInButtActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
