@@ -59,7 +59,14 @@ public class Accountmanagement extends javax.swing.JFrame {
         else {
             for (int i = 0; i < accountlist.size(); i++) {
                 getInformation(i);
-                dtm.addRow(new Object[]{username,id,warning,power,allowed});
+                if("1".equals(allowed)){
+                    dtm.addRow(new Object[]{username,id,warning,power,"O"});
+                }
+                else{
+                    dtm.addRow(new Object[]{username,id,warning,power,"X"});
+                }
+                
+                
                 //테이블에 값들 추가
             }
         }
