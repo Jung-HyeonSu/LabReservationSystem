@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package deu.cse.team.accountManagement;
+package deu.cse.team.accountmanagement;
 
 import deu.cse.team.login.Login;
 import deu.cse.team.singleton.AccountDTO;
@@ -190,8 +190,7 @@ public class AccountInfo extends javax.swing.JFrame {
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jLabel8)
                             .addGap(79, 79, 79)
-                            .addComponent(warningarea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(27, 27, 27))
+                            .addComponent(warningarea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(layout.createSequentialGroup()
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel1)
@@ -206,17 +205,14 @@ public class AccountInfo extends javax.swing.JFrame {
                                 .addComponent(namearea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
+                            .addGap(93, 93, 93)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(cancelbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(layout.createSequentialGroup()
-                                    .addGap(93, 93, 93)
-                                    .addComponent(cancelbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(25, 25, 25))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(93, 93, 93)
                                     .addComponent(editbtn)
                                     .addGap(41, 41, 41)
-                                    .addComponent(jButton1)
-                                    .addGap(25, 25, 25)))
+                                    .addComponent(jButton1)))
+                            .addGap(25, 25, 25)
                             .addComponent(jLabel7))
                         .addGroup(layout.createSequentialGroup()
                             .addGap(152, 152, 152)

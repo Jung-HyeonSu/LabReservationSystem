@@ -4,7 +4,7 @@
  */
 package deu.cse.team.mainmenu;
 
-import deu.cse.team.accountManagement.AccountInfo;
+import deu.cse.team.accountmanagement.AccountInfo;
 import deu.cse.team.login.Login;
 import deu.cse.team.noticeBoard.MBoard;
 import deu.cse.team.reservation.reservationManage;
