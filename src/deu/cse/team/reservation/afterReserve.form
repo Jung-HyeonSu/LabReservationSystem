@@ -278,7 +278,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="settotal">
       <Properties>
-        <Property name="text" type="java.lang.String" value="&#xc608;&#xc57d; &#xac00;&#xb2a5;&#xd55c; &#xc88c;&#xc11d; &#xc218;:"/>
+        <Property name="text" type="java.lang.String" value="&#xc608;&#xc57d;&#xb41c; &#xc88c;&#xc11d; &#xc218;:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="seattotal">

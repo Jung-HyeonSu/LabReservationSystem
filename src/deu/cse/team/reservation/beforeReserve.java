@@ -265,7 +265,7 @@ public class beforeReserve extends javax.swing.JFrame {
         classtext.setFont(new java.awt.Font("맑은 고딕", 1, 36)); // NOI18N
         classtext.setText("강의실");
 
-        settotal.setText("예약 가능한 좌석 수:");
+        settotal.setText("예약된 좌석 수:");
 
         seattotal.setForeground(new java.awt.Color(255, 0, 51));
         seattotal.setText("0/30");

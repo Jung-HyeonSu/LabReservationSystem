@@ -5,7 +5,9 @@
 package deu.cse.team.mainmenu;
 
 import deu.cse.team.command.HeadcountGui;
+import deu.cse.team.reservation.afterReserve;
 import deu.cse.team.reservation.beforeReserve;
+import deu.cse.team.singleton.ClassInformationDTO;
 import deu.cse.team.singleton.ClassTimetableDTO;
 import deu.cse.team.singleton.DAO;
 import java.util.ArrayList;
@@ -161,7 +163,7 @@ public class beforetime extends javax.swing.JFrame {
                     }
                 }// 시간표랑 비교하는 알고리즘
                 if (!iscount) {
-                    if (resercount>=2) {
+                    if (resercount>=25) {
                     showMessageDialog(null, "선택한 시간에 예약한 사람이 25명이 넘습니다.\n선택예약으로 이동합니다.");
                     //다음 확인하고 ++
                     HeadcountGui h = new HeadcountGui(starttime,endtime,"before",id); //생성자에 강의실 번호 추가하기
@@ -169,11 +171,21 @@ public class beforetime extends javax.swing.JFrame {
                     h.setVisible(true);
                     
                 }
-                else{
-//                    beforeReserve br = new beforeReserve(starttime,endtime,1);//시작시간,종료시간,사람수
-//                    br.setVisible(true);
-//                    br.setSize(818, 477);
+                else {
+                List<ClassInformationDTO> cid = dao.getClassInformation(); //디비에서 가져왔다가졍
+                for (int i = 0; i < cid.size(); i++) {
+                    resercount = dao.getClassReserLength(cid.get(i).getClassnumber()); // 첫 강의실 정보 가져오기 시간 추가해서 수정필요
+                    if (resercount == cid.get(i).getMaxseat()) {
+                        showMessageDialog(null, "설정한 시간에 모든강의실에 예약이 완료되어있습니다");
+                    } else {
+                            showMessageDialog(null, cid.get(i).getClassnumber() + "강의실에서 예약을 시작합니다.");
+                            beforeReserve br = new beforeReserve(id, starttime, endtime, 1, cid.get(i).getMaxseat(), cid.get(i).getClassnumber());
+                            br.setVisible(true);
+                            br.setSize(818, 477);
+                            break;                        
+                    }
                 }
+            }
                 System.out.println(resercount);
                 
             }

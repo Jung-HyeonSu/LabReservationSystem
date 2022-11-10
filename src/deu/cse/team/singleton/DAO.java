@@ -280,8 +280,8 @@ public class DAO {
     }
     public int getClassReserLength(String classnumber) {
         int value = 0;
-        String sql = "SELECT * FROM reservation where classnumber = "+classnumber;
-        System.out.println(sql);
+        String sql = "SELECT * FROM reservation where classnumber = '"+classnumber+"'";
+        
         if (connect()) {
             try {
                 stmt = con.createStatement();

@@ -309,7 +309,7 @@ public class StudentMain extends javax.swing.JFrame {
 
     private void afterbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_afterbtnActionPerformed
         // TODO add your handling code here:
-        aftertime af = new aftertime();
+        aftertime af = new aftertime(idarea.getText());
         af.setVisible(true);
         af.setSize(400, 300);
     }//GEN-LAST:event_afterbtnActionPerformed

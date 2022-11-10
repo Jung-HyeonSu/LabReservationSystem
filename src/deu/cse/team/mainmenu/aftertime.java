@@ -5,8 +5,11 @@
 package deu.cse.team.mainmenu;
 
 import deu.cse.team.command.HeadcountGui;
+import deu.cse.team.reservation.afterReserve;
 import deu.cse.team.reservation.beforeReserve;
+import deu.cse.team.singleton.ClassInformationDTO;
 import deu.cse.team.singleton.DAO;
+import java.util.List;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
@@ -16,10 +19,14 @@ import static javax.swing.JOptionPane.showMessageDialog;
 public class aftertime extends javax.swing.JFrame {
 
     /**
-     * Creates new form time
+     * 2022.11.9 [최초작성자 20183207 김성찬] 사용자 계정관리
      */
-    public aftertime() {
+    String id;
+    DAO dao = DAO.getInstance();
+
+    public aftertime(String id) {
         initComponents();
+        this.id = id;
     }
 
     /**
@@ -48,7 +55,7 @@ public class aftertime extends javax.swing.JFrame {
 
         jLabel3.setText("종료시간");
 
-        changebtn1.setText("변경");
+        changebtn1.setText("설정");
         changebtn1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 changebtn1ActionPerformed(evt);
@@ -118,34 +125,42 @@ public class aftertime extends javax.swing.JFrame {
 
     private void changebtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changebtn1ActionPerformed
         // TODO add your handling code here:
-        DAO dao = DAO.getInstance(); 
-        String starttime = starttimebox.getSelectedItem().toString();
-        String endtime = endtimebox.getSelectedItem().toString();     
-        boolean iscount=false;
-        if (Integer.parseInt(starttime) > Integer.parseInt(endtime)) showMessageDialog(null, "시작 시간이 종료 시간보다 클 수는 없습니다.");
-        else if (Integer.parseInt(starttime) == Integer.parseInt(endtime)) showMessageDialog(null, "시작 시간이 종료 시간과 같을 수는 없습니다.");
-        
-        else{
-            int resercount = dao.getReserLength();
-            
-                if (resercount>=25) {
-                    
-                    HeadcountGui h = new HeadcountGui(starttime,endtime); 
-                    //gui라서 안으로 넣어야할듯 아니면 코드가 안됨 <<현수한테 물어보기
-                    //classnumber에서 방 번호 짤라서 변수로 활용하면 방 번호 뜨게할듯?
-                    h.setVisible(true);
-                    showMessageDialog(null, "선택한 시간에 예약한 사람이 25명이 넘습니다.\n선택예약으로 이동합니다.");
-                }
-                else{
-                    beforeReserve br = new beforeReserve(starttime,endtime,1); //수정필
-                    br.setVisible(true);
-                    br.setSize(818, 477);
-                }
-                System.out.println(resercount);
-                
-            }
 
-        
+        String starttime = starttimebox.getSelectedItem().toString();
+        String endtime = endtimebox.getSelectedItem().toString();
+        if (Integer.parseInt(starttime) > Integer.parseInt(endtime)) {
+            showMessageDialog(null, "시작 시간이 종료 시간보다 클 수는 없습니다.");
+        } else if (Integer.parseInt(starttime) == Integer.parseInt(endtime)) {
+            showMessageDialog(null, "시작 시간이 종료 시간과 같을 수는 없습니다.");
+        } else {
+            int resercount = dao.getReserLength();
+            if (resercount >= 25) {
+                showMessageDialog(null, "선택한 시간에 예약한 사람이 25명이 넘습니다.\n선택예약으로 이동합니다.");
+                //다음 확인하고 ++
+                HeadcountGui h = new HeadcountGui(starttime, endtime, "after", id); //생성자에 강의실 번호 추가하기
+                System.out.println(starttime);
+                h.setVisible(true);
+
+            } else {
+                List<ClassInformationDTO> cid = dao.getClassInformation(); //디비에서 가져왔다가졍
+                for (int i = 0; i < cid.size(); i++) {
+                    resercount = dao.getClassReserLength(cid.get(i).getClassnumber()); // 첫 강의실 정보 가져오기 시간 추가해서 수정필요
+                    if (resercount == cid.get(i).getMaxseat()) {
+                        showMessageDialog(null, "설정한 시간에 모든강의실에 예약이 완료되어있습니다");
+                    } else {
+                            showMessageDialog(null, cid.get(i).getClassnumber() + "강의실에서 예약을 시작합니다.");
+                            afterReserve ar = new afterReserve(id, starttime, endtime, 1, cid.get(i).getMaxseat(), cid.get(i).getClassnumber());
+                            ar.setVisible(true);
+                            ar.setSize(818, 477);
+                            break;                        
+                    }
+                }
+            }
+            System.out.println(resercount);
+
+        }
+
+
     }//GEN-LAST:event_changebtn1ActionPerformed
 
     private void cancelbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelbtnActionPerformed
@@ -180,11 +195,13 @@ public class aftertime extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new aftertime().setVisible(true);
+                new aftertime("20183207").setVisible(true);
             }
         });
     }
