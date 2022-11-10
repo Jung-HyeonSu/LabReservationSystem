@@ -30,7 +30,7 @@ public class Accountmanagement extends javax.swing.JFrame {
      String phonenumber;
      int warning;
      String power;
-     boolean allowed;
+     String allowed;
      List<AccountDTO>  accountlist;
      String selected;
      
@@ -41,7 +41,7 @@ public class Accountmanagement extends javax.swing.JFrame {
          phonenumber=accountlist.get(number).getPhonenumber();
          warning=accountlist.get(number).getWarning();
          power=accountlist.get(number).getPower();
-         allowed=accountlist.get(number).isAllowed();
+         allowed=accountlist.get(number).getAllowed();
      }
      public void reloadTable(){
          
@@ -421,7 +421,7 @@ public class Accountmanagement extends javax.swing.JFrame {
                 else{
                     jComboBox1.setSelectedIndex(1);
                 }
-                if(accountlist.get(i).isAllowed()==true){
+                if("1".equals(accountlist.get(i).getAllowed())){
                     jComboBox2.setSelectedIndex(0);
                 }
                 else{
@@ -485,12 +485,12 @@ public class Accountmanagement extends javax.swing.JFrame {
 
     private void editbtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editbtn1ActionPerformed
         // TODO add your handling code here:
-        boolean allowedCheck;
+        String allowedCheck;
         if("O".equals(jComboBox1.getSelectedItem().toString())){
-            allowedCheck=true;
+            allowedCheck="1";
         }
         else{
-            allowedCheck=false;
+            allowedCheck="0";
         }
         DAO dao = DAO.getInstance();
         AccountDTO dto = new AccountDTO();

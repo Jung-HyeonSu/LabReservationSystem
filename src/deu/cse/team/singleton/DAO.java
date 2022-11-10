@@ -131,7 +131,7 @@ public class DAO {
                         account.setPhonenumber(rs.getString("phonenumber"));
                         account.setWarning(rs.getInt("warning"));
                         account.setPower(rs.getString("power"));
-                        account.setAllowed(rs.getBoolean("allowed"));
+                        account.setAllowed(rs.getString("allowed"));
 
                         list.add(account);
                     }
@@ -348,7 +348,7 @@ public class DAO {
                 pstmt.setString(4, account.getPhonenumber());
                 pstmt.setInt(5, account.getWarning());
                 pstmt.setString(6, account.getPower());
-                pstmt.setBoolean(7, account.isAllowed());
+                pstmt.setString(7, account.getAllowed());
 
                 int r = pstmt.executeUpdate();
 
@@ -570,7 +570,7 @@ public class DAO {
         return result;
     }
     
-    public boolean UpdateAccount(AccountDTO account, String id, String password, String name, String phonenumber, int warning, String power, boolean allowed){
+    public boolean UpdateAccount(AccountDTO account, String id, String password, String name, String phonenumber, int warning, String power, String allowed){
         boolean result = false;
 
         if (this.connect()) {
@@ -583,7 +583,7 @@ public class DAO {
                 pstmt.setString(3, phonenumber);
                 pstmt.setInt(4, warning);
                 pstmt.setString(5, power);
-                pstmt.setBoolean(6, allowed);
+                pstmt.setString(6, allowed);
                 int r = pstmt.executeUpdate();
 
                 if (r > 0) {

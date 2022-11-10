@@ -203,7 +203,7 @@ public class Register extends javax.swing.JFrame {
             dto.setPhonenumber(jTextField4.getText() + jTextField6.getText() + jTextField7.getText());
             dto.setWarning(0);
             dto.setPower("X");
-            dto.setAllowed(true);
+            dto.setAllowed("1");
             boolean r = dao.InsertAccount(dto);
 
             if (r) {

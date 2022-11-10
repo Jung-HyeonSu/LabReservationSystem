@@ -20,13 +20,13 @@ public class AccountDTO implements Serializable {
     private String phonenumber;
     private int warning;
     private String power;
-    private boolean allowed;
+    private String allowed;
 
     public AccountDTO() {
         super();
     }
 
-    public AccountDTO(String id, String password, String name, String phonenumber, int warning, String power, boolean allowed) {
+    public AccountDTO(String id, String password, String name, String phonenumber, int warning, String power, String allowed) {
         super();
         this.id = id;
         this.password = password;
@@ -85,11 +85,11 @@ public class AccountDTO implements Serializable {
         this.power = power;
     }
 
-    public boolean isAllowed() {
+    public String getAllowed() {
         return allowed;
     }
 
-    public void setAllowed(boolean allowed) {
+    public void setAllowed(String allowed) {
         this.allowed = allowed;
     }
 

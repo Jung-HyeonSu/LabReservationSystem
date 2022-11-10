@@ -13,7 +13,7 @@ import java.util.List;
 public class example {
 
     public static void main(String[] args) {
-        DAO dao = DAO.getInstance();
+        /*DAO dao = DAO.getInstance();
         //삽입
         ClassTimetableDTO dto = new ClassTimetableDTO();
         dto.setClassnumber("915");
@@ -31,7 +31,9 @@ public class example {
             System.out.println("삽입에 성공했습니다.");
         } else {
             System.out.println("삽입에 실패했습니다.");
-        }
+        }*/
+        System.out.println(405/60);
+        System.out.println(405%60);
     }
 
 }
