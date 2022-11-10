@@ -15,12 +15,15 @@ public class MakeAdmin extends MakeAccount {
 
     protected Account newUser(String Division){
         if (Division.equals("Professor")) {
+            accountfactory=new ProfessorFactory();
             account = new Professor(accountfactory);
         }
         else
         {
+            accountfactory=new AssistantFactory();
             account = new Assistant(accountfactory);
         }
         return account;
     }
+  
 }

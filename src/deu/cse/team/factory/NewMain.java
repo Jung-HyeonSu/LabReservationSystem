@@ -17,11 +17,13 @@ public class NewMain {
     public static void main(String[] args) {
         // TODO code application logic here
         Account a= null;
+        Account b=null;
         MakeAccount f = new MakeUser();
         MakeAccount f2 = new MakeAdmin();
         a=f.createUser("Stuent");
-        
-        System.out.println(a.getAllow());
+        b=f2.createUser("Professor");
+        System.out.println(a.getDivision()+" "+a.getAllow());
+        System.out.println(b.getDivision()+" "+b.getAllow());
     }
     
 }

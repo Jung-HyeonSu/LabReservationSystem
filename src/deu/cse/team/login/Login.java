@@ -4,6 +4,10 @@
  */
 package deu.cse.team.login;
 
+import deu.cse.team.factory.Account;
+import deu.cse.team.factory.MakeAccount;
+import deu.cse.team.factory.MakeAdmin;
+import deu.cse.team.factory.MakeUser;
 import deu.cse.team.mainmenu.AdminMain;
 import deu.cse.team.mainmenu.StudentMain;
 import deu.cse.team.register.Register;
@@ -166,7 +170,7 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_SignInButtActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+
         Register register = new Register();
         register.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed

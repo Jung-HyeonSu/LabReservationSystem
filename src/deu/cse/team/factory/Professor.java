@@ -18,4 +18,5 @@ public class Professor extends Account {
         this.allow = factory.createAllowed();
         this.division = factory.createDivision();
     }
+    
 }
