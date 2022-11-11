@@ -433,12 +433,12 @@ public class DAO {
 
         return count;
     }
-    public int getselecttimeReserLength(String today,String starttime, String endtime) {
+    public int getselecttimeReserLength(String classnumber, String today,String starttime, String endtime) {
         int count = 0;
         if (this.connect()) {
             try {
                 //값이 삽입되어야 하는 자리에는 물음표
-                String sql = "SELECT * FROM reservation where reser_date= '"+today+"' and reser_starttime >= '"+starttime+":00' and reser_endtime <= '"+endtime+":00'";
+                String sql = "SELECT * FROM reservation where classnumber = '"+classnumber+"' and reser_date= '"+today+"' and reser_starttime >= '"+starttime+":00' and reser_endtime <= '"+endtime+":00'";                
                 System.out.println(sql);
                 PreparedStatement pstmt = con.prepareStatement(sql);
                 stmt = con.createStatement();
