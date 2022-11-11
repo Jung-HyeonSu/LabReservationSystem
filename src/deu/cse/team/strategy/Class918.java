@@ -13,7 +13,7 @@ public class Class918 extends LectureRoom{
     };
     
     public String display() {
-        return "918강의실";
+        return "918관리권한";
     };
     
 }
