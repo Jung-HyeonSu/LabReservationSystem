@@ -141,33 +141,26 @@ public class Login extends javax.swing.JFrame {
         String stu_id = null;
         String password = null;
         String power = null;
-        String allowed = null;
         boolean check = false;
         for (int i = 0; i < accountlist.size(); i++) {
             stu_id = accountlist.get(i).getId();
             password = accountlist.get(i).getPassword();
             power = accountlist.get(i).getPower();
-            allowed = accountlist.get(i).getAllowed();
+
             if (stu_id.equals(SignInIdField.getText()) && password.equals(SignInPwField.getText())) {
                 check = true;
-                if ("1".equals(allowed)) {
-                    if (power.equals("X")) {
-                        StudentMain studentMain = new StudentMain();
-                        studentMain.idarea.setText(stu_id);
-                        studentMain.setVisible(true);
-                        dispose();
-                    } else {
-                        AdminMain adminMain = new AdminMain();
-                        adminMain.jLabel3.setText(stu_id);
-                        adminMain.setVisible(true);
-                        dispose();
-                    }
-                    JOptionPane.showMessageDialog(null, "로그인 성공");
+                if (power.equals("X")) {
+                    StudentMain studentMain = new StudentMain();
+                    studentMain.idarea.setText(stu_id);
+                    studentMain.setVisible(true);
+                    dispose();
+                } else {
+                    AdminMain adminMain = new AdminMain();
+                    adminMain.jLabel3.setText(stu_id);
+                    adminMain.setVisible(true);
+                    dispose();
                 }
-                else{
-                    JOptionPane.showMessageDialog(null, "관리자에게 토큰값 인증을 요청하세요.");
-                }
-
+                JOptionPane.showMessageDialog(null, "로그인 성공");
             }
         }
         if (check == false) {

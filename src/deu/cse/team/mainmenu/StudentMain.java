@@ -9,11 +9,15 @@ import deu.cse.team.login.Login;
 import deu.cse.team.noticeBoard.MBoard;
 import deu.cse.team.observer.NoticeCheck;
 import deu.cse.team.reservation.reservationManage;
+import deu.cse.team.singleton.AccountDTO;
+import deu.cse.team.singleton.DAO;
 import deu.cse.team.timetable.ShowClassTimetable;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.NamingException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -305,10 +309,22 @@ public class StudentMain extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        jFrame1.setVisible(true);
-        jFrame1.setSize(400, 300);
-        
-        
+        DAO dao = DAO.getInstance();
+        List<AccountDTO> accountlist = dao.getAccountList();
+        boolean check = false;
+        for (int i = 0; i < accountlist.size(); i++) {
+            if ((accountlist.get(i).getId()).equals(idarea.getText())) {
+                if ("1".equals(accountlist.get(i).getAllowed())) {
+                    check = true;
+                }
+            }
+        }
+        if (check == true) {
+            jFrame1.setVisible(true);
+            jFrame1.setSize(400, 300);
+        } else {
+            JOptionPane.showMessageDialog(null, "관리자에게 토큰값 인증을 요청하세요.");
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void beforebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_beforebtnActionPerformed
