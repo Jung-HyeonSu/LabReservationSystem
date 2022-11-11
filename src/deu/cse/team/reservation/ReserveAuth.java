@@ -8,6 +8,12 @@ import deu.cse.team.tokenauth.*;
 import deu.cse.team.singleton.AccountDTO;
 import deu.cse.team.singleton.DAO;
 import deu.cse.team.singleton.ReservationDTO;
+import deu.cse.team.strategy.AllowedStudent;
+import deu.cse.team.strategy.Class911;
+import deu.cse.team.strategy.Class915;
+import deu.cse.team.strategy.Class916;
+import deu.cse.team.strategy.Class918;
+import deu.cse.team.strategy.LectureRoom;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -159,11 +165,12 @@ public class ReserveAuth extends javax.swing.JFrame {
 
         String admin = "-";
         int count = 0; //삭제 후 리스트에 값이 0개일 경우를 계산하기 위함
-        
+        boolean check = false; // 리스트에 값이 없는지 확인
+
         if ("O".equals(model.getValueAt(row, 7).toString())) { //예약 승인을 취소
             if ((model.getValueAt(row, 6).toString()).contains("관리권한")) { //취소하려는 예약이 관리권한자인 경우
                 for (int i = 0; i < reserlist.size(); i++) {
-                    if (((reserlist.get(i).getReser_number()))!=(Integer.parseInt((model.getValueAt(row, 0).toString())))) { // 리스트에서 본인을 제외하고 비교
+                    if (((reserlist.get(i).getReser_number())) != (Integer.parseInt((model.getValueAt(row, 0).toString())))) { // 리스트에서 본인을 제외하고 비교
                         if (classnumber.equals(reserlist.get(i).getClassnumber())) { //같은 강의실인 사람만 비교
                             if ("1".equals(reserlist.get(i).getOk())) { //예약 승인된 사람만
                                 if ((reserlist.get(i).getReser_date()).equals(model.getValueAt(row, 3).toString())) { //같은 날짜 예약인 사람만 비교
@@ -185,40 +192,101 @@ public class ReserveAuth extends javax.swing.JFrame {
                         }
                     }
                 }
-                if(count==0){ // 선택한 값을 제외하고 예약 승인된 사람이 없을 경우 
+                if (count == 0) { // 선택한 값을 제외하고 예약 승인된 사람이 없을 경우 
+                    dao.UpdateReser(dto, model.getValueAt(row, 0).toString(), "-", "0");
+                } else {
+                    if (classnumber.equals("915")) {
+                        LectureRoom class915 = new Class915();
+                        class915.setAllowedBehavior(new AllowedStudent());
+                        dao.UpdateReser(dto, Integer.toString(maxReserNum), class915.display(), "1");
+                    }
+                    if (classnumber.equals("916")) {
+                        LectureRoom class916 = new Class916();
+                        class916.setAllowedBehavior(new AllowedStudent());
+                        dao.UpdateReser(dto, Integer.toString(maxReserNum), class916.display(), "1");
+                    }
+                    if (classnumber.equals("918")) {
+                        LectureRoom class918 = new Class918();
+                        class918.setAllowedBehavior(new AllowedStudent());
+                        dao.UpdateReser(dto, Integer.toString(maxReserNum), class918.display(), "1");
+                    }
+                    if (classnumber.equals("911")) {
+                        LectureRoom class911 = new Class911();
+                        class911.setAllowedBehavior(new AllowedStudent());
+                        dao.UpdateReser(dto, Integer.toString(maxReserNum), class911.display(), "1");
+                    }
                     dao.UpdateReser(dto, model.getValueAt(row, 0).toString(), "-", "0");
                 }
-                else{
-                    dao.UpdateReser(dto, Integer.toString(maxReserNum), classnumber+"관리권한", "1");
-                    dao.UpdateReser(dto, model.getValueAt(row, 0).toString(),"-", "0");
-                }
             } else {
-                dao.UpdateReser(dto, model.getValueAt(row, 0).toString(), "-", "0"); 
+                dao.UpdateReser(dto, model.getValueAt(row, 0).toString(), "-", "0");
             }
             loadTable(classnumber);
             showMessageDialog(null, "예약 승인 해제");
-        } 
-        else if ("X".equals(model.getValueAt(row, 7).toString())) {
+        } else if ("X".equals(model.getValueAt(row, 7).toString())) {
             for (int i = 0; i < reserlist.size(); i++) {
                 if (classnumber.equals(reserlist.get(i).getClassnumber()) && (reserlist.get(i).getClassadmin()).equals(classnumber + "관리권한")) { //같은 강의실, 관리권한자인 경우만 비교
                     if ((reserlist.get(i).getReser_date()).equals(model.getValueAt(row, 3).toString())) { // 날짜가 같은 경우만 비교 
-                        try {
-                            if ((formatter.parse(model.getValueAt(row, 5).toString())).after(formatter.parse(reserlist.get(i).getReser_endtime()))) {
-                                count++;
-                                dao.UpdateReser(dto, Integer.toString(reserlist.get(i).getReser_number()), "-", "1");
-                            }
+                        if ((reserlist.get(i).getOk()).equals("1")) {
+                            check = true;
+                            try {
+                                if ((formatter.parse(model.getValueAt(row, 5).toString())).after(formatter.parse(reserlist.get(i).getReser_endtime()))) {
+                                    count++;
+                                    dao.UpdateReser(dto, Integer.toString(reserlist.get(i).getReser_number()), "-", "1");
+                                }
 
-                        } catch (ParseException ex) {
-                            Logger.getLogger(ReserveAuth.class.getName()).log(Level.SEVERE, null, ex);
+                            } catch (ParseException ex) {
+                                Logger.getLogger(ReserveAuth.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                         }
                     }
                 }
             }
-            if(count>0){
-                dao.UpdateReser(dto, model.getValueAt(row, 0).toString(), classnumber + "관리권한", "1");
-            }
-            else{
-                dao.UpdateReser(dto, model.getValueAt(row, 0).toString(), "-", "1");
+            if (check == false) {
+                if (classnumber.equals("915")) {
+                    LectureRoom class915 = new Class915();
+                    class915.setAllowedBehavior(new AllowedStudent());
+                    dao.UpdateReser(dto, model.getValueAt(row, 0).toString(), class915.display(), "1");
+                }
+                if (classnumber.equals("916")) {
+                    LectureRoom class916 = new Class916();
+                    class916.setAllowedBehavior(new AllowedStudent());
+                    dao.UpdateReser(dto, model.getValueAt(row, 0).toString(), class916.display(), "1");
+                }
+                if (classnumber.equals("918")) {
+                    LectureRoom class918 = new Class918();
+                    class918.setAllowedBehavior(new AllowedStudent());
+                    dao.UpdateReser(dto, model.getValueAt(row, 0).toString(), class918.display(), "1");
+                }
+                if (classnumber.equals("911")) {
+                    LectureRoom class911 = new Class911();
+                    class911.setAllowedBehavior(new AllowedStudent());
+                    dao.UpdateReser(dto, model.getValueAt(row, 0).toString(), class911.display(), "1");
+                }
+            } else {
+                if (count == 0) {
+                    dao.UpdateReser(dto, model.getValueAt(row, 0).toString(), "-", "1");
+                } else if (count >= 1) {
+                    if (classnumber.equals("915")) {
+                        LectureRoom class915 = new Class915();
+                        class915.setAllowedBehavior(new AllowedStudent());
+                        dao.UpdateReser(dto, model.getValueAt(row, 0).toString(), class915.display(), "1");
+                    }
+                    if (classnumber.equals("916")) {
+                        LectureRoom class916 = new Class916();
+                        class916.setAllowedBehavior(new AllowedStudent());
+                        dao.UpdateReser(dto, model.getValueAt(row, 0).toString(), class916.display(), "1");
+                    }
+                    if (classnumber.equals("918")) {
+                        LectureRoom class918 = new Class918();
+                        class918.setAllowedBehavior(new AllowedStudent());
+                        dao.UpdateReser(dto, model.getValueAt(row, 0).toString(), class918.display(), "1");
+                    }
+                    if (classnumber.equals("911")) {
+                        LectureRoom class911 = new Class911();
+                        class911.setAllowedBehavior(new AllowedStudent());
+                        dao.UpdateReser(dto, model.getValueAt(row, 0).toString(), class911.display(), "1");
+                    }
+                }
             }
 
             loadTable(classnumber);
