@@ -147,8 +147,8 @@ public class writeDlg extends javax.swing.JFrame {
         BoardDTO b=new BoardDTO();
         b.setTitle(jTextField1.getText());
         b.setContent(jTextArea1.getText());
-        b.setSid(Login.S.getSID());
-        b.setSps(Login.S.getPASS());
+        b.setSid(Login.S.getId());
+        b.setSps(Login.S.getPassword());
         b.setType(jComboBox1.getSelectedItem().toString());
         dao.boardInsert(b);
         JOptionPane.showMessageDialog(null, "등록 완료.");

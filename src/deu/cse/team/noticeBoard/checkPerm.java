@@ -102,7 +102,7 @@ public class checkPerm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if(Login.S.getPASS().equals(jTextField1.getText())){
+        if(Login.S.getPassword().equals(jTextField1.getText())){
                     new detailView(index1).setVisible(true);
                     dispose();
         }else
