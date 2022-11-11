@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import javax.swing.JCheckBox;
+import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
@@ -386,6 +387,9 @@ public class beforeReserve extends javax.swing.JFrame {
             for (int i = 0; i < headcount; i++) {
                 ReservationDTO rdto = new ReservationDTO(dao.getReserLength(), reserseatnumber.get(i) - 1, responsiblename.getText(), classnumberarea.getText(), today, starttime, endtime, "조교", "1");
                 boolean checkReservation = dao.InsertReservation(rdto);
+                Notice notice = new Notice();
+                notice.setVisible(true);
+                notice.setSize(359, 300);
             }
 
             dispose();

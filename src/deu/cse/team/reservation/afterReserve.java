@@ -389,6 +389,9 @@ public class afterReserve extends javax.swing.JFrame {
             for (int i = 0; i < headcount; i++) {
                 ReservationDTO rdto = new ReservationDTO(dao.getReserLength(), reserseatnumber.get(i) - 1, id, classnumberarea.getText(), today, starttime, endtime, "-", "0");
                 boolean checkReservation = dao.InsertReservation(rdto);
+                Notice notice = new Notice();
+                notice.setVisible(true);
+                notice.setSize(359, 300);
             }
 
             dispose();

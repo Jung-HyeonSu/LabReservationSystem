@@ -28,10 +28,7 @@ public class ReserveStatus extends javax.swing.JFrame {
     String endtime;
     String seatnumber;
     //"DB에서 이용규칙 가져오기. 관리자는 이용수칙을 DB에 저장하고 수정도 가능해야함";
-    RemoteControl remoteControl = new RemoteControl();
-    Reservation reservation = new Reservation();
-    ReservationOkCommand reservationOk = new ReservationOkCommand(reservation);
-    ReservationCancelCommand reservationCancel = new ReservationCancelCommand(reservation);
+    
     DAO dao = DAO.getInstance();
     JCheckBox[] seatcheckbox = new JCheckBox[max];
     Calendar c = Calendar.getInstance();
@@ -41,12 +38,10 @@ public class ReserveStatus extends javax.swing.JFrame {
     boolean[][] reserseat = new boolean[max][16]; //좌석수,예약시간 9~24
     String classnumber = "915";//최종 제출시 911로 수정할 것
     List<ReservationDTO> rdto = dao.getclassReserList(classnumber);
-    int index = 0;
     List<ClassInformationDTO> cid = dao.getClassInformation(); //디비에서 가져왔다가졍
 
     public ReserveStatus() {
         initComponents();
-        remoteControl.setCommand(1, reservationOk, reservationCancel);
         max = cid.get(0).getMaxseat();
         setSeat();
         getreserseat();
@@ -307,10 +302,7 @@ public class ReserveStatus extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        if ("cancel".equals(remoteControl.B_ButtonWasPushed(1))) {
-            showMessageDialog(null, "예약 취소");
             dispose();
-        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void changebtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changebtn1ActionPerformed

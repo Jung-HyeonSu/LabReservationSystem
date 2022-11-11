@@ -340,7 +340,7 @@ public class StudentMain extends javax.swing.JFrame {
         // TODO add your handling code here:
         ReserveStatus rs = new ReserveStatus();
         rs.setVisible(true);
-        rs.setSize(818, 477);
+        rs.setSize(818, 530);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
