@@ -32,8 +32,8 @@ public class example {
         } else {
             System.out.println("삽입에 실패했습니다.");
         }*/
-        System.out.println(405/60);
-        System.out.println(405%60);
+        String str = "17:00";
+         System.out.println(str.substring(0,2));
     }
 
 }

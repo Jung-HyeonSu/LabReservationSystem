@@ -8,13 +8,18 @@ import deu.cse.team.tokenauth.*;
 import deu.cse.team.singleton.AccountDTO;
 import deu.cse.team.singleton.DAO;
 import deu.cse.team.singleton.ReservationDTO;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author PC
+ * @최초작성자 20183215 정현수 17시 이후 예약을 승인하고 관리 권한자를 부여
  */
 public class ReserveAuth extends javax.swing.JFrame {
 
@@ -22,6 +27,7 @@ public class ReserveAuth extends javax.swing.JFrame {
      * Creates new form TokenAuth
      */
     private String classnumber;
+
     public ReserveAuth() {
         initComponents();
         loadTable("911");
@@ -67,7 +73,7 @@ public class ReserveAuth extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("맑은 고딕", 1, 18)); // NOI18N
         jLabel1.setText("예약 승인");
 
-        jButton1.setText("승인");
+        jButton1.setText("승인 여부 변경");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -94,26 +100,28 @@ public class ReserveAuth extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(53, 53, 53)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 673, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton3)))
-                .addContainerGap(20, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jButton1)
-                        .addGap(45, 45, 45)
+                        .addGap(36, 36, 36)
                         .addComponent(jButton2)
-                        .addGap(260, 260, 260))
+                        .addGap(288, 288, 288))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addGap(318, 318, 318))))
+                        .addGap(346, 346, 346))))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(53, 53, 53)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton3))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 734, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -138,22 +146,85 @@ public class ReserveAuth extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-      DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         int row = jTable1.getSelectedRow();
         DAO dao = DAO.getInstance();
         ReservationDTO dto = new ReservationDTO();
-        String str = null; 
-        if("O".equals(model.getValueAt(row, 7).toString())){
-            dao.UpdateReser(dto, model.getValueAt(row, 0).toString(),"-", "0");  //"-" 부분 수정해야함@@@@@@@@@@@@@
-            loadTable(classnumber);
-            showMessageDialog(null,"예약 승인 해제");
-        }
-        else if ("X".equals(model.getValueAt(row, 7).toString())){    
-            dao.UpdateReser(dto, model.getValueAt(row, 0).toString(),"-", "1"); //"-" 부분 수정해야함@@@@@@@@@@@@@
-            loadTable(classnumber);
-            showMessageDialog(null,"예약 승인");
-        }
+        List<ReservationDTO> reserlist = dao.getReserList();
+
+        int maxReserNum = -1;
+
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
+        String max = "16:00"; // 최장시간을 구하기 위함
+
+        String admin = "-";
+        int count = 0; //삭제 후 리스트에 값이 0개일 경우를 계산하기 위함
         
+        if ("O".equals(model.getValueAt(row, 7).toString())) { //예약 승인을 취소
+            if ((model.getValueAt(row, 6).toString()).contains("관리권한")) { //취소하려는 예약이 관리권한자인 경우
+                for (int i = 0; i < reserlist.size(); i++) {
+                    if (((reserlist.get(i).getReser_number()))!=(Integer.parseInt((model.getValueAt(row, 0).toString())))) { // 리스트에서 본인을 제외하고 비교
+                        if (classnumber.equals(reserlist.get(i).getClassnumber())) { //같은 강의실인 사람만 비교
+                            if ("1".equals(reserlist.get(i).getOk())) { //예약 승인된 사람만
+                                if ((reserlist.get(i).getReser_date()).equals(model.getValueAt(row, 3).toString())) { //같은 날짜 예약인 사람만 비교
+                                    if (Integer.parseInt((reserlist.get(i).getReser_starttime()).substring(0, 2)) >= 17) // 17시 이후 예약만 비교
+                                    {
+                                        count++;
+                                        try {
+                                            if ((formatter.parse(reserlist.get(i).getReser_endtime())).after(formatter.parse(max))) {
+                                                max = reserlist.get(i).getReser_endtime();
+                                                maxReserNum = reserlist.get(i).getReser_number();
+                                            }
+
+                                        } catch (ParseException ex) {
+                                            Logger.getLogger(ReserveAuth.class.getName()).log(Level.SEVERE, null, ex);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                if(count==0){ // 선택한 값을 제외하고 예약 승인된 사람이 없을 경우 
+                    dao.UpdateReser(dto, model.getValueAt(row, 0).toString(), "-", "0");
+                }
+                else{
+                    dao.UpdateReser(dto, Integer.toString(maxReserNum), classnumber+"관리권한", "1");
+                    dao.UpdateReser(dto, model.getValueAt(row, 0).toString(),"-", "0");
+                }
+            } else {
+                dao.UpdateReser(dto, model.getValueAt(row, 0).toString(), "-", "0"); 
+            }
+            loadTable(classnumber);
+            showMessageDialog(null, "예약 승인 해제");
+        } 
+        else if ("X".equals(model.getValueAt(row, 7).toString())) {
+            for (int i = 0; i < reserlist.size(); i++) {
+                if (classnumber.equals(reserlist.get(i).getClassnumber()) && (reserlist.get(i).getClassadmin()).equals(classnumber + "관리권한")) { //같은 강의실, 관리권한자인 경우만 비교
+                    if ((reserlist.get(i).getReser_date()).equals(model.getValueAt(row, 3).toString())) { // 날짜가 같은 경우만 비교 
+                        try {
+                            if ((formatter.parse(model.getValueAt(row, 5).toString())).after(formatter.parse(reserlist.get(i).getReser_endtime()))) {
+                                count++;
+                                dao.UpdateReser(dto, Integer.toString(reserlist.get(i).getReser_number()), "-", "1");
+                            }
+
+                        } catch (ParseException ex) {
+                            Logger.getLogger(ReserveAuth.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                }
+            }
+            if(count>0){
+                dao.UpdateReser(dto, model.getValueAt(row, 0).toString(), classnumber + "관리권한", "1");
+            }
+            else{
+                dao.UpdateReser(dto, model.getValueAt(row, 0).toString(), "-", "1");
+            }
+
+            loadTable(classnumber);
+            showMessageDialog(null, "예약 승인");
+        }
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -167,32 +238,29 @@ public class ReserveAuth extends javax.swing.JFrame {
         loadTable(classnumber);
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    
-    public void loadTable(String classNumber){
-         
+    public void loadTable(String classNumber) {
+
         DAO dao = DAO.getInstance();
         List<ReservationDTO> reservationlist = dao.getReserList();
-        DefaultTableModel dtm = (DefaultTableModel)jTable1.getModel();
+        DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
         dtm.setRowCount(0);
         for (int i = 0; i < reservationlist.size(); i++) {
-            if(classNumber.equals(reservationlist.get(i).getClassnumber())){
-                if("1".equals(reservationlist.get(i).getOk())){
-                    dtm.addRow(new Object[]{reservationlist.get(i).getReser_number(),reservationlist.get(i).getSeat_number(),reservationlist.get(i).getId(),
-                reservationlist.get(i).getReser_date(),reservationlist.get(i).getReser_starttime(),reservationlist.get(i).getReser_endtime(),
-                reservationlist.get(i).getClassadmin(),"O"});
+            if (classNumber.equals(reservationlist.get(i).getClassnumber())) {
+                if ("1".equals(reservationlist.get(i).getOk())) {
+                    dtm.addRow(new Object[]{reservationlist.get(i).getReser_number(), reservationlist.get(i).getSeat_number(), reservationlist.get(i).getId(),
+                        reservationlist.get(i).getReser_date(), reservationlist.get(i).getReser_starttime(), reservationlist.get(i).getReser_endtime(),
+                        reservationlist.get(i).getClassadmin(), "O"});
+                } else {
+                    dtm.addRow(new Object[]{reservationlist.get(i).getReser_number(), reservationlist.get(i).getSeat_number(), reservationlist.get(i).getId(),
+                        reservationlist.get(i).getReser_date(), reservationlist.get(i).getReser_starttime(), reservationlist.get(i).getReser_endtime(),
+                        reservationlist.get(i).getClassadmin(), "X"});
                 }
-                else{
-                    dtm.addRow(new Object[]{reservationlist.get(i).getReser_number(),reservationlist.get(i).getSeat_number(),reservationlist.get(i).getId(),
-                reservationlist.get(i).getReser_date(),reservationlist.get(i).getReser_starttime(),reservationlist.get(i).getReser_endtime(),
-                reservationlist.get(i).getClassadmin(),"X"});
-                }
-                
+
             }
-              
-         }
-     }
-    
-    
+
+        }
+    }
+
     /**
      * @param args the command line arguments
      */
