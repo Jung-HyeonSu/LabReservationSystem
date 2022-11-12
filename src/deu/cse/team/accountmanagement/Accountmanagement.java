@@ -22,62 +22,57 @@ import javax.swing.table.DefaultTableModel;
 public class Accountmanagement extends javax.swing.JFrame {
 
     /**
-    2022.11.05 [최초작성자 20183207 김성찬]
-    * 사용자 계정관리
-    2022.11.12 [수정 20183215 정현수] 
-    * 관리권한 판단 추가
-    */
+     * 2022.11.05 [최초작성자 20183207 김성찬] 사용자 계정관리 2022.11.12 [수정 20183215 정현수]
+     * 관리권한 판단 추가
+     */
     String stu_id;
     String id;
-     String username;
-     String phonenumber;
-     int warning;
-     String power;
-     String allowed;
-     List<AccountDTO>  accountlist;
-     String selected;
-     
-     
-     public void getInformation(int number){
-         id = accountlist.get(number).getId();
-         username=accountlist.get(number).getName();
-         phonenumber=accountlist.get(number).getPhonenumber();
-         warning=accountlist.get(number).getWarning();
-         power=accountlist.get(number).getPower();
-         allowed=accountlist.get(number).getAllowed();
-     }
-     public void reloadTable(){
-         
-         DAO dao = DAO.getInstance();
+    String username;
+    String phonenumber;
+    int warning;
+    String power;
+    String allowed;
+    List<AccountDTO> accountlist;
+    String selected;
+
+    public void getInformation(int number) {
+        id = accountlist.get(number).getId();
+        username = accountlist.get(number).getName();
+        phonenumber = accountlist.get(number).getPhonenumber();
+        warning = accountlist.get(number).getWarning();
+        power = accountlist.get(number).getPower();
+        allowed = accountlist.get(number).getAllowed();
+    }
+
+    public void reloadTable() {
+
+        DAO dao = DAO.getInstance();
         accountlist = dao.getAccountList();
-        DefaultTableModel dtm = (DefaultTableModel)accountTable.getModel();
+        DefaultTableModel dtm = (DefaultTableModel) accountTable.getModel();
         dtm.setRowCount(0);
         //DB에서 계정리스트 가져오기
         //DefaultTableModel을 통해 JTable값 추가하도록 구현
         if (accountlist.isEmpty()) {//비어있을 시 true 리턴
-            showMessageDialog(null,"DB에 접속할 수 없습니다. DB를 확인해 주세요");
+            showMessageDialog(null, "DB에 접속할 수 없습니다. DB를 확인해 주세요");
             //DB 연결 실패시 핸들링하기 위해 추가
             //이전 화면으로 돌아가 DB 상태를 확인하도록 유도            
-        }
-        else {
+        } else {
             for (int i = 0; i < accountlist.size(); i++) {
                 getInformation(i);
-                if("1".equals(allowed)){
-                    dtm.addRow(new Object[]{username,id,warning,power,"O"});
+                if ("1".equals(allowed)) {
+                    dtm.addRow(new Object[]{username, id, warning, power, "O"});
+                } else {
+                    dtm.addRow(new Object[]{username, id, warning, power, "X"});
                 }
-                else{
-                    dtm.addRow(new Object[]{username,id,warning,power,"X"});
-                }
-                
-                
+
                 //테이블에 값들 추가
             }
         }
-     }
- 
+    }
+
     public Accountmanagement() {
         initComponents();
-        
+
         reloadTable();
         //테이블 데이터 갱신
     }
@@ -109,6 +104,8 @@ public class Accountmanagement extends javax.swing.JFrame {
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jComboBox3 = new javax.swing.JComboBox<>();
         jDialog2 = new javax.swing.JDialog();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -176,6 +173,10 @@ public class Accountmanagement extends javax.swing.JFrame {
 
         jLabel3.setText("비밀번호");
 
+        jLabel7.setText("구분");
+
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "학생", "조교", "교수" }));
+
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
         jDialog1Layout.setHorizontalGroup(
@@ -183,14 +184,19 @@ public class Accountmanagement extends javax.swing.JFrame {
             .addGroup(jDialog1Layout.createSequentialGroup()
                 .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jDialog1Layout.createSequentialGroup()
-                        .addGap(162, 162, 162)
-                        .addComponent(jLabel10))
-                    .addGroup(jDialog1Layout.createSequentialGroup()
-                        .addGap(104, 104, 104)
+                        .addGap(103, 103, 103)
                         .addComponent(editbtn1)
                         .addGap(38, 38, 38)
-                        .addComponent(jButton1)))
-                .addContainerGap(114, Short.MAX_VALUE))
+                        .addComponent(jButton1))
+                    .addGroup(jDialog1Layout.createSequentialGroup()
+                        .addGap(166, 166, 166)
+                        .addComponent(jLabel10))
+                    .addGroup(jDialog1Layout.createSequentialGroup()
+                        .addGap(91, 91, 91)
+                        .addComponent(jLabel7)
+                        .addGap(106, 106, 106)
+                        .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(107, Short.MAX_VALUE))
             .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jDialog1Layout.createSequentialGroup()
                     .addGap(91, 91, 91)
@@ -226,13 +232,17 @@ public class Accountmanagement extends javax.swing.JFrame {
         jDialog1Layout.setVerticalGroup(
             jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDialog1Layout.createSequentialGroup()
-                .addGap(38, 38, 38)
+                .addGap(15, 15, 15)
                 .addComponent(jLabel10)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 325, Short.MAX_VALUE)
+                .addGap(32, 32, 32)
+                .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 320, Short.MAX_VALUE)
                 .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(editbtn1)
                     .addComponent(jButton1))
-                .addGap(72, 72, 72))
+                .addGap(45, 45, 45))
             .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jDialog1Layout.createSequentialGroup()
                     .addGap(106, 106, 106)
@@ -386,9 +396,9 @@ public class Accountmanagement extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(67, 67, 67)
+                        .addGap(75, 75, 75)
                         .addComponent(editbtn)
-                        .addGap(26, 26, 26)
+                        .addGap(18, 18, 18)
                         .addComponent(jButton3)
                         .addGap(204, 204, 204))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -407,44 +417,57 @@ public class Accountmanagement extends javax.swing.JFrame {
         dispose();
         //현재 창 닫기
     }//GEN-LAST:event_closebtnActionPerformed
-   
+
     private void editbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editbtnActionPerformed
         // TODO add your handling code here:
         jDialog1.setVisible(true);
         jDialog1.setLocationRelativeTo(this);
-        jDialog1.setSize(450, 600);
+        jDialog1.setSize(450, 600);       
+        
         
         DefaultTableModel model = (DefaultTableModel) accountTable.getModel();
         int row = accountTable.getSelectedRow();
         DAO dao = DAO.getInstance();
         accountlist = dao.getAccountList();
+        
         idarea.setText((model.getValueAt(row, 1).toString()));
         for (int i = 0; i < accountlist.size(); i++) {
-            if ((model.getValueAt(row, 1).toString()).equals(accountlist.get(i).getId())) {      
-                namearea.setText(accountlist.get(i).getName());
+            if ((model.getValueAt(row, 1).toString()).equals(accountlist.get(i).getId())) {
+                String split = accountlist.get(i).getName();
+                if(split.contains("[학생]")){
+                    jComboBox3.setSelectedIndex(0);
+                }
+                else if(split.contains("[조교]")){
+                    jComboBox3.setSelectedIndex(1);
+                }
+                else if(split.contains("[교수]")){
+                    jComboBox3.setSelectedIndex(2);
+                }
+                split = split.replace("[학생]", "");
+                split = split.replace("[조교]", "");
+                split = split.replace("[교수]", "");
+                
+                
+                
+                namearea.setText(split);
                 passwordarea.setText(accountlist.get(i).getPassword());
                 phonenumberarea.setText(accountlist.get(i).getPhonenumber());
                 warningarea.setText(Integer.toString(accountlist.get(i).getWarning()));
-                if("O".equals(accountlist.get(i).getPower())){
+                if ("O".equals(accountlist.get(i).getPower())) {
                     jComboBox1.setSelectedIndex(0);
-                }
-                else{
+                } else {
                     jComboBox1.setSelectedIndex(1);
                 }
-                if("1".equals(accountlist.get(i).getAllowed())){
+                if ("1".equals(accountlist.get(i).getAllowed())) {
                     jComboBox2.setSelectedIndex(0);
-                }
-                else{
+                } else {
                     jComboBox2.setSelectedIndex(1);
                 }
-                
-                
+
             }
         }
-        
-        
-        
- 
+
+
     }//GEN-LAST:event_editbtnActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -452,7 +475,7 @@ public class Accountmanagement extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) accountTable.getModel();
         int row = accountTable.getSelectedRow();
         selected = model.getValueAt(row, 1).toString();
-        
+
         jDialog2.setVisible(true);
         jDialog2.setLocationRelativeTo(this);
         jDialog2.setSize(250, 200);
@@ -460,25 +483,24 @@ public class Accountmanagement extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-   
-        if(selected.equals(jTextField1.getText())){
+
+        if (selected.equals(jTextField1.getText())) {
             DAO dao = DAO.getInstance();
             AccountDTO dto = new AccountDTO();
             dao.DeleteAccount(dto, selected);
 
             List<ReservationDTO> reserlist = dao.getReserList();
             for (int i = 0; i < reserlist.size(); i++) {
-                if(selected.equals(reserlist.get(i).getId())){
+                if (selected.equals(reserlist.get(i).getId())) {
                     ReservationDTO dto2 = new ReservationDTO();
                     ClassAdmin classadmin = new ClassAdmin();
-                    classadmin.classAdminSet(reserlist.get(i).getOk(), reserlist.get(i).getClassadmin(),reserlist.get(i).getClassnumber(), Integer.toString(reserlist.get(i).getReser_number()), reserlist.get(i).getReser_date(), reserlist.get(i).getReser_endtime());
+                    classadmin.classAdminSet(reserlist.get(i).getOk(), reserlist.get(i).getClassadmin(), reserlist.get(i).getClassnumber(), Integer.toString(reserlist.get(i).getReser_number()), reserlist.get(i).getReser_date(), reserlist.get(i).getReser_endtime());
                     dao.DeleteReser(dto2, selected);
                 }
             }
             JOptionPane.showMessageDialog(null, "계정이 삭제되었습니다. 프로그램을 종료합니다.");
             exit(0);
-        }
-        else{
+        } else {
             JOptionPane.showMessageDialog(null, "학번을 제대로 입력해주세요.");
         }
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -498,18 +520,27 @@ public class Accountmanagement extends javax.swing.JFrame {
     private void editbtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editbtn1ActionPerformed
         // TODO add your handling code here:
         String allowedCheck;
-        if("O".equals(jComboBox2.getSelectedItem().toString())){
-            allowedCheck="1";
+        String division = null;
+        if ("학생".equals(jComboBox3.getSelectedItem().toString()) && "O".equals(jComboBox1.getSelectedItem().toString())) {
+            JOptionPane.showMessageDialog(null, "학생은 관리 권한을 가질 수 없습니다.");
+        } else if ("조교".equals(jComboBox3.getSelectedItem().toString()) && "X".equals(jComboBox1.getSelectedItem().toString())) {
+            JOptionPane.showMessageDialog(null, "조교는 관리 권한이 필요합니다.");
+        } else if ("교수".equals(jComboBox3.getSelectedItem().toString()) && "X".equals(jComboBox1.getSelectedItem().toString())) {
+            JOptionPane.showMessageDialog(null, "교수는 관리 권한이 필요합니다.");
         }
-        else{
-            allowedCheck="0";
-        }
-        DAO dao = DAO.getInstance();
-        AccountDTO dto = new AccountDTO();
-        dao.UpdateAccount(dto, idarea.getText(), passwordarea.getText(), namearea.getText(), phonenumberarea.getText(),Integer.parseInt(warningarea.getText()),jComboBox1.getSelectedItem().toString(),allowedCheck);
-        reloadTable();
-        JOptionPane.showMessageDialog(null, "계정 정보가 수정되었습니다.");
+        else {
+            DAO dao = DAO.getInstance();
+            AccountDTO dto = new AccountDTO();
+            if ("O".equals(jComboBox2.getSelectedItem().toString())) {
+                allowedCheck = "1";
+            } else {
+                allowedCheck = "0";
+            }
 
+            dao.UpdateAccount(dto, idarea.getText(), passwordarea.getText(), "["+jComboBox3.getSelectedItem().toString()+"]"+namearea.getText(), phonenumberarea.getText(), Integer.parseInt(warningarea.getText()), jComboBox1.getSelectedItem().toString(), allowedCheck);
+            reloadTable();
+            JOptionPane.showMessageDialog(null, "계정 정보가 수정되었습니다.");
+        }
     }//GEN-LAST:event_editbtn1ActionPerformed
 
     private void nameareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameareaActionPerformed
@@ -568,6 +599,7 @@ public class Accountmanagement extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JDialog jDialog2;
     private javax.swing.JLabel jLabel1;
@@ -578,6 +610,7 @@ public class Accountmanagement extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
