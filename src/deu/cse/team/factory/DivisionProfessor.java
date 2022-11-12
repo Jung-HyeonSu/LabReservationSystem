@@ -11,9 +11,9 @@ public class DivisionProfessor implements Division{
     String Division=null;
     @Override
     public String getDivision() {
-		return Division ;
+		return Division;
 	}
     public DivisionProfessor() {
-        this.Division="Professor";
+        this.Division="교수";
     }
 }

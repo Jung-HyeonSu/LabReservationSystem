@@ -18,7 +18,7 @@ public class MakeAdmin extends MakeAccount {
             accountfactory=new ProfessorFactory();
             account = new Professor(accountfactory);
         }
-        else
+        else if(Division.equals("Asistant"))
         {
             accountfactory=new AssistantFactory();
             account = new Assistant(accountfactory);

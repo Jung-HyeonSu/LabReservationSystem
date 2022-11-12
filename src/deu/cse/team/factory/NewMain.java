@@ -18,12 +18,16 @@ public class NewMain {
         // TODO code application logic here
         Account a= null;
         Account b=null;
+        Account c=null;
         MakeAccount f = new MakeUser();
         MakeAccount f2 = new MakeAdmin();
+        MakeAccount f3 = new MakeAdmin();
         a=f.createUser("Stuent");
         b=f2.createUser("Professor");
+        c=f3.createUser("Division");
         System.out.println(a.getDivision()+" "+a.getAllow());
         System.out.println(b.getDivision()+" "+b.getAllow());
+        System.out.println(c.getDivision()+" "+c.getAllow());
     }
     
 }

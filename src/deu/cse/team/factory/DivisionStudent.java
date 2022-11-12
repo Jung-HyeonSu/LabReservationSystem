@@ -15,6 +15,6 @@ public class DivisionStudent implements Division{
  		return Division ;
  	}
     public DivisionStudent() {
-        this.Division="Student";
+        this.Division="학생";
     }
 }

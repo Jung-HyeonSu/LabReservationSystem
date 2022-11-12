@@ -17,6 +17,6 @@ public class DivisionAssiatant implements Division{
 	}
     
 	public DivisionAssiatant() {
-        this.Division="Assiatant";
+        this.Division="조교";
     }
 }
