@@ -29,6 +29,7 @@ public class afterReserve extends javax.swing.JFrame {
     int headcount = 1;
     String id;
     int checkboxcount = 0; //좌석 선택한 수 체크
+    
     String starttime;
     String endtime;
     ArrayList<Integer> reserseatnumber = new ArrayList<Integer>(max);
@@ -41,6 +42,7 @@ public class afterReserve extends javax.swing.JFrame {
     ReservationCancelCommand reservationCancel = new ReservationCancelCommand(reservation);
     JCheckBox[] seatcheckbox = new JCheckBox[max];
     Calendar c = Calendar.getInstance();
+    String today = Integer.toString(c.get(Calendar.YEAR)) + "/" + Integer.toString(c.get(Calendar.MONTH) + 1) + "/" + Integer.toString(c.get(Calendar.DATE));    
     DAO dao = DAO.getInstance();
 
     boolean[][] reserseat = new boolean[max][9];
@@ -54,7 +56,9 @@ public class afterReserve extends javax.swing.JFrame {
         this.endtime = endtime;
         this.max = max;
         this.headcount = headcount;
-        responsiblename.setText(id);
+        String classadmin = dao.getClassAdmin(classnumber, today);
+        responsiblename.setText(classadmin);
+        
         classnumberarea.setText(classnumber);
         resertime.setText(starttime + ":00 ~ " + endtime + ":00");
         remoteControl.setCommand(1, reservationOk, reservationCancel);
@@ -85,7 +89,6 @@ public class afterReserve extends javax.swing.JFrame {
         int numberValue;
         int reserStartValue;
         int reserEndValue;
-        String today = Integer.toString(c.get(Calendar.YEAR)) + "/" + Integer.toString(c.get(Calendar.MONTH) + 1) + "/" + Integer.toString(c.get(Calendar.DATE));
         for (int i = 0; i < rdto.size(); i++) {
             numberValue = rdto.get(i).getSeat_number();
             reserStartValue = Integer.parseInt(rdto.get(i).getReser_starttime().split(":")[0]);

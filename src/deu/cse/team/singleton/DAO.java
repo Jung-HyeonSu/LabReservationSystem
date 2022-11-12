@@ -460,9 +460,8 @@ public class DAO {
 
         return count;
     }
-    public String getClassAdmin(String classnumber, String today) {
-        
-        String id="null";
+    public String getClassAdmin(String classnumber, String today) {        
+        String id="미정";
         if (this.connect()) {
             try {
                 //값이 삽입되어야 하는 자리에는 물음표
@@ -485,8 +484,7 @@ public class DAO {
             System.out.println("데이터베이스 연결에 실패");
             System.exit(0);
         }
-        if (id.equals(null)) return "-";
-        else return id;
+        return id;
     }
     
     
