@@ -122,7 +122,6 @@ public class DAO {
                     while (rs.next()) {
                         //DTO 클래스의 객체 생성. (모든 데이터가 DTO클래스에 들어있으므로)
                         AccountDTO account = new AccountDTO();
-
                         //DTO클래스의 변수에 값을 세팅하기 위해 Set메서드를 이용하고.
                         //Select의 결과를 컬럼 단위로 읽어오기 위해서 'get변수타입(컬럼명)' 메서드를 이용
                         account.setId(rs.getString("id"));
@@ -132,7 +131,6 @@ public class DAO {
                         account.setWarning(rs.getInt("warning"));
                         account.setPower(rs.getString("power"));
                         account.setAllowed(rs.getString("allowed"));
-
                         list.add(account);
                     }
                 }

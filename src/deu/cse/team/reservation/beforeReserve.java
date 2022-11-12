@@ -7,12 +7,14 @@ import deu.cse.team.command.ReservationCancelCommand;
 import deu.cse.team.command.ReservationOkCommand;
 import deu.cse.team.singleton.DAO;
 import deu.cse.team.singleton.ReservationDTO;
+import deu.cse.team.state.SeatChecking;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import javax.swing.JCheckBox;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.showMessageDialog;
 
@@ -42,6 +44,7 @@ public class beforeReserve extends javax.swing.JFrame {
     ReservationOkCommand reservationOk = new ReservationOkCommand(reservation);
     ReservationCancelCommand reservationCancel = new ReservationCancelCommand(reservation);
     JCheckBox[] seatcheckbox = new JCheckBox[max];
+    JLabel[] seatstatus = new JLabel[max];
     Calendar c = Calendar.getInstance();
     DAO dao = DAO.getInstance();
 
@@ -65,8 +68,10 @@ public class beforeReserve extends javax.swing.JFrame {
         responsiblename.setText("조교");        
         nextbtn.setEnabled(true);
         for (int j = 0; j < max; j++) {
-            seatcheckbox[j].setEnabled(true);
-            seatcheckbox[j].setSelected(false);
+            SeatChecking sc  = new SeatChecking(false,seatcheckbox[j],seatstatus[j]);
+            sc.toset();
+//            seatcheckbox[j].setEnabled(true);
+//            seatcheckbox[j].setSelected(false);
             // checksertr(버튼)
             // this.버튼 = 버튼;
         }
@@ -74,8 +79,11 @@ public class beforeReserve extends javax.swing.JFrame {
         for (int i = 0; i < max; i++) {
             for (int j = Integer.parseInt(starttime) - 9; j < Integer.parseInt(endtime) - 9; j++) {
                 if (reserseat[i][j] == true) {
-                    seatcheckbox[i].setEnabled(false);
-                    seatcheckbox[i].setSelected(false);
+//                    seatcheckbox[i].setEnabled(false);
+//                    seatcheckbox[i].setSelected(false);
+                    SeatChecking sc  = new SeatChecking(true,seatcheckbox[i],seatstatus[i]);
+                    sc.toset();
+//                    seatstatus[i].setText(sc.toString(seatcheckbox[i]));                    
                     resercount++;
                     break;
                 }
@@ -97,6 +105,7 @@ public class beforeReserve extends javax.swing.JFrame {
                 reserEndValue = Integer.parseInt(rdto.get(i).getReser_endtime().split(":")[0]);
                 for (int j = reserStartValue - 9; j < reserEndValue - 9; j++) {
                     reserseat[numberValue][j] = true;//예약이 되어있다.
+                    
                 }
             }
         }
@@ -109,15 +118,19 @@ public class beforeReserve extends javax.swing.JFrame {
             seatnumber = null;
             seatnumber = Integer.toString(((count + 1) + (row * 8))) + "번 좌석";
             seatcheckbox[k] = new JCheckBox();
+            seatstatus[k] = new JLabel();
             seatcheckbox[k].setText(seatnumber);
             if (count >= 4) {
                 seatcheckbox[k].setBounds(80 * count + 130, 50 * row + 170, 80, 30);
+                seatstatus[k].setBounds(80 * count + 150, 50 * row + 190, 80, 30);
             } else {
                 seatcheckbox[k].setBounds(80 * count + 80, 50 * row + 170, 80, 30);
+                seatstatus[k].setBounds(80 * count + 100, 50 * row + 190, 80, 30);
             }
             seatcheckbox[k].setVisible(true);
+            seatstatus[k].setVisible(true);
             add(seatcheckbox[k]);
-
+            add(seatstatus[k]);
             seatcheckbox[k].addItemListener(new clickseat(((count + 1) + (row * 8))));
 
             if (row * 8 + count == max - 1) {
@@ -132,12 +145,9 @@ public class beforeReserve extends javax.swing.JFrame {
     }
 
     public class clickseat implements ItemListener {
-
         String value;
-
         clickseat(int k) {
             this.value = Integer.toString(k);
-
         }
 
         @Override
