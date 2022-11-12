@@ -36,7 +36,7 @@ public class Account {
         //        this.PhoneNumber=text.getString()
     }
 
-    public boolean getAllow() {
+    public boolean getPower() {
         return allow.getPermission();
     }
     public String getDivision() {

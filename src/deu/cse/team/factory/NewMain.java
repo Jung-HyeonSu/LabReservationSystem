@@ -25,9 +25,9 @@ public class NewMain {
         a=f.createUser("Student");
         b=f2.createUser("Professor");
         c=f3.createUser("Asistant");
-        System.out.println(a.getDivision()+" "+a.getAllow());
-        System.out.println(b.getDivision()+" "+b.getAllow());
-        System.out.println(c.getDivision()+" "+c.getAllow());
+        System.out.println(a.getDivision()+" "+a.getPower());
+        System.out.println(b.getDivision()+" "+b.getPower());
+        System.out.println(c.getDivision()+" "+c.getPower());
     }
     
 }
