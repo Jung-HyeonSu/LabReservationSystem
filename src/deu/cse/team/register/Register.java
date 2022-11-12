@@ -4,6 +4,9 @@
  */
 package deu.cse.team.register;
 
+import deu.cse.team.factory.Account;
+import deu.cse.team.factory.MakeAccount;
+import deu.cse.team.factory.MakeUser;
 import deu.cse.team.login.Login;
 import deu.cse.team.singleton.AccountDTO;
 import deu.cse.team.singleton.DAO;
@@ -196,13 +199,24 @@ public class Register extends javax.swing.JFrame {
         if (isChecked == true) {
             DAO dao = DAO.getInstance();
             //삽입
+            String division = null;
+            String power = null;
+            Account a = null;
+            MakeAccount factory = new MakeUser();
+            a = factory.createUser("Studnet");
+            division = "[" + a.getDivision() + "]";
+            if (a.getPower() == true) {
+                power = "O";
+            } else {
+                power = "X";
+            }
             AccountDTO dto = new AccountDTO();
             dto.setId(jTextField1.getText());
             dto.setPassword(jTextField2.getText());
-            dto.setName(jTextField3.getText());
+            dto.setName(division +jTextField3.getText());
             dto.setPhonenumber(jTextField4.getText() + jTextField6.getText() + jTextField7.getText());
             dto.setWarning(0);
-            dto.setPower("X");
+            dto.setPower(power);
             dto.setAllowed("1");
             boolean r = dao.InsertAccount(dto);
 
@@ -212,8 +226,7 @@ public class Register extends javax.swing.JFrame {
                 System.out.println("삽입에 실패했습니다.");
             }
             dispose();
-        }
-        else {
+        } else {
             JOptionPane.showMessageDialog(null, "토큰값 인증 필요");
         }
 
