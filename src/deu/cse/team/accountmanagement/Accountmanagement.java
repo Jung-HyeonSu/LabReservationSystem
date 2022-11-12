@@ -5,6 +5,7 @@
  */
 package deu.cse.team.accountmanagement;
 
+import deu.cse.team.classadmin.ClassAdmin;
 import deu.cse.team.singleton.AccountDTO;
 import deu.cse.team.singleton.DAO;
 import deu.cse.team.singleton.ReservationDTO;
@@ -22,7 +23,9 @@ public class Accountmanagement extends javax.swing.JFrame {
 
     /**
     2022.11.05 [최초작성자 20183207 김성찬]
-    사용자 계정관리
+    * 사용자 계정관리
+    2022.11.12 [수정 20183215 정현수] 
+    * 관리권한 판단 추가
     */
     String stu_id;
     String id;
@@ -467,6 +470,8 @@ public class Accountmanagement extends javax.swing.JFrame {
             for (int i = 0; i < reserlist.size(); i++) {
                 if(selected.equals(reserlist.get(i).getId())){
                     ReservationDTO dto2 = new ReservationDTO();
+                    ClassAdmin classadmin = new ClassAdmin();
+                    classadmin.classAdminSet(reserlist.get(i).getOk(), reserlist.get(i).getClassadmin(),reserlist.get(i).getClassnumber(), Integer.toString(reserlist.get(i).getReser_number()), reserlist.get(i).getReser_date(), reserlist.get(i).getReser_endtime());
                     dao.DeleteReser(dto2, selected);
                 }
             }
@@ -474,7 +479,7 @@ public class Accountmanagement extends javax.swing.JFrame {
             exit(0);
         }
         else{
-            JOptionPane.showMessageDialog(null, "비밀번호 불일치");
+            JOptionPane.showMessageDialog(null, "학번을 제대로 입력해주세요.");
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 

@@ -4,6 +4,7 @@
  */
 package deu.cse.team.reservation;
 
+import deu.cse.team.classadmin.ClassAdmin;
 import deu.cse.team.decorator.HalfTime;
 import deu.cse.team.decorator.OneHourTime;
 import deu.cse.team.decorator.QuarterTime;
@@ -22,8 +23,8 @@ import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.table.DefaultTableModel;
 
 /**
- *
- * @author Seongchan
+ * 2022.11.12 [최초작성자 20183215 정현수] 
+ * 
  */
 public class reservationManage extends javax.swing.JFrame {
 
@@ -33,7 +34,7 @@ public class reservationManage extends javax.swing.JFrame {
     String id;
     String reser_number;
     int totalTime = 0;
-    
+
     public reservationManage() {
         initComponents();
     }
@@ -337,24 +338,25 @@ public class reservationManage extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(156, 156, 156)
-                                .addComponent(jLabel1))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 407, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(117, 117, 117)
+                    .addComponent(jLabel4)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(32, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(cancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jButton4)
                                 .addGap(55, 55, 55)
-                                .addComponent(jButton1)))))
-                .addContainerGap(27, Short.MAX_VALUE))
+                                .addComponent(jButton1)))
+                        .addGap(137, 137, 137))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(197, 197, 197))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -405,11 +407,16 @@ public class reservationManage extends javax.swing.JFrame {
         for (int i = 0; i < reservationList.size(); i++) {
             if (reser_number.equals(Integer.toString(reservationList.get(i).getReser_number()))) {
                 ReservationDTO dto = new ReservationDTO();
+                ClassAdmin classadmin = new ClassAdmin();
+                classadmin.classAdminSet(reservationList.get(i).getOk(), reservationList.get(i).getClassadmin(), reservationList.get(i).getClassnumber(), Integer.toString(reservationList.get(i).getReser_number()), reservationList.get(i).getReser_date(), reservationList.get(i).getReser_endtime());
+
                 dao.CancelReser(dto, reser_number);
             }
         }
         loadReserTable();
+        
         showMessageDialog(null, "취소되었습니다.");
+        jDialog1.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -439,26 +446,26 @@ public class reservationManage extends javax.swing.JFrame {
             if (reser_number.equals(Integer.toString(reservationList.get(i).getReser_number()))) {
                 time = new SeatNumber(reser_number);
                 for (int j = 0; j < jTable4.getRowCount(); j++) {
-                    if("15분".equals(String.valueOf(jTable4.getValueAt(j, 0)))){
+                    if ("15분".equals(String.valueOf(jTable4.getValueAt(j, 0)))) {
                         time = new QuarterTime(time);
                     }
-                    if("30분".equals(String.valueOf(jTable4.getValueAt(j, 0)))){
+                    if ("30분".equals(String.valueOf(jTable4.getValueAt(j, 0)))) {
                         time = new HalfTime(time);
                     }
-                    if("1시간".equals(String.valueOf(jTable4.getValueAt(j, 0)))){
+                    if ("1시간".equals(String.valueOf(jTable4.getValueAt(j, 0)))) {
                         time = new OneHourTime(time);
                     }
                 }
-                
+
                 for (int j = 0; j < reservationList.size(); j++) {
-                    if ((reservationList.get(i).getSeat_number() == reservationList.get(j).getSeat_number())&&(reservationList.get(i).getReser_number()!= reservationList.get(j).getReser_number())) {
+                    if ((reservationList.get(i).getSeat_number() == reservationList.get(j).getSeat_number()) && (reservationList.get(i).getReser_number() != reservationList.get(j).getReser_number())) {
                         if ((reservationList.get(i).getReser_date()).equals(reservationList.get(j).getReser_date()) && (reservationList.get(i).getClassnumber()).equals(reservationList.get(j).getClassnumber()) && (reservationList.get(i).getSeat_number() == reservationList.get(j).getSeat_number())) {
 
                             try {
                                 Calendar cal = Calendar.getInstance();
                                 cal.setTime(formatter.parse(reservationList.get(i).getReser_endtime()));
                                 cal.add(Calendar.MINUTE, time.time());
-        
+
                                 starttime1 = formatter.parse(reservationList.get(i).getReser_starttime());
                                 starttime2 = formatter.parse(reservationList.get(j).getReser_starttime());
                                 endtime1 = formatter.parse(formatter.format(cal.getTime()));
@@ -479,9 +486,8 @@ public class reservationManage extends javax.swing.JFrame {
                     }
 
                 }
-                
-                
-                System.out.println(time.getDescription() +time.time());
+
+                System.out.println(time.getDescription() + time.time());
                 if (isChecked == false) {
                     Calendar cal = Calendar.getInstance();
                     int str = 0;
@@ -489,7 +495,6 @@ public class reservationManage extends javax.swing.JFrame {
                         cal.setTime(formatter.parse(reservationList.get(i).getReser_endtime()));
                         cal.add(Calendar.MINUTE, time.time());
                         str = time.time();
-                        
 
                     } catch (ParseException ex) {
                         Logger.getLogger(reservationManage.class.getName()).log(Level.SEVERE, null, ex);
@@ -498,7 +503,7 @@ public class reservationManage extends javax.swing.JFrame {
                     ReservationDTO dto = new ReservationDTO();
                     dao.UpdateReser(dto, reser_number, formatter.format(cal.getTime()));
                     loadReserTable();
-                    showMessageDialog(null, "※       연장성공※\n예약이 "+ Integer.toString(str) +"분 연장됩니다.");
+                    showMessageDialog(null, "※       연장성공※\n예약이 " + Integer.toString(str) + "분 연장됩니다.");
 
                 } else {
                     showMessageDialog(null, "       ※연장실패※\n다른 사용자와 예약 시간이 중복됩니다.");
@@ -516,19 +521,17 @@ public class reservationManage extends javax.swing.JFrame {
         model.addRow(new Object[]{
             String.valueOf(jTable2.getValueAt(row, 0))
         });
-        
-        if("15분".equals(jTable2.getValueAt(row, 0))){
+
+        if ("15분".equals(jTable2.getValueAt(row, 0))) {
             totalTime += 15;
-        }
-        else if("30분".equals(jTable2.getValueAt(row, 0))){
+        } else if ("30분".equals(jTable2.getValueAt(row, 0))) {
             totalTime += 30;
-        }
-        else if("1시간".equals(jTable2.getValueAt(row, 0))){
+        } else if ("1시간".equals(jTable2.getValueAt(row, 0))) {
             totalTime += 60;
         }
-        int hour = totalTime/60;
-        int min = totalTime%60;
-        String str = Integer.toString(hour)+"시간 "+ Integer.toString(min)+"분";
+        int hour = totalTime / 60;
+        int min = totalTime % 60;
+        String str = Integer.toString(hour) + "시간 " + Integer.toString(min) + "분";
         jLabel7.setText(str);
     }//GEN-LAST:event_jButton6ActionPerformed
 
@@ -536,21 +539,18 @@ public class reservationManage extends javax.swing.JFrame {
         // TODO add your handling code here:
         int row = jTable4.getSelectedRow();
         DefaultTableModel model = (DefaultTableModel) jTable4.getModel();
-        
-        
-        if("15분".equals(jTable4.getValueAt(row, 0))){
+
+        if ("15분".equals(jTable4.getValueAt(row, 0))) {
             totalTime -= 15;
-        }
-        else if("30분".equals(jTable4.getValueAt(row, 0))){
+        } else if ("30분".equals(jTable4.getValueAt(row, 0))) {
             totalTime -= 30;
-        }
-        else if("1시간".equals(jTable4.getValueAt(row, 0))){
+        } else if ("1시간".equals(jTable4.getValueAt(row, 0))) {
             totalTime -= 60;
         }
-        int hour = totalTime/60;
-        int min = totalTime%60;
-        
-        String str = Integer.toString(hour)+"시간 "+ Integer.toString(min)+"분";
+        int hour = totalTime / 60;
+        int min = totalTime % 60;
+
+        String str = Integer.toString(hour) + "시간 " + Integer.toString(min) + "분";
         jLabel7.setText(str);
         model.removeRow(row);
     }//GEN-LAST:event_jButton7ActionPerformed
@@ -632,15 +632,12 @@ public class reservationManage extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable4;
     // End of variables declaration//GEN-END:variables
 }

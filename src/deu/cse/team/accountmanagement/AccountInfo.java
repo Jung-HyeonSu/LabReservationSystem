@@ -5,6 +5,7 @@
  */
 package deu.cse.team.accountmanagement;
 
+import deu.cse.team.classadmin.ClassAdmin;
 import deu.cse.team.login.Login;
 import deu.cse.team.singleton.AccountDTO;
 import deu.cse.team.singleton.DAO;
@@ -294,6 +295,8 @@ public class AccountInfo extends javax.swing.JFrame {
             for (int i = 0; i < reserlist.size(); i++) {
                 if(stu_id.equals(reserlist.get(i).getId())){
                     ReservationDTO dto2 = new ReservationDTO();
+                    ClassAdmin classadmin = new ClassAdmin();
+                    classadmin.classAdminSet(reserlist.get(i).getOk(), reserlist.get(i).getClassadmin(),reserlist.get(i).getClassnumber(), Integer.toString(reserlist.get(i).getReser_number()), reserlist.get(i).getReser_date(), reserlist.get(i).getReser_endtime());
                     dao.DeleteReser(dto2, stu_id);
                 }
             }
