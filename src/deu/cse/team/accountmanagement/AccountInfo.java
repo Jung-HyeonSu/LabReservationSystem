@@ -39,9 +39,12 @@ public class AccountInfo extends javax.swing.JFrame {
         for (int i = 0; i < accountlist.size(); i++) {
             if (id.equals(accountlist.get(i).getId())) {
                 password = accountlist.get(i).getPassword();
-                
+                String split = accountlist.get(i).getName();
+                split = split.replace("[학생]", "");
+                split = split.replace("[조교]", "");
+                split = split.replace("[교수]", "");
                
-                namearea.setText(accountlist.get(i).getName());
+                namearea.setText(split);
                 passwordarea.setText(accountlist.get(i).getPassword());
                 phonenumberarea.setText(accountlist.get(i).getPhonenumber());
                 warningarea.setText(Integer.toString(accountlist.get(i).getWarning()));
@@ -275,7 +278,7 @@ public class AccountInfo extends javax.swing.JFrame {
         //업데이트 구문짜주기
         DAO dao = DAO.getInstance();
         AccountDTO dto = new AccountDTO();
-        dao.UpdateAccount(dto, stu_id, password, name, phonenumber);
+        dao.UpdateAccount(dto, stu_id, password, "[학생]"+name, phonenumber);
         JOptionPane.showMessageDialog(null, "계정 정보가 수정되었습니다.");
     }//GEN-LAST:event_editbtnActionPerformed
 
