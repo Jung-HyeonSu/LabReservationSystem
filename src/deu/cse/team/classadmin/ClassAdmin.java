@@ -94,7 +94,6 @@ public class ClassAdmin {
             } else {
                 dao.UpdateReser(dto, reser_number, "-", "0");
             }
-            showMessageDialog(null, "예약 승인 해제");
         } 
         else if ("0".equals(ok)) {
             for (int i = 0; i < reserlist.size(); i++) {
@@ -162,7 +161,6 @@ public class ClassAdmin {
                     }
                 }
             }
-            showMessageDialog(null, "예약 승인");
         }
     }
     
