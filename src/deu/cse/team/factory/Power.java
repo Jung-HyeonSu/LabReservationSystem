@@ -7,6 +7,6 @@ package deu.cse.team.factory;
  *
  * @author eotkd
  */
-public interface Allowed {
+public interface Power {
   public boolean getPermission();   
 }

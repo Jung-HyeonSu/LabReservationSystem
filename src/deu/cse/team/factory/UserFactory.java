@@ -10,8 +10,8 @@ package deu.cse.team.factory;
  */
 public class UserFactory implements AccountFactory{
      @Override
-    public Allowed createAllowed() {
-        return new NotAllowed();
+    public Power createPower() {
+        return new NoPower();
     }
 
     @Override

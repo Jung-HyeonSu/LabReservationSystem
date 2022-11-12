@@ -15,7 +15,7 @@ public class Assistant extends Account {
         this.factory=factory;
     }
     public void prepare(){
-        this.allow = factory.createAllowed();
+        this.allow = factory.createPower();
         this.division = factory.createDivision();
 }
 }

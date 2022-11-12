@@ -5,8 +5,8 @@ package deu.cse.team.factory;
  */
 public class AssistantFactory implements AccountFactory{
     @Override
-    public Allowed createAllowed() {
-        return new AllowedOk();
+    public Power createPower() {
+        return new PowerOk();
     }
 
    @Override

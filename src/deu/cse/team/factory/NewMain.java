@@ -22,9 +22,9 @@ public class NewMain {
         MakeAccount f = new MakeUser();
         MakeAccount f2 = new MakeAdmin();
         MakeAccount f3 = new MakeAdmin();
-        a=f.createUser("Stuent");
+        a=f.createUser("Student");
         b=f2.createUser("Professor");
-        c=f3.createUser("Division");
+        c=f3.createUser("Asistant");
         System.out.println(a.getDivision()+" "+a.getAllow());
         System.out.println(b.getDivision()+" "+b.getAllow());
         System.out.println(c.getDivision()+" "+c.getAllow());

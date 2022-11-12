@@ -15,7 +15,7 @@ public class Account {
     protected String Password;
     protected String PhoneNumber;
     private String token;
-    protected Allowed allow;
+    protected Power allow;
     protected Division division;
     public void prepare(){
         

@@ -6,8 +6,8 @@ package deu.cse.team.factory;
 public class ProfessorFactory implements AccountFactory{
 
    @Override
-    public Allowed createAllowed() {
-        return new AllowedOk();
+    public Power createPower() {
+        return new PowerOk();
     }
 
    @Override

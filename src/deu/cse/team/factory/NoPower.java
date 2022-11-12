@@ -8,13 +8,14 @@ package deu.cse.team.factory;
  *
  * @author eotkd
  */
-public class AllowedOk implements Allowed{
+public class NoPower implements Power{
     boolean permission;
+    public NoPower() {
+        this.permission=false;
+    }
 
+    @Override
     public boolean getPermission() {
         return permission;
-    }
-    public AllowedOk() {
-        this.permission=true;
     }
 }

@@ -8,6 +8,6 @@ package deu.cse.team.factory;
  * @author eotkd
  */
 public interface AccountFactory {
-    Allowed createAllowed();
+    Power createPower();
     Division createDivision();
 }
