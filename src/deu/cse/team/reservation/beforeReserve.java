@@ -67,6 +67,8 @@ public class beforeReserve extends javax.swing.JFrame {
         for (int j = 0; j < max; j++) {
             seatcheckbox[j].setEnabled(true);
             seatcheckbox[j].setSelected(false);
+            // checksertr(버튼)
+            // this.버튼 = 버튼;
         }
         int resercount = 0;
         for (int i = 0; i < max; i++) {

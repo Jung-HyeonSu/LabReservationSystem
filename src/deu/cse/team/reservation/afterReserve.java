@@ -456,7 +456,7 @@ public class afterReserve extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new afterReserve("20183207", "9", "17", 1, 40, "918").setVisible(true);
+                new afterReserve("20183207", "17", "18", 1, 40, "918").setVisible(true);
             }
         });
     }
