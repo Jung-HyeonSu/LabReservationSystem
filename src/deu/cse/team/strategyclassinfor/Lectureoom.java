@@ -8,14 +8,9 @@ package deu.cse.team.strategyclassinfor;
  *
  * @author Seongchan
  */
-public class classinformation {
+public class Lectureoom {
     String classnumber;
-    public classinformation(String classnumber) {
-        this.classnumber=classnumber;
-    }
-    void setseaatmax(setmax s){
-        this.setseaatmax(s);
-    }
-    
-    
+    String value;
+    setSeat setseat;
+           
 }

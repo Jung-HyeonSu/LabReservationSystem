@@ -8,7 +8,7 @@ package deu.cse.team.strategyclassinfor;
  *
  * @author Seongchan
  */
-public class Classinformation915 extends Classinformation  {
+public class Classinformation915 extends Lectureoom  {
 
     public Classinformation915(String type, String value) {
         classnumber="915";
