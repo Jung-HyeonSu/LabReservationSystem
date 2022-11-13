@@ -53,7 +53,7 @@ public class EditClassTimetable extends javax.swing.JFrame {
 
             },
             new String [] {
-                "", "일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"
+                "", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일", "일요일"
             }
         ));
         jTable2.setRowHeight(40);

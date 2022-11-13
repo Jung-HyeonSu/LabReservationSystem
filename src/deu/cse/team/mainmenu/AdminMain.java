@@ -17,6 +17,7 @@ import deu.cse.team.strategyclassinfor.Classinformation911;
 import deu.cse.team.strategyclassinfor.Classinformation915;
 import deu.cse.team.strategyclassinfor.Classinformation916;
 import deu.cse.team.strategyclassinfor.Classinformation918;
+import deu.cse.team.strategyclassinfor.Lectureoom;
 
 import deu.cse.team.timetable.EditClassTimetable;
 import deu.cse.team.timetable.SeminarTimetable;
@@ -566,13 +567,13 @@ public class AdminMain extends javax.swing.JFrame {
         String number = classinformationtable.getValueAt(classinformationtable.getSelectedRow(), 0).toString();
         String input = JOptionPane.showInputDialog(null, "추가할 자리수를 적어주세요", "");
         if (number.equals("911")) {
-            Classinformation classinformation = new Classinformation911("add",input);
+            Lectureoom classinformation = new Classinformation911("add",input);
         } else if (number.equals("915")) {
-            Classinformation classinformation = new Classinformation915("add",input);
+            Lectureoom classinformation = new Classinformation915("add",input);
         } else if (number.equals("916")) {
-            Classinformation classinformation = new Classinformation916("add",input);
+            Lectureoom classinformation = new Classinformation916("add",input);
         } else if (number.equals("918")) {
-            Classinformation classinformation = new Classinformation918("add",input);
+            Lectureoom classinformation = new Classinformation918("add",input);
         }
         seattable();
     }//GEN-LAST:event_addActionPerformed
@@ -582,13 +583,13 @@ public class AdminMain extends javax.swing.JFrame {
         String number = classinformationtable.getValueAt(classinformationtable.getSelectedRow(), 0).toString();
         String input = JOptionPane.showInputDialog(null, "제거할 자리수를 적어주세요", "");
         if (number.equals("911")) {
-            Classinformation classinformation = new Classinformation911("sub",input);
+            Lectureoom classinformation = new Classinformation911("sub",input);
         } else if (number.equals("915")) {
-            Classinformation classinformation = new Classinformation915("sub",input);
+            Lectureoom classinformation = new Classinformation915("sub",input);
         } else if (number.equals("916")) {
-            Classinformation classinformation = new Classinformation916("sub",input);
+            Lectureoom classinformation = new Classinformation916("sub",input);
         } else if (number.equals("918")) {
-            Classinformation classinformation = new Classinformation918("sub",input);
+            Lectureoom classinformation = new Classinformation918("sub",input);
         }
         seattable();
     }//GEN-LAST:event_subActionPerformed

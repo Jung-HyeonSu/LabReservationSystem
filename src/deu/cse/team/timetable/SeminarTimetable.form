@@ -64,12 +64,14 @@
               <EmptySpace pref="39" max="32767" attributes="0"/>
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jComboBox1" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButton3" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Group type="103" alignment="3" groupAlignment="3" attributes="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                       <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jComboBox1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jButton3" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -99,13 +101,13 @@
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="8" rowCount="0">
                 <Column editable="true" title="" type="java.lang.Object"/>
-                <Column editable="true" title="&#xc77c;&#xc694;&#xc77c;" type="java.lang.Object"/>
                 <Column editable="true" title="&#xc6d4;&#xc694;&#xc77c;" type="java.lang.Object"/>
                 <Column editable="true" title="&#xd654;&#xc694;&#xc77c;" type="java.lang.Object"/>
                 <Column editable="true" title="&#xc218;&#xc694;&#xc77c;" type="java.lang.Object"/>
                 <Column editable="true" title="&#xbaa9;&#xc694;&#xc77c;" type="java.lang.Object"/>
                 <Column editable="true" title="&#xae08;&#xc694;&#xc77c;" type="java.lang.Object"/>
                 <Column editable="true" title="&#xd1a0;&#xc694;&#xc77c;" type="java.lang.Object"/>
+                <Column editable="true" title="&#xc77c;&#xc694;&#xc77c;" type="java.lang.Object"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">

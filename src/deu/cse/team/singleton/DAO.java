@@ -433,14 +433,15 @@ public class DAO {
         if (this.connect()) {
             try {
                 //값이 삽입되어야 하는 자리에는 물음표
-                String sql = "SELECT * FROM reservation";
+                String sql = "SELECT max(reser_number) as reser_number FROM reservation";
+                System.out.println(sql);
                 PreparedStatement pstmt = con.prepareStatement(sql);
                 stmt = con.createStatement();
                 if (stmt != null) { //위 객체가 Null이 아니라는 것은 무언가를 받아왔다는 의미. SQL문장을 받아온 것.
                     //sql구문 실행 (Select문의 결과는 ResultSet에 저장. (위에서 선언))
                     rs = stmt.executeQuery(sql);
                     while (rs.next()) {
-                        count++;
+                        count = rs.getInt("reser_number")+1;
                     }
                 }
             } catch (SQLException e) {
@@ -448,7 +449,7 @@ public class DAO {
             }
 
         } else {
-            System.out.println("데이터베이스 연결에 실패");
+            System.out.println("데이터베이스 연결에     실패");
             System.exit(0);
         }
 
