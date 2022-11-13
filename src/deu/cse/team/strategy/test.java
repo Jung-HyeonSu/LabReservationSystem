@@ -15,6 +15,9 @@ public class test {
         str2 = class915.display();
         JOptionPane.showMessageDialog(null, str);
         JOptionPane.showMessageDialog(null, str2);
+        
+        Classinformation classInformatin911 = new ClassInformatin911();
+        classInformatin911.
 
     }
 }

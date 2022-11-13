@@ -13,8 +13,6 @@ import deu.cse.team.singleton.AccountDTO;
 import deu.cse.team.singleton.ClassInformationDTO;
 import deu.cse.team.singleton.DAO;
 import deu.cse.team.singleton.TokenDTO;
-import deu.cse.team.strategyclassinfor.allseatclass;
-import deu.cse.team.strategyclassinfor.Classinformation;
 import deu.cse.team.strategyclassinfor.Classinformation911;
 import deu.cse.team.strategyclassinfor.Classinformation915;
 import deu.cse.team.strategyclassinfor.Classinformation916;

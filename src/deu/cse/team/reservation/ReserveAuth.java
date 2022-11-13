@@ -4,6 +4,7 @@
  */
 package deu.cse.team.reservation;
 
+import deu.cse.team.message.SendMessage;
 import deu.cse.team.tokenauth.*;
 import deu.cse.team.singleton.AccountDTO;
 import deu.cse.team.singleton.DAO;
@@ -17,11 +18,15 @@ import deu.cse.team.strategy.LectureRoom;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.table.DefaultTableModel;
+import net.nurigo.java_sdk.api.Message;
+import net.nurigo.java_sdk.exceptions.CoolsmsException;
+import org.json.simple.JSONObject;
 
 /**
  *
@@ -156,13 +161,15 @@ public class ReserveAuth extends javax.swing.JFrame {
         int row = jTable1.getSelectedRow();
         DAO dao = DAO.getInstance();
         ReservationDTO dto = new ReservationDTO();
-        List<ReservationDTO> reserlist = dao.getReserList();
 
+        List<ReservationDTO> reserlist = dao.getReserList();
+        List<AccountDTO> accountlist = dao.getAccountList();
+        SendMessage send = new SendMessage();
         int maxReserNum = -1;
 
         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
         String max = "16:00"; // 최장시간을 구하기 위함
-
+        String phonenumber = "01066885399";
         String admin = "-";
         int count = 0; //삭제 후 리스트에 값이 0개일 경우를 계산하기 위함
         boolean check = false; // 리스트에 값이 없는지 확인
@@ -181,6 +188,11 @@ public class ReserveAuth extends javax.swing.JFrame {
                                             if ((formatter.parse(reserlist.get(i).getReser_endtime())).after(formatter.parse(max))) {
                                                 max = reserlist.get(i).getReser_endtime();
                                                 maxReserNum = reserlist.get(i).getReser_number();
+                                                for (int j = 0; j < accountlist.size(); j++) { // 전화번호를 얻기 위함
+                                                    if ((reserlist.get(i).getId()).equals(accountlist.get(j).getId())) {
+                                                        phonenumber = accountlist.get(j).getPhonenumber();
+                                                    }
+                                                }
                                             }
 
                                         } catch (ParseException ex) {
@@ -199,21 +211,25 @@ public class ReserveAuth extends javax.swing.JFrame {
                         LectureRoom class915 = new Class915();
                         class915.setAllowedBehavior(new AllowedStudent());
                         dao.UpdateReser(dto, Integer.toString(maxReserNum), class915.display(), "1");
+                        send.send(phonenumber);
                     }
                     if (classnumber.equals("916")) {
                         LectureRoom class916 = new Class916();
                         class916.setAllowedBehavior(new AllowedStudent());
                         dao.UpdateReser(dto, Integer.toString(maxReserNum), class916.display(), "1");
+                        send.send(phonenumber);
                     }
                     if (classnumber.equals("918")) {
                         LectureRoom class918 = new Class918();
                         class918.setAllowedBehavior(new AllowedStudent());
                         dao.UpdateReser(dto, Integer.toString(maxReserNum), class918.display(), "1");
+                        send.send(phonenumber);
                     }
                     if (classnumber.equals("911")) {
                         LectureRoom class911 = new Class911();
                         class911.setAllowedBehavior(new AllowedStudent());
                         dao.UpdateReser(dto, Integer.toString(maxReserNum), class911.display(), "1");
+                        send.send(phonenumber);
                     }
                     dao.UpdateReser(dto, model.getValueAt(row, 0).toString(), "-", "0");
                 }
@@ -222,7 +238,7 @@ public class ReserveAuth extends javax.swing.JFrame {
             }
             loadTable(classnumber);
             showMessageDialog(null, "예약 승인 해제");
-        } else if ("X".equals(model.getValueAt(row, 7).toString())) {
+        } else if ("X".equals(model.getValueAt(row, 7).toString())) { // 예약 승인을 허용
             for (int i = 0; i < reserlist.size(); i++) {
                 if (classnumber.equals(reserlist.get(i).getClassnumber()) && (reserlist.get(i).getClassadmin()).equals(classnumber + "관리권한")) { //같은 강의실, 관리권한자인 경우만 비교
                     if ((reserlist.get(i).getReser_date()).equals(model.getValueAt(row, 3).toString())) { // 날짜가 같은 경우만 비교 
@@ -242,53 +258,70 @@ public class ReserveAuth extends javax.swing.JFrame {
                 }
             }
             if (check == false) {
+                for (int j = 0; j < accountlist.size(); j++) { // 전화번호를 얻기 위함
+                    if ((model.getValueAt(row, 2).toString()).equals(accountlist.get(j).getId())) {
+                        phonenumber = accountlist.get(j).getPhonenumber();
+                    }
+                }
                 if (classnumber.equals("915")) {
                     LectureRoom class915 = new Class915();
                     class915.setAllowedBehavior(new AllowedStudent());
                     dao.UpdateReser(dto, model.getValueAt(row, 0).toString(), class915.display(), "1");
+                    send.send(phonenumber);
                 }
                 if (classnumber.equals("916")) {
                     LectureRoom class916 = new Class916();
                     class916.setAllowedBehavior(new AllowedStudent());
                     dao.UpdateReser(dto, model.getValueAt(row, 0).toString(), class916.display(), "1");
+                    send.send(phonenumber);
                 }
                 if (classnumber.equals("918")) {
                     LectureRoom class918 = new Class918();
                     class918.setAllowedBehavior(new AllowedStudent());
                     dao.UpdateReser(dto, model.getValueAt(row, 0).toString(), class918.display(), "1");
+                    send.send(phonenumber);
                 }
                 if (classnumber.equals("911")) {
                     LectureRoom class911 = new Class911();
                     class911.setAllowedBehavior(new AllowedStudent());
                     dao.UpdateReser(dto, model.getValueAt(row, 0).toString(), class911.display(), "1");
+                    send.send(phonenumber);
                 }
             } else {
                 if (count == 0) {
                     dao.UpdateReser(dto, model.getValueAt(row, 0).toString(), "-", "1");
                 } else if (count >= 1) {
+                    for (int j = 0; j < accountlist.size(); j++) { // 전화번호를 얻기 위함
+                        if ((model.getValueAt(row, 2).toString()).equals(accountlist.get(j).getId())) {
+                            phonenumber = accountlist.get(j).getPhonenumber();
+                        }
+                    }
                     if (classnumber.equals("915")) {
                         LectureRoom class915 = new Class915();
                         class915.setAllowedBehavior(new AllowedStudent());
                         dao.UpdateReser(dto, model.getValueAt(row, 0).toString(), class915.display(), "1");
+                        send.send(phonenumber);
                     }
                     if (classnumber.equals("916")) {
                         LectureRoom class916 = new Class916();
                         class916.setAllowedBehavior(new AllowedStudent());
                         dao.UpdateReser(dto, model.getValueAt(row, 0).toString(), class916.display(), "1");
+                        send.send(phonenumber);
                     }
                     if (classnumber.equals("918")) {
                         LectureRoom class918 = new Class918();
                         class918.setAllowedBehavior(new AllowedStudent());
                         dao.UpdateReser(dto, model.getValueAt(row, 0).toString(), class918.display(), "1");
+                        send.send(phonenumber);
                     }
                     if (classnumber.equals("911")) {
                         LectureRoom class911 = new Class911();
                         class911.setAllowedBehavior(new AllowedStudent());
                         dao.UpdateReser(dto, model.getValueAt(row, 0).toString(), class911.display(), "1");
+                        send.send(phonenumber);
                     }
                 }
             }
-
             loadTable(classnumber);
             showMessageDialog(null, "예약 승인");
         }

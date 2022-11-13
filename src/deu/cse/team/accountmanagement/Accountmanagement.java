@@ -494,7 +494,7 @@ public class Accountmanagement extends javax.swing.JFrame {
                 if (selected.equals(reserlist.get(i).getId())) {
                     ReservationDTO dto2 = new ReservationDTO();
                     ClassAdmin classadmin = new ClassAdmin();
-                    classadmin.classAdminSet(reserlist.get(i).getOk(), reserlist.get(i).getClassadmin(), reserlist.get(i).getClassnumber(), Integer.toString(reserlist.get(i).getReser_number()), reserlist.get(i).getReser_date(), reserlist.get(i).getReser_endtime());
+                    classadmin.classAdminSet(reserlist.get(i).getOk(), reserlist.get(i).getClassadmin(), reserlist.get(i).getClassnumber(), Integer.toString(reserlist.get(i).getReser_number()), reserlist.get(i).getReser_date(), reserlist.get(i).getReser_endtime(), reserlist.get(i).getId());
                     dao.DeleteReser(dto2, selected);
                 }
             }

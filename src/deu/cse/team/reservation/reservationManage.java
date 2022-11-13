@@ -23,8 +23,8 @@ import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.table.DefaultTableModel;
 
 /**
- * 2022.11.12 [최초작성자 20183215 정현수] 
- * 
+ * 2022.11.12 [최초작성자 20183215 정현수]
+ *
  */
 public class reservationManage extends javax.swing.JFrame {
 
@@ -408,13 +408,13 @@ public class reservationManage extends javax.swing.JFrame {
             if (reser_number.equals(Integer.toString(reservationList.get(i).getReser_number()))) {
                 ReservationDTO dto = new ReservationDTO();
                 ClassAdmin classadmin = new ClassAdmin();
-                classadmin.classAdminSet(reservationList.get(i).getOk(), reservationList.get(i).getClassadmin(), reservationList.get(i).getClassnumber(), Integer.toString(reservationList.get(i).getReser_number()), reservationList.get(i).getReser_date(), reservationList.get(i).getReser_endtime());
+                classadmin.classAdminSet(reservationList.get(i).getOk(), reservationList.get(i).getClassadmin(), reservationList.get(i).getClassnumber(), Integer.toString(reservationList.get(i).getReser_number()), reservationList.get(i).getReser_date(), reservationList.get(i).getReser_endtime(), reservationList.get(i).getId());
 
                 dao.CancelReser(dto, reser_number);
             }
         }
         loadReserTable();
-        
+
         showMessageDialog(null, "취소되었습니다.");
         jDialog1.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -482,7 +482,6 @@ public class reservationManage extends javax.swing.JFrame {
 
                             }
                         }
-
                     }
 
                 }
@@ -502,6 +501,12 @@ public class reservationManage extends javax.swing.JFrame {
 
                     ReservationDTO dto = new ReservationDTO();
                     dao.UpdateReser(dto, reser_number, formatter.format(cal.getTime()));
+//                    for (int j = 0; j < reservationList.size(); j++) {
+//                        if (reser_number.equals(Integer.toString(reservationList.get(j).getReser_number()))) {
+//                            ClassAdmin classadmin = new ClassAdmin();
+//                            classadmin.classAdminSet(reservationList.get(i).getOk(), reservationList.get(i).getClassadmin(), reservationList.get(i).getClassnumber(), Integer.toString(reservationList.get(i).getReser_number()), reservationList.get(i).getReser_date(), reservationList.get(i).getReser_endtime(), reservationList.get(i).getId());
+//                        }
+//                    }
                     loadReserTable();
                     showMessageDialog(null, "※       연장성공※\n예약이 " + Integer.toString(str) + "분 연장됩니다.");
 
