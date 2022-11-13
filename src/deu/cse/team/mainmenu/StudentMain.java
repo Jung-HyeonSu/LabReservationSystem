@@ -342,13 +342,8 @@ public class StudentMain extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        try {
-            new MBoard("no").setVisible(true);
-        } catch (SQLException ex) {
-            Logger.getLogger(StudentMain.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NamingException ex) {
-            Logger.getLogger(StudentMain.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        MBoard mboard = new MBoard("Student");
+        mboard.setVisible(true);
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
