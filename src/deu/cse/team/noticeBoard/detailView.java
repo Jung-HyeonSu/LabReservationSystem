@@ -34,9 +34,11 @@ public class detailView extends javax.swing.JFrame {
         index1=Integer.parseInt(index);
         jTextField1.setText(t.getTitle());
         jTextArea1.setText(t.getContent());
-
         if("admin".equals(MBoard.division)){
             jComboBox1.addItem("공지");
+            jComboBox1.addItem("규칙");
+            jComboBox1.addItem("문의");
+            jComboBox1.addItem("신고");
         }else{
             jComboBox1.addItem("문의");
             jComboBox1.addItem("신고");

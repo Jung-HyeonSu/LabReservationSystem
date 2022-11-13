@@ -8,8 +8,10 @@ import deu.cse.team.login.Login;
 import deu.cse.team.observer.AdminObserver;
 import deu.cse.team.observer.NoticeData;
 import deu.cse.team.observer.StudentObserver;
+import deu.cse.team.singleton.AccountDTO;
 import deu.cse.team.singleton.BoardDTO;
 import deu.cse.team.singleton.DAO;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -21,8 +23,11 @@ public class writeDlg extends javax.swing.JFrame {
     /**
      * Creates new form sanctionsDlg
      */
-    public writeDlg(String division) {
+    private String id;
+    public writeDlg(String id, String division) {
         initComponents();
+        this.id=id;
+        jLabel4.setText(division);
     }
     DAO dao = DAO.getInstance();
     /**
@@ -149,13 +154,22 @@ public class writeDlg extends javax.swing.JFrame {
             contents = adminObserver.display();
         }
         
+        List<AccountDTO> accountlist = dao.getAccountList();
+        String password = null;
+        for (int i = 0; i < accountlist.size(); i++) {
+            if(id.equals(accountlist.get(i).getId())){
+                password = accountlist.get(i).getPassword();
+            }
+        }
+        
         BoardDTO b=new BoardDTO();
         b.setTitle(jTextField1.getText());
         b.setContent(contents);
-        b.setSid(Login.S.getId());
-        b.setSps(Login.S.getPassword());
+        b.setSid(id);
+        b.setSps(password);
         b.setType(jLabel4.getText());
         dao.boardInsert(b);
+        
         JOptionPane.showMessageDialog(null, "등록 완료.");
         this.dispose();    
     }//GEN-LAST:event_jButton1ActionPerformed
