@@ -8,6 +8,7 @@ import deu.cse.team.accountmanagement.Accountmanagement;
 import deu.cse.team.login.Login;
 import deu.cse.team.noticeBoard.MBoard;
 import deu.cse.team.register.AdminRegister;
+import deu.cse.team.reservation.ReserveAuth;
 import deu.cse.team.singleton.AccountDTO;
 import deu.cse.team.singleton.DAO;
 import deu.cse.team.singleton.TokenDTO;
@@ -239,6 +240,11 @@ public class AdminMain extends javax.swing.JFrame {
         });
 
         jButton6.setText("예약 승인");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         jButton7.setText("게시판 확인");
         jButton7.addActionListener(new java.awt.event.ActionListener() {
@@ -425,6 +431,12 @@ public class AdminMain extends javax.swing.JFrame {
         rs.setVisible(true);
         rs.setSize(818, 530);
     }//GEN-LAST:event_classstausActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        ReserveAuth reserveAuth = new ReserveAuth();
+        reserveAuth.setVisible(true);
+    }//GEN-LAST:event_jButton6ActionPerformed
 
     /**
      * @param args the command line arguments
