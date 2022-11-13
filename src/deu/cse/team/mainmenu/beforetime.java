@@ -30,10 +30,13 @@ public class beforetime extends javax.swing.JFrame {
     List<ClassTimetableDTO> cdto = dao.getTimetableList();
     Calendar c = Calendar.getInstance();
     int dayofWeek = c.get(Calendar.DAY_OF_WEEK);//요일 판단 일 ~ 토 = 1 ~ 7
-    
+    List<ClassInformationDTO> cid = dao.getClassInformation(); //디비에서 가져왔다가졍
+    String starttime = "11";
+    String endtime = "12";
     int max = 40;
-    int resercount=0;
+    int resercount = 0;
     int index = 0;
+    boolean iscount;
 
     public beforetime(String id) {
         initComponents();
@@ -41,9 +44,10 @@ public class beforetime extends javax.swing.JFrame {
     }
 
     void getSchedule(int index) {
-        if (dayofWeek == 1) dayofWeek = 8;
-        System.out.println("length "  + cdto.get(index).getTime1().split(",").length);
-        classTime[0] = !(cdto.get(index).getTime1().split(",")[dayofWeek - 2].equals(" ")); //0=방 번호 915 916 917 918 | 0,1,2,3
+        if (dayofWeek == 1) {
+            dayofWeek = 8;
+        }
+        classTime[0] = !(cdto.get(index).getTime1().split(",")[dayofWeek - 2].equals(" ")); //0=방 번호 915 916 917 918 | 0,1,2,3        
         classTime[1] = !(cdto.get(index).getTime2().split(",")[dayofWeek - 2].equals(" "));
         classTime[2] = !(cdto.get(index).getTime3().split(",")[dayofWeek - 2].equals(" "));
         classTime[3] = !(cdto.get(index).getTime4().split(",")[dayofWeek - 2].equals(" "));
@@ -147,7 +151,27 @@ public class beforetime extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+        void checkingclassschedule() {
+        for (; index < cid.size(); index++) {
+            getSchedule(index);            
+            iscount = false;
+            System.out.println("check1");
+            for (int i = Integer.parseInt(starttime) - 9; i < Integer.parseInt(endtime) - 9; i++) {                
+                System.out.println("check2");
+                if (classTime[i] == true) {
+                    iscount = true;
+                    System.out.println("iscount = " + iscount);
+//                        if (index==cid.size()-1) {
+//                            index++;
+//                            System.out.println(index);
+//                        }
+                }
+            }// 시간표랑 비교하는 알고리즘
+            if (!iscount) {
+                break;
+            }
+        }
+    }
     private void changebtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changebtn1ActionPerformed
         // TODO add your handling code here:
         DAO dao = DAO.getInstance();
@@ -158,16 +182,18 @@ public class beforetime extends javax.swing.JFrame {
             showMessageDialog(null, "시작 시간이 종료 시간보다 클 수는 없습니다.");
         } else if (Integer.parseInt(starttime) == Integer.parseInt(endtime)) {
             showMessageDialog(null, "시작 시간이 종료 시간과 같을 수는 없습니다.");
-        } else {            
+        } else {
             //강의실별 예약현황 확인 dao 추가하기
-            List<ClassInformationDTO> cid = dao.getClassInformation(); //디비에서 가져왔다가졍
-            for (index = 0; index < cid.size(); index++) {
+            index = 0;
+
+            for (; index < cid.size(); index++) {
                 getSchedule(index);
+                showMessageDialog(null, index);
                 boolean iscount = false;
                 for (int i = Integer.parseInt(starttime) - 9; i < Integer.parseInt(endtime) - 9; i++) {
+                    
                     if (classTime[i] == true) {
                         iscount = true;
-                        System.out.println(iscount);
                     }
                 }// 시간표랑 비교하는 알고리즘
                 if (!iscount) {
@@ -179,35 +205,31 @@ public class beforetime extends javax.swing.JFrame {
 //           1. 시간표랑 비교 /구현 완료
 //           2. 풀방인지 확인
 /*             풀방이면 넘기고 아니면아래로            
-*/
+             */
 //           3. 25명 넘는지 확인
 /*              넘으면 개인인지 팀인지 판단하기
                 팀 :  방선택 권한 | 총 예약인원 + 팀인원 >= 방의 총 수용인원 => 다음방으로
                 개인 : 남은 자리 예약하기
-*/      
+             */
 //            옵션패널로  방 옮길지 말지 네 아니오 구현하면 될 듯
 //              for문으로  모든 좌석이 예약되었는지 확인하기
-            
-            for ( ; index < cid.size(); index++) {
-                resercount = dao.getselecttimeReserLength(cid.get(index).getClassnumber(),today, starttime, endtime);
+
+            for (; index < cid.size(); index++) {
+                showMessageDialog(null, index);
+                checkingclassschedule();
+                resercount = dao.getselecttimeReserLength(cid.get(index).getClassnumber(), today, starttime, endtime);
                 if (resercount == cid.get(index).getMaxseat()) {
 //              showMessageDialog(null,"설정한 시간에 모든 좌석 예약이 완료되어있습니다");
-                System.out.println(cid.get(index).getClassnumber()+"모든 좌석 예약 완료");
-                }
-//             2. 풀방인지 확인
-/*             풀방이면 넘기고 아니면아래로     /구현 완료  */   
-                
-                else if(resercount >= 25){
+                } //             2. 풀방인지 확인
+                /*             풀방이면 넘기고 아니면아래로     /구현 완료  */ else if (resercount >= 25) {
                     showMessageDialog(null, "선택한 시간에 예약한 사람이 25명이 넘습니다.\n선택예약으로 이동합니다.");
                     //다음 확인하고 ++
                     HeadcountGui h = new HeadcountGui(starttime, endtime, "before", id, index); //생성자에 강의실 번호 추가하기0
                     //옮긴다고하면 index +=1로 수정 아니면 그냥 그래도 ㄱㄱ                    
                     h.setVisible(true);
                     break;
-                }
-//             3. 25명 넘는지 확인   
-                
-                else if (resercount < 25){
+                } //             3. 25명 넘는지 확인   
+                else if (resercount < 25) {
                     beforeReserve br = new beforeReserve(id, starttime, endtime, 1, cid.get(index).getMaxseat(), cid.get(index).getClassnumber());
                     br.setVisible(true);
                     br.setSize(818, 477);
@@ -215,12 +237,12 @@ public class beforetime extends javax.swing.JFrame {
                 }
 //                    4. 25명 안 넘으면 예약가능한 강의실로 이동 //구현 완
             }
-            if (index == cid.size() ) {
+            if (index == cid.size()) {
                 showMessageDialog(null, "현재 예약가능한 강의실이 없습니다.");
                 dispose();
 //              5. 모든 강의실이 수업중인경우
 //                 모든 강의실이 예약이 된경우
-            }   
+            }
 //            if (index < cid.size()) {
 //                if (resercount >= 25) {
 //                    showMessageDialog(null, "선택한 시간에 예약한 사람이 25명이 넘습니다.\n선택예약으로 이동합니다.");

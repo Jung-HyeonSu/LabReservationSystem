@@ -25,16 +25,11 @@ public class DAO {
     // DB 연동 방법.
     // 1) 클래스를 로드 - 프로그램 전체에서 1번만 수행
     // Static 초기화를 이용.
-    
     // 2) DB연결 - Connection 객체를 이용. (메서드를 만들어서 사용)
     // Connection변수 = DriverManager.getConnection(위치, 아이디, 비번)을 이용.
-
     // 3) DB 사용 - Statment, PreparedStatement, CallableStatement객체 (SQL문 실행)
     // ResultSet - Select 구문 결과 출력. (그외에는 정수(영향받은 행의 갯수)로 출력)
-    
     // 4) 자원을 해제. - 위 객체들을 close();
-    
-    
     static { // Static 초기화
         // 여기에 작성한 내용을 클래스가 메모리에 로드될 때 딱 1번만 수행됩니다. (다시는 수행 안함)
         // 객체가 생성되기 전에 수행되기 때문에 멤버 변수 사용은 안됩니다.
@@ -55,7 +50,7 @@ public class DAO {
     private static DAO uniqueInstance = new DAO();
 
     //선언한 static변수에 객체를 생성해주는 메서드 선언
-    public static DAO getInstance() { 
+    public static DAO getInstance() {
         return uniqueInstance;
     }
 
@@ -145,14 +140,14 @@ public class DAO {
 
         return list;
     }
-    
+
     public List<ClassTimetableDTO> getTimetableList() {
         List<ClassTimetableDTO> list = null;
         String sql = "SELECT * FROM classtimetable";
         if (connect()) {
             try {
                 stmt = con.createStatement();
-                if (stmt != null) { 
+                if (stmt != null) {
                     rs = stmt.executeQuery(sql);
                     list = new ArrayList<ClassTimetableDTO>();
                     while (rs.next()) {
@@ -180,14 +175,14 @@ public class DAO {
 
         return list;
     }
-    
+
     public List<ReservationDTO> getReserList() {
         List<ReservationDTO> list = null;
         String sql = "SELECT * FROM reservation";
         if (connect()) {
             try {
                 stmt = con.createStatement();
-                if (stmt != null) { 
+                if (stmt != null) {
                     rs = stmt.executeQuery(sql);
                     list = new ArrayList<ReservationDTO>();
                     while (rs.next()) {
@@ -215,14 +210,15 @@ public class DAO {
 
         return list;
     }
-        public List<ReservationDTO> getclassReserList(String classnumber) {
+
+    public List<ReservationDTO> getclassReserList(String classnumber) {
         List<ReservationDTO> list = null;
-        String sql = "SELECT * FROM reservation where classnumber = '"+classnumber+"'";
+        String sql = "SELECT * FROM reservation where classnumber = '" + classnumber + "'";
         System.out.println(sql);
         if (connect()) {
             try {
                 stmt = con.createStatement();
-                if (stmt != null) { 
+                if (stmt != null) {
                     rs = stmt.executeQuery(sql);
                     list = new ArrayList<ReservationDTO>();
                     while (rs.next()) {
@@ -250,13 +246,14 @@ public class DAO {
 
         return list;
     }
+
     public List<ClassInformationDTO> getClassInformation() {
         List<ClassInformationDTO> list = null;
         String sql = "SELECT * FROM classinformation";
         if (connect()) {
             try {
                 stmt = con.createStatement();
-                if (stmt != null) { 
+                if (stmt != null) {
                     rs = stmt.executeQuery(sql);
                     list = new ArrayList<ClassInformationDTO>();
                     while (rs.next()) {
@@ -276,15 +273,40 @@ public class DAO {
 
         return list;
     }
+
+    public String getClassMaxseat(String classnumber) {
+        String maxseat = "0";
+        String sql = "SELECT * FROM classinformation where classnumber = '" + classnumber + "'";
+        System.out.println(sql);
+        if (connect()) {
+            try {
+                stmt = con.createStatement();
+                if (stmt != null) {
+                    rs = stmt.executeQuery(sql);
+                    while (rs.next()) {
+                        maxseat = rs.getString("maxseat");
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("데이터베이스 연결에 실패했습니다.");
+            System.exit(0);
+        }
+
+        return maxseat;
+    }
+
     public int getClassReserLength(String classnumber) {
         int value = 0;
-        String sql = "SELECT * FROM reservation where classnumber = '"+classnumber+"'";
-        
+        String sql = "SELECT * FROM reservation where classnumber = '" + classnumber + "'";
+
         if (connect()) {
             try {
                 stmt = con.createStatement();
                 rs = stmt.executeQuery(sql);
-                if (stmt != null) {                     
+                if (stmt != null) {
                     //데이터를 읽어서 list에 저장
                     while (rs.next()) {
                         value++;
@@ -300,7 +322,7 @@ public class DAO {
         }
         return value;
     }
-    
+
     public String getTokenList() {
         String value = null;
         String sql = "SELECT * FROM TOKEN";
@@ -308,8 +330,8 @@ public class DAO {
             try {
                 stmt = con.createStatement();
                 rs = stmt.executeQuery(sql);
-                if (stmt != null) { 
-                    
+                if (stmt != null) {
+
                     //데이터를 읽어서 list에 저장
                     while (rs.next()) {
                         value = rs.getString("token_value");
@@ -323,12 +345,11 @@ public class DAO {
             System.out.println("데이터베이스 연결에 실패했습니다.");
             System.exit(0);
         }
-        
+
         return value;
     }
 
     //account 테이블에 데이터를 삽입하는 메서드
-        
     public boolean InsertAccount(AccountDTO account) {
         boolean result = false;
 
@@ -337,7 +358,7 @@ public class DAO {
                 //값이 삽입되어야 하는 자리에는 물음표
                 String sql = "INSERT INTO account VALUES (?,?,?,?,?,?,?)"; //모든 컬럼에 값을 넣으므로 컬럼명 생략.
                 PreparedStatement pstmt = con.prepareStatement(sql);
-                
+
                 //VALUES의 ?에 값을 바인딩. (바인딩 : ?에 들어갔어야 하는 원래 데이터 값을 입력.
                 //바인딩 방법. set자료형(컬럼, 들어갈 데이터); 
                 pstmt.setString(1, account.getId());
@@ -368,6 +389,7 @@ public class DAO {
 
         return result;
     }
+
     public boolean InsertReservation(ReservationDTO reservation) {
         boolean result = false;
         if (this.connect()) {
@@ -405,6 +427,7 @@ public class DAO {
 
         return result;
     }
+
     public int getReserLength() {
         int count = 0;
         if (this.connect()) {
@@ -431,12 +454,13 @@ public class DAO {
 
         return count;
     }
-    public int getselecttimeReserLength(String classnumber, String today,String starttime, String endtime) {
+
+    public int getselecttimeReserLength(String classnumber, String today, String starttime, String endtime) {
         int count = 0;
         if (this.connect()) {
             try {
                 //값이 삽입되어야 하는 자리에는 물음표
-                String sql = "SELECT * FROM reservation where classnumber = '"+classnumber+"' and reser_date= '"+today+"' and reser_starttime >= '"+starttime+":00' and reser_endtime <= '"+endtime+":00'";                
+                String sql = "SELECT * FROM reservation where classnumber = '" + classnumber + "' and reser_date= '" + today + "' and reser_starttime >= '" + starttime + ":00' and reser_endtime <= '" + endtime + ":00'";
                 System.out.println(sql);
                 PreparedStatement pstmt = con.prepareStatement(sql);
                 stmt = con.createStatement();
@@ -458,12 +482,13 @@ public class DAO {
 
         return count;
     }
-    public String getClassAdmin(String classnumber, String today) {        
-        String id="미정";
+
+    public String getClassAdmin(String classnumber, String today) {
+        String id = "미정";
         if (this.connect()) {
             try {
                 //값이 삽입되어야 하는 자리에는 물음표
-                String sql = "SELECT * FROM reservation where classnumber = '"+classnumber+"' and reser_date= '"+today +"' and classadmin not in ('-','조교')";                
+                String sql = "SELECT * FROM reservation where classnumber = '" + classnumber + "' and reser_date= '" + today + "' and classadmin not in ('-','조교')";
                 System.out.println(sql);
                 PreparedStatement pstmt = con.prepareStatement(sql);
                 stmt = con.createStatement();
@@ -484,9 +509,7 @@ public class DAO {
         }
         return id;
     }
-    
-    
-    
+
     /*
     public boolean InsertC(ClassTimetableDTO time) {
         boolean result = false;
@@ -532,15 +555,13 @@ public class DAO {
         return result;
     }
    
-    */
-    
-    
+     */
     public boolean UpdateToken(TokenDTO token, String oldToken, String newToken) {
         boolean result = false;
 
         if (this.connect()) {
             try {
-                String sql = "UPDATE token SET token_value="+newToken+" WHERE token_value =" + oldToken; 
+                String sql = "UPDATE token SET token_value=" + newToken + " WHERE token_value =" + oldToken;
                 PreparedStatement pstmt = con.prepareStatement(sql);
 
                 int r = pstmt.executeUpdate();
@@ -563,7 +584,7 @@ public class DAO {
 
         return result;
     }
-    
+
     public boolean UpdateAccount(AccountDTO account, String id, String allowed) {
         boolean result = false;
 
@@ -573,7 +594,7 @@ public class DAO {
 
                 PreparedStatement pstmt = con.prepareStatement(sql);
                 pstmt.setString(1, allowed);
-                
+
                 int r = pstmt.executeUpdate();
 
                 if (r > 0) {
@@ -594,7 +615,7 @@ public class DAO {
 
         return result;
     }
-    
+
     public boolean UpdateAccount(AccountDTO account, String id, String password, String name, String phonenumber) {
         boolean result = false;
 
@@ -606,7 +627,7 @@ public class DAO {
                 pstmt.setString(1, password);
                 pstmt.setString(2, name);
                 pstmt.setString(3, phonenumber);
-                
+
                 int r = pstmt.executeUpdate();
 
                 if (r > 0) {
@@ -627,8 +648,8 @@ public class DAO {
 
         return result;
     }
-    
-    public boolean UpdateAccount(AccountDTO account, String id, String password, String name, String phonenumber, int warning, String power, String allowed){
+
+    public boolean UpdateAccount(AccountDTO account, String id, String password, String name, String phonenumber, int warning, String power, String allowed) {
         boolean result = false;
 
         if (this.connect()) {
@@ -662,9 +683,9 @@ public class DAO {
 
         return result;
     }
-    
+
     public boolean UpdateTimetable(ClassTimetableDTO classtimetable, String classnumber,
-            String time1, String time2,String time3,String time4,String time5,String time6,String time7,String time8) {
+            String time1, String time2, String time3, String time4, String time5, String time6, String time7, String time8) {
         boolean result = false;
 
         if (this.connect()) {
@@ -680,7 +701,7 @@ public class DAO {
                 pstmt.setString(6, time6);
                 pstmt.setString(7, time7);
                 pstmt.setString(8, time8);
-                
+
                 int r = pstmt.executeUpdate();
 
                 if (r > 0) {
@@ -701,7 +722,7 @@ public class DAO {
 
         return result;
     }
-    
+
     public boolean UpdateReser(ReservationDTO reservation, String reser_number, String classadmin, String ok) {
         boolean result = false;
 
@@ -712,7 +733,7 @@ public class DAO {
                 PreparedStatement pstmt = con.prepareStatement(sql);
                 pstmt.setString(1, classadmin);
                 pstmt.setString(2, ok);
-                
+
                 int r = pstmt.executeUpdate();
 
                 if (r > 0) {
@@ -733,7 +754,7 @@ public class DAO {
 
         return result;
     }
-    
+
     public boolean UpdateReser(ReservationDTO reservation, String reser_number,
             String reser_endtime) {
         boolean result = false;
@@ -744,7 +765,7 @@ public class DAO {
 
                 PreparedStatement pstmt = con.prepareStatement(sql);
                 pstmt.setString(1, reser_endtime);
-                
+
                 int r = pstmt.executeUpdate();
 
                 if (r > 0) {
@@ -765,7 +786,7 @@ public class DAO {
 
         return result;
     }
-    
+
     public boolean DeleteAccount(AccountDTO account, String id) {
         boolean result = false;
         if (this.connect()) {
@@ -774,7 +795,7 @@ public class DAO {
 
                 PreparedStatement pstmt = con.prepareStatement(sql);
                 pstmt.setString(1, id);
-    
+
                 int r = pstmt.executeUpdate();
 
                 if (r > 0) {
@@ -782,7 +803,7 @@ public class DAO {
                 }
                 //데이터베이스 생성 객체 해제
                 pstmt.close();
-                
+
                 this.close();
 
             } catch (SQLException e) {
@@ -796,16 +817,18 @@ public class DAO {
 
         return result;
     }
-    public boolean UpdateClassInformaiton(String classnumber, String maxseat) {
+
+    public boolean UpdateClassInformation(String classnumber, String maxseat) {
         boolean result = false;
 
         if (this.connect()) {
             try {
-                String sql = "UPDATE classinfotmaiton SET maxseat='(?)' WHERE classnumber =" + classnumber+"'";
+                String sql = "UPDATE classinformation SET maxseat=(?) WHERE classnumber =(?)";
                 System.out.println(sql);
                 PreparedStatement pstmt = con.prepareStatement(sql);
                 pstmt.setString(1, maxseat);
-                
+                pstmt.setString(2, classnumber);
+
                 int r = pstmt.executeUpdate();
 
                 if (r > 0) {
@@ -835,7 +858,7 @@ public class DAO {
 
                 PreparedStatement pstmt = con.prepareStatement(sql);
                 pstmt.setString(1, reser_number);
-    
+
                 int r = pstmt.executeUpdate();
 
                 if (r > 0) {
@@ -843,7 +866,7 @@ public class DAO {
                 }
                 //데이터베이스 생성 객체 해제
                 pstmt.close();
-             
+
                 this.close();
 
             } catch (SQLException e) {
@@ -857,7 +880,7 @@ public class DAO {
 
         return result;
     }
-    
+
     public boolean DeleteReser(ReservationDTO reservation, String id) {
         boolean result = false;
         if (this.connect()) {
@@ -866,7 +889,7 @@ public class DAO {
 
                 PreparedStatement pstmt = con.prepareStatement(sql);
                 pstmt.setString(1, id);
-    
+
                 int r = pstmt.executeUpdate();
 
                 if (r > 0) {
@@ -874,7 +897,7 @@ public class DAO {
                 }
                 //데이터베이스 생성 객체 해제
                 pstmt.close();
-             
+
                 this.close();
 
             } catch (SQLException e) {
@@ -888,174 +911,182 @@ public class DAO {
 
         return result;
     }
-    
-    
-    public void boardInsert(BoardDTO b){
+
+    public void boardInsert(BoardDTO b) {
         if (this.connect()) {
-                    try {
-                        String sql="insert into board(no, title, content, sid, sps, type) values(no.NEXTVAL,?,?,?,?,?)";
-                        PreparedStatement st = con.prepareStatement(sql);
-                        st.setString(1, b.getTitle());
-                        st.setString(2, b.getContent());
-                        st.setString(3, b.getSid());
-                        st.setString(4, b.getSps());
-                        st.setString(5, b.getType());
+            try {
+                String sql = "insert into board(no, title, content, sid, sps, type) values(no.NEXTVAL,?,?,?,?,?)";
+                PreparedStatement st = con.prepareStatement(sql);
+                st.setString(1, b.getTitle());
+                st.setString(2, b.getContent());
+                st.setString(3, b.getSid());
+                st.setString(4, b.getSps());
+                st.setString(5, b.getType());
 
-                        st.executeUpdate();
+                st.executeUpdate();
 
-                        st.close();
-                        this.close();
+                st.close();
+                this.close();
 
-                    } catch (SQLException e) {}
+            } catch (SQLException e) {
+            }
 
-                } else {
-                    System.out.println("데이터베이스 연결에 실패");
-                    System.exit(0);    
-                }
+        } else {
+            System.out.println("데이터베이스 연결에 실패");
+            System.exit(0);
+        }
     }
-	public void boardUpdate(BoardDTO b, int n1){
+
+    public void boardUpdate(BoardDTO b, int n1) {
         if (this.connect()) {
-                   try {
-                    String sql="update board set title=?, content=?, sid=?, sps=?, type=? where no=?";
-			PreparedStatement st = con.prepareStatement(sql);
-                        st.setString(1, b.getTitle());
-			st.setString(2, b.getContent());
-                        st.setString(3, b.getSid());
-			st.setString(4, b.getSps());
-                        st.setString(5, b.getType());
-                        st.setInt(6, n1);
-                       
-			st.executeUpdate();
-                         st.close();
-                        this.close();
-		} catch (SQLException e) {}
+            try {
+                String sql = "update board set title=?, content=?, sid=?, sps=?, type=? where no=?";
+                PreparedStatement st = con.prepareStatement(sql);
+                st.setString(1, b.getTitle());
+                st.setString(2, b.getContent());
+                st.setString(3, b.getSid());
+                st.setString(4, b.getSps());
+                st.setString(5, b.getType());
+                st.setInt(6, n1);
 
-                } else {
-                    System.out.println("데이터베이스 연결에 실패");
-                    System.exit(0);    
-                }
+                st.executeUpdate();
+                st.close();
+                this.close();
+            } catch (SQLException e) {
+            }
+
+        } else {
+            System.out.println("데이터베이스 연결에 실패");
+            System.exit(0);
         }
+    }
 
-	public void boardDelete(int n1){
+    public void boardDelete(int n1) {
         if (this.connect()) {
-                   try {
-                    String sql="delete from board where no="+n1;
-                       System.out.println(sql);
-			PreparedStatement st = con.prepareStatement(sql);
-			st.executeUpdate();
-                        st.close();
-                        this.close();
-		} catch (SQLException e) {}
+            try {
+                String sql = "delete from board where no=" + n1;
+                System.out.println(sql);
+                PreparedStatement st = con.prepareStatement(sql);
+                st.executeUpdate();
+                st.close();
+                this.close();
+            } catch (SQLException e) {
+            }
 
-                } else {
-                    System.out.println("데이터베이스 연결에 실패");
-                    System.exit(0);    
-                }
+        } else {
+            System.out.println("데이터베이스 연결에 실패");
+            System.exit(0);
         }
-        
+    }
+
     public ArrayList<BoardDTO> boardSelect() {
-           ArrayList<BoardDTO> list= new ArrayList<BoardDTO>();
-  
-            if (connect()) {
-                try {
-                    String sql="select no, title, sid, wdate, type from board";
-                    stmt = con.createStatement();
-                    if (stmt != null) { 
-                        rs = stmt.executeQuery(sql);
+        ArrayList<BoardDTO> list = new ArrayList<BoardDTO>();
 
-                        while (rs.next()) {
-                            BoardDTO mc = new BoardDTO();
-                            mc.setNo(rs.getInt(1));
-                            mc.setTitle(rs.getString(2));
-                            mc.setSid(rs.getString(3));
-                            mc.setWdate(rs.getString(4));
-                            mc.setType(rs.getString(5));
-                            list.add(mc);
-                        }
-                        stmt.close();
-                        this.close(); 
+        if (connect()) {
+            try {
+                String sql = "select no, title, sid, wdate, type from board";
+                stmt = con.createStatement();
+                if (stmt != null) {
+                    rs = stmt.executeQuery(sql);
+
+                    while (rs.next()) {
+                        BoardDTO mc = new BoardDTO();
+                        mc.setNo(rs.getInt(1));
+                        mc.setTitle(rs.getString(2));
+                        mc.setSid(rs.getString(3));
+                        mc.setWdate(rs.getString(4));
+                        mc.setType(rs.getString(5));
+                        list.add(mc);
                     }
-                } catch (SQLException e) {}
-            } else {
-                System.out.println("데이터베이스 연결에 실패했습니다.");
-                System.exit(0);
+                    stmt.close();
+                    this.close();
+                }
+            } catch (SQLException e) {
             }
-
-            return list;
+        } else {
+            System.out.println("데이터베이스 연결에 실패했습니다.");
+            System.exit(0);
         }
-    
-    public BoardDTO boardNoSelect(int index) {
-           BoardDTO b= new BoardDTO();
-            if (connect()) {
-                try {
-                    stmt = con.createStatement();
-                    String sql="select * from board where no="+index;
-                    if (stmt != null) { 
-                        rs = stmt.executeQuery(sql);
-                        while (rs.next()) {   
-                            b.setNo(rs.getInt(1));
-                            b.setTitle(rs.getString(2));
-                            b.setContent(rs.getString(3));
-                            b.setSid(rs.getString(4));
-                            b.setSps(rs.getString(5));
-                            b.setType(rs.getString(6));
-                            b.setWdate(rs.getString(7));
-                        }
-                        stmt.close();
-                        this.close(); 
-                    }
-                } catch (SQLException e) {}
-            } else {
-                System.out.println("데이터베이스 연결에 실패했습니다.");
-                System.exit(0);
-            }
-            return b;
+
+        return list;
     }
-    
-    public void warningUpdate(int w, String sid){
-        if (this.connect()) {
-                   try {
-                       int ww = w+1;
-                    String sql="update account set warning=? where id=?";
-			PreparedStatement st = con.prepareStatement(sql);
-                        st.setInt(1, ww);
-                        st.setString(2, sid);
-                       
-			st.executeUpdate();
-                        st.close();
-                        this.close(); 
-		} catch (SQLException e) {}
 
-                } else {
-                    System.out.println("데이터베이스 연결에 실패");
-                    System.exit(0);    
+    public BoardDTO boardNoSelect(int index) {
+        BoardDTO b = new BoardDTO();
+        if (connect()) {
+            try {
+                stmt = con.createStatement();
+                String sql = "select * from board where no=" + index;
+                if (stmt != null) {
+                    rs = stmt.executeQuery(sql);
+                    while (rs.next()) {
+                        b.setNo(rs.getInt(1));
+                        b.setTitle(rs.getString(2));
+                        b.setContent(rs.getString(3));
+                        b.setSid(rs.getString(4));
+                        b.setSps(rs.getString(5));
+                        b.setType(rs.getString(6));
+                        b.setWdate(rs.getString(7));
+                    }
+                    stmt.close();
+                    this.close();
                 }
+            } catch (SQLException e) {
+            }
+        } else {
+            System.out.println("데이터베이스 연결에 실패했습니다.");
+            System.exit(0);
         }
-    
-     public void AllowedUpdate(String sid){
-        if (this.connect()) {
-                   try {
-                    String sql="update account set allowed='1' where id=?";
-			PreparedStatement st = con.prepareStatement(sql);
-                       st.setString(1, sid);
-                        
-			st.executeUpdate();
-                        st.close();
-                        this.close(); 
-		} catch (SQLException e) {}
+        return b;
+    }
 
-                } else {
-                    System.out.println("데이터베이스 연결에 실패");
-                    System.exit(0);    
-                }
+    public void warningUpdate(int w, String sid) {
+        if (this.connect()) {
+            try {
+                int ww = w + 1;
+                String sql = "update account set warning=? where id=?";
+                PreparedStatement st = con.prepareStatement(sql);
+                st.setInt(1, ww);
+                st.setString(2, sid);
+
+                st.executeUpdate();
+                st.close();
+                this.close();
+            } catch (SQLException e) {
+            }
+
+        } else {
+            System.out.println("데이터베이스 연결에 실패");
+            System.exit(0);
         }
-     public List<NoticeDTO> getNoticeList(String id) {
+    }
+
+    public void AllowedUpdate(String sid) {
+        if (this.connect()) {
+            try {
+                String sql = "update account set allowed='1' where id=?";
+                PreparedStatement st = con.prepareStatement(sql);
+                st.setString(1, sid);
+
+                st.executeUpdate();
+                st.close();
+                this.close();
+            } catch (SQLException e) {
+            }
+
+        } else {
+            System.out.println("데이터베이스 연결에 실패");
+            System.exit(0);
+        }
+    }
+
+    public List<NoticeDTO> getNoticeList(String id) {
         List<NoticeDTO> list = null;
         String sql = "SELECT * FROM notice";
         if (connect()) {
             try {
                 stmt = con.createStatement();
-                if (stmt != null) { 
+                if (stmt != null) {
                     rs = stmt.executeQuery(sql);
                     list = new ArrayList<NoticeDTO>();
                     while (rs.next()) {
@@ -1063,7 +1094,7 @@ public class DAO {
                         noticeList.setName(rs.getString("name"));
                         noticeList.setContent(rs.getString("content"));
                         noticeList.setId(rs.getString("id"));
-                        noticeList.setSeperation(rs.getString("seperation"));                       
+                        noticeList.setSeperation(rs.getString("seperation"));
                         list.add(noticeList);
                     }
                 }
@@ -1077,7 +1108,8 @@ public class DAO {
 
         return list;
     }
-      public boolean InsertNotice(NoticeDTO notice) {
+
+    public boolean InsertNotice(NoticeDTO notice) {
         boolean result = false;
         if (this.connect()) {
             try {
@@ -1109,7 +1141,8 @@ public class DAO {
 
         return result;
     }
-      public boolean UpdateNotice(NoticeDTO notice, String id, String content, String seperation) {
+
+    public boolean UpdateNotice(NoticeDTO notice, String id, String content, String seperation) {
         boolean result = false;
 
         if (this.connect()) {
@@ -1119,7 +1152,7 @@ public class DAO {
                 PreparedStatement pstmt = con.prepareStatement(sql);
                 pstmt.setString(1, seperation);
                 pstmt.setString(2, content);
-                
+
                 int r = pstmt.executeUpdate();
 
                 if (r > 0) {

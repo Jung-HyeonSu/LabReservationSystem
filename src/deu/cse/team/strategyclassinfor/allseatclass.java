@@ -4,10 +4,17 @@
  */
 package deu.cse.team.strategyclassinfor;
 
+import deu.cse.team.singleton.DAO;
+
 /**
  *
  * @author Seongchan
  */
-public class halfseatclas {
+public class allseatclass extends Classinformation {
+
+    public allseatclass(String classnumber) {
+        DAO dao = DAO.getInstance();
+        dao.UpdateClassInformation(classnumber, "40");
+    }
     
 }

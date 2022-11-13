@@ -36,9 +36,12 @@ public class HeadcountGui extends javax.swing.JFrame {
     String endtime = "1";
     String check;
     int index;
-    Calendar c;
+    Calendar c = Calendar.getInstance();
+    int dayofWeek = c.get(Calendar.DAY_OF_WEEK);//요일 판단 일 ~ 토 = 1 ~ 7    
     String today = Integer.toString(c.get(Calendar.YEAR)) + "/" + Integer.toString(c.get(Calendar.MONTH) + 1) + "/" + Integer.toString(c.get(Calendar.DATE));
-
+    boolean[] classTime = new boolean[9];//수업시간있는지 확인하는 객체  | true = 수업 O false = 수업 X    
+    List<ClassTimetableDTO> cdto = dao.getTimetableList();
+    
     public HeadcountGui(String starttime, String endtime, String check, String id, int index) {
         initComponents();
         this.starttime = starttime;
@@ -48,7 +51,25 @@ public class HeadcountGui extends javax.swing.JFrame {
         this.index = index;
         remoteControl.setCommand(0, individual, team);
     }
-
+    
+    
+    
+    void getSchedule(int index) {
+        if (dayofWeek == 1) dayofWeek = 8;
+        System.out.println("length "  + cdto.get(index).getTime1().split(",").length);
+        classTime[0] = !(cdto.get(index).getTime1().split(",")[dayofWeek - 2].equals(" ")); //0=방 번호 915 916 917 918 | 0,1,2,3
+        classTime[1] = !(cdto.get(index).getTime2().split(",")[dayofWeek - 2].equals(" "));
+        classTime[2] = !(cdto.get(index).getTime3().split(",")[dayofWeek - 2].equals(" "));
+        classTime[3] = !(cdto.get(index).getTime4().split(",")[dayofWeek - 2].equals(" "));
+        classTime[4] = !(cdto.get(index).getTime5().split(",")[dayofWeek - 2].equals(" "));
+        classTime[5] = !(cdto.get(index).getTime6().split(",")[dayofWeek - 2].equals(" "));
+        classTime[6] = !(cdto.get(index).getTime7().split(",")[dayofWeek - 2].equals(" "));
+        classTime[7] = !(cdto.get(index).getTime8().split(",")[dayofWeek - 2].equals(" "));
+        classTime[8] = false;
+    }
+    
+    
+    
     void checkreser(int i) {
         if (check.equals("before")) {
             showMessageDialog(null, cid.get(i).getClassnumber() + "강의실에서 예약을 시작합니다.");
@@ -197,6 +218,7 @@ public class HeadcountGui extends javax.swing.JFrame {
                     resercount = dao.getselecttimeReserLength(cid.get(index).getClassnumber(), today, starttime, endtime);
                     if (resercount + Integer.parseInt(usernumber.getText()) > cid.get(index).getMaxseat()) {
                         index++;
+                        
                     } else {
                         checkreser(index);
                     }

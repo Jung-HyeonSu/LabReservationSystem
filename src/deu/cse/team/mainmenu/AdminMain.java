@@ -10,11 +10,21 @@ import deu.cse.team.noticeBoard.MBoard;
 import deu.cse.team.register.AdminRegister;
 import deu.cse.team.reservation.ReserveAuth;
 import deu.cse.team.singleton.AccountDTO;
+import deu.cse.team.singleton.ClassInformationDTO;
 import deu.cse.team.singleton.DAO;
 import deu.cse.team.singleton.TokenDTO;
+import deu.cse.team.state.RoundedButton;
+import deu.cse.team.strategyclassinfor.allseatclass;
+import deu.cse.team.strategyclassinfor.Classinformation;
+import deu.cse.team.strategyclassinfor.Classinformation911;
+import deu.cse.team.strategyclassinfor.Classinformation915;
+import deu.cse.team.strategyclassinfor.Classinformation916;
+import deu.cse.team.strategyclassinfor.Classinformation918;
+
 import deu.cse.team.timetable.EditClassTimetable;
 import deu.cse.team.timetable.SeminarTimetable;
 import deu.cse.team.tokenauth.TokenAuth;
+import java.awt.Color;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -26,6 +36,7 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.NamingException;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -37,6 +48,7 @@ public class AdminMain extends javax.swing.JFrame {
     /**
      * Creates new form AdminMain
      */
+    DAO dao = DAO.getInstance();
     public AdminMain() {
         initComponents();
         loadToken();
@@ -64,6 +76,12 @@ public class AdminMain extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         jMenuItem1 = new javax.swing.JMenuItem();
+        classtable = new javax.swing.JDialog();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        classinformationtable = new javax.swing.JTable();
+        add = new javax.swing.JButton();
+        sub = new javax.swing.JButton();
+        jButton21 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -78,6 +96,7 @@ public class AdminMain extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jButton8 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
 
         jLabel6.setText("실습실 시간표 입력");
 
@@ -192,6 +211,76 @@ public class AdminMain extends javax.swing.JFrame {
 
         jMenuItem1.setText("jMenuItem1");
 
+        classinformationtable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "강의실명", "최대인원"
+            }
+        ));
+        classinformationtable.setFocusable(false);
+        jScrollPane3.setViewportView(classinformationtable);
+
+        add.setText("자리 추가");
+        add.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addActionPerformed(evt);
+            }
+        });
+
+        sub.setText("자리 삭제");
+        sub.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                subActionPerformed(evt);
+            }
+        });
+
+        jButton21.setText("닫기");
+        jButton21.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton21ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout classtableLayout = new javax.swing.GroupLayout(classtable.getContentPane());
+        classtable.getContentPane().setLayout(classtableLayout);
+        classtableLayout.setHorizontalGroup(
+            classtableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(classtableLayout.createSequentialGroup()
+                .addContainerGap(130, Short.MAX_VALUE)
+                .addGroup(classtableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, classtableLayout.createSequentialGroup()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(classtableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(add)
+                            .addComponent(sub))
+                        .addGap(17, 17, 17))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, classtableLayout.createSequentialGroup()
+                        .addComponent(jButton21)
+                        .addGap(236, 236, 236))))
+        );
+        classtableLayout.setVerticalGroup(
+            classtableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(classtableLayout.createSequentialGroup()
+                .addGroup(classtableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(classtableLayout.createSequentialGroup()
+                        .addGap(56, 56, 56)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(classtableLayout.createSequentialGroup()
+                        .addGap(86, 86, 86)
+                        .addComponent(add)
+                        .addGap(31, 31, 31)
+                        .addComponent(sub)))
+                .addGap(18, 18, 18)
+                .addComponent(jButton21)
+                .addContainerGap(36, Short.MAX_VALUE))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("맑은 고딕", 0, 24)); // NOI18N
@@ -269,14 +358,17 @@ public class AdminMain extends javax.swing.JFrame {
             }
         });
 
+        jButton5.setText("강의실 관리");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton8)
-                .addGap(33, 33, 33))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -294,17 +386,25 @@ public class AdminMain extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(129, 129, 129)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jButton4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
-                        .addComponent(classstaus, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE))
-                    .addComponent(jLabel1)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
-                        .addComponent(jButton9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(139, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(classstaus, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
+                            .addComponent(jButton5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                        .addComponent(jButton8)
+                        .addGap(16, 16, 16))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
+                                .addComponent(jButton9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jButton4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -329,14 +429,15 @@ public class AdminMain extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jButton4)
                 .addGap(18, 18, 18)
+                .addComponent(jButton5)
+                .addGap(19, 19, 19)
                 .addComponent(classstaus)
                 .addGap(18, 18, 18)
                 .addComponent(jButton6)
                 .addGap(18, 18, 18)
                 .addComponent(jButton7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
-                .addComponent(jButton8)
-                .addGap(24, 24, 24))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton8))
         );
 
         pack();
@@ -344,31 +445,31 @@ public class AdminMain extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        
+
         String oldToken = jLabel4.getText();
-        String newToken=null;
+        String newToken = null;
         try {
             Date date = new Date();
             Random random = new Random();
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String str = format.format(date);
-            int value = Math.abs(str.hashCode() / (random.nextInt(10000)+1));
+            int value = Math.abs(str.hashCode() / (random.nextInt(10000) + 1));
             while (true) {
                 if ((int) (Math.log10(value) + 1) != 6) {
-                    value = Math.abs(str.hashCode() / (random.nextInt(10000)+1));
+                    value = Math.abs(str.hashCode() / (random.nextInt(10000) + 1));
                 } else {
                     break;
                 }
             }
             newToken = Integer.toString(value);
             jLabel4.setText(newToken);
-            
+
             //디비저장
-            DAO dao = DAO.getInstance();
-            TokenDTO dto = new TokenDTO();
-            dao.UpdateToken(dto,oldToken,newToken);
             
-        }catch (Exception ex) {
+            TokenDTO dto = new TokenDTO();
+            dao.UpdateToken(dto, oldToken, newToken);
+
+        } catch (Exception ex) {
             Logger.getLogger(AdminMain.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -437,6 +538,68 @@ public class AdminMain extends javax.swing.JFrame {
         ReserveAuth reserveAuth = new ReserveAuth();
         reserveAuth.setVisible(true);
     }//GEN-LAST:event_jButton6ActionPerformed
+    void seattable(){
+        List<ClassInformationDTO> cidto = dao.getClassInformation();
+        DefaultTableModel dtm = (DefaultTableModel) classinformationtable.getModel();
+        dtm.setRowCount(0);
+        for (int i = 0; i < cidto.size(); i++) dtm.addRow(new Object[]{cidto.get(i).getClassnumber(), cidto.get(i).getMaxseat()});        
+        classinformationtable.updateUI();
+    }
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        seattable();
+        
+//        RoundedButton rb = new RoundedButton();
+//        rb.setSize(100,200);
+////        rb.setBounds(30,40,30,60);
+//        rb.setText("30");
+//        rb.setVisible(true);
+//        classtable.add(rb);
+//        jButton20.setBorderPainted(false);
+//        jButton20.setContentAreaFilled(false);
+        
+        classtable.setSize(567, 400);        
+        classtable.setLocationRelativeTo(this);
+        classtable.setVisible(true);
+        //ui업데이트 현수한테 물어보기
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
+        // TODO add your handling code here:
+        String number = classinformationtable.getValueAt(classinformationtable.getSelectedRow(), 0).toString();
+        String input = JOptionPane.showInputDialog(null, "추가할 자리수를 적어주세요", "");
+        if (number.equals("911")) {
+            Classinformation classinformation = new Classinformation911("add",input);
+        } else if (number.equals("915")) {
+            Classinformation classinformation = new Classinformation915("add",input);
+        } else if (number.equals("916")) {
+            Classinformation classinformation = new Classinformation916("add",input);
+        } else if (number.equals("918")) {
+            Classinformation classinformation = new Classinformation918("add",input);
+        }
+        seattable();
+    }//GEN-LAST:event_addActionPerformed
+
+    private void subActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subActionPerformed
+        // TODO add your handling code here:
+        String number = classinformationtable.getValueAt(classinformationtable.getSelectedRow(), 0).toString();
+        String input = JOptionPane.showInputDialog(null, "제거할 자리수를 적어주세요", "");
+        if (number.equals("911")) {
+            Classinformation classinformation = new Classinformation911("sub",input);
+        } else if (number.equals("915")) {
+            Classinformation classinformation = new Classinformation915("sub",input);
+        } else if (number.equals("916")) {
+            Classinformation classinformation = new Classinformation916("sub",input);
+        } else if (number.equals("918")) {
+            Classinformation classinformation = new Classinformation918("sub",input);
+        }
+        seattable();
+    }//GEN-LAST:event_subActionPerformed
+
+    private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton21ActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_jButton21ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -472,15 +635,18 @@ public class AdminMain extends javax.swing.JFrame {
             }
         });
     }
-    
-    private void loadToken(){
+
+    private void loadToken() {
         DAO dao = DAO.getInstance();
         jLabel4.setText(dao.getTokenList());
     }
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton add;
+    private javax.swing.JTable classinformationtable;
     private javax.swing.JButton classstaus;
+    private javax.swing.JDialog classtable;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
@@ -489,8 +655,10 @@ public class AdminMain extends javax.swing.JFrame {
     private javax.swing.JButton jButton14;
     private javax.swing.JButton jButton15;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton21;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
@@ -506,6 +674,8 @@ public class AdminMain extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable2;
+    private javax.swing.JButton sub;
     // End of variables declaration//GEN-END:variables
 }

@@ -9,6 +9,6 @@ package deu.cse.team.strategyclassinfor;
  *
  * @author Seongchan
  */
-public interface setmax {
-    void seting(String classnumber);
+public interface setSeat {
+    void MaxSetting(String classnumber, String value);    
 }
