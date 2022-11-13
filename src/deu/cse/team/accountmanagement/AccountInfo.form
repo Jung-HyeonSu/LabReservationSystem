@@ -232,6 +232,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="idarea">
       <Properties>
+        <Property name="editable" type="boolean" value="false"/>
         <Property name="text" type="java.lang.String" value="id"/>
       </Properties>
     </Component>
@@ -254,8 +255,8 @@
     </Component>
     <Component class="javax.swing.JTextField" name="warningarea">
       <Properties>
+        <Property name="editable" type="boolean" value="false"/>
         <Property name="text" type="java.lang.String" value="warning"/>
-        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="editbtn">

@@ -150,6 +150,7 @@ public class AccountInfo extends javax.swing.JFrame {
 
         namearea.setText("name");
 
+        idarea.setEditable(false);
         idarea.setText("id");
 
         passwordarea.setText("password");
@@ -158,8 +159,8 @@ public class AccountInfo extends javax.swing.JFrame {
 
         jLabel8.setText("경고횟수");
 
+        warningarea.setEditable(false);
         warningarea.setText("warning");
-        warningarea.setEnabled(false);
 
         editbtn.setText("변경");
         editbtn.addActionListener(new java.awt.event.ActionListener() {
