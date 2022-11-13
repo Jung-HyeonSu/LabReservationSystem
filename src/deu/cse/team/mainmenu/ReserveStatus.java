@@ -232,7 +232,7 @@ public class ReserveStatus extends javax.swing.JFrame {
         });
 
         selectclassnumber.setFont(new java.awt.Font("맑은 고딕", 1, 24)); // NOI18N
-        selectclassnumber.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "915 강의실", "916 강의실", "917 강의실", "918 강의실" }));
+        selectclassnumber.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "915 강의실", "916 강의실", "911 강의실", "918 강의실" }));
         selectclassnumber.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 selectclassnumberItemStateChanged(evt);

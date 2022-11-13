@@ -30,6 +30,7 @@ public class beforetime extends javax.swing.JFrame {
     List<ClassTimetableDTO> cdto = dao.getTimetableList();
     Calendar c = Calendar.getInstance();
     int dayofWeek = c.get(Calendar.DAY_OF_WEEK);//요일 판단 일 ~ 토 = 1 ~ 7
+    
     int max = 40;
     int resercount=0;
     int index = 0;
@@ -40,6 +41,8 @@ public class beforetime extends javax.swing.JFrame {
     }
 
     void getSchedule(int index) {
+        if (dayofWeek == 1) dayofWeek = 8;
+        System.out.println("length "  + cdto.get(index).getTime1().split(",").length);
         classTime[0] = !(cdto.get(index).getTime1().split(",")[dayofWeek - 2].equals(" ")); //0=방 번호 915 916 917 918 | 0,1,2,3
         classTime[1] = !(cdto.get(index).getTime2().split(",")[dayofWeek - 2].equals(" "));
         classTime[2] = !(cdto.get(index).getTime3().split(",")[dayofWeek - 2].equals(" "));
