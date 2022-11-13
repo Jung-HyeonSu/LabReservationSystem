@@ -433,6 +433,7 @@ public class reservationManage extends javax.swing.JFrame {
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
         boolean isChecked = false;
+        boolean adminChecked = false;
         Date starttime1;
         Date starttime2;
         Date endtime1;
@@ -459,7 +460,7 @@ public class reservationManage extends javax.swing.JFrame {
 
                 for (int j = 0; j < reservationList.size(); j++) {
                     if ((reservationList.get(i).getSeat_number() == reservationList.get(j).getSeat_number()) && (reservationList.get(i).getReser_number() != reservationList.get(j).getReser_number())) {
-                        if ((reservationList.get(i).getReser_date()).equals(reservationList.get(j).getReser_date()) && (reservationList.get(i).getClassnumber()).equals(reservationList.get(j).getClassnumber()) && (reservationList.get(i).getSeat_number() == reservationList.get(j).getSeat_number())) {
+                        if ((reservationList.get(i).getReser_date()).equals(reservationList.get(j).getReser_date()) && (reservationList.get(i).getClassnumber()).equals(reservationList.get(j).getClassnumber())) {
 
                             try {
                                 Calendar cal = Calendar.getInstance();
@@ -483,11 +484,29 @@ public class reservationManage extends javax.swing.JFrame {
                             }
                         }
                     }
+                    else if((reservationList.get(i).getSeat_number() != reservationList.get(j).getSeat_number()) && (reservationList.get(i).getReser_number() != reservationList.get(j).getReser_number())){
+                        if ((reservationList.get(i).getReser_date()).equals(reservationList.get(j).getReser_date()) && (reservationList.get(i).getClassnumber()).equals(reservationList.get(j).getClassnumber())) {
+                            try {
+                                Calendar cal = Calendar.getInstance();
+                                cal.setTime(formatter.parse(reservationList.get(i).getReser_endtime()));
+                                cal.add(Calendar.MINUTE, time.time());
+
+                                endtime1 = formatter.parse(formatter.format(cal.getTime()));
+                                endtime2 = formatter.parse(reservationList.get(j).getReser_endtime());
+                                if (endtime1.after(endtime2)) {
+                                    adminChecked = true;
+                                }
+                            } catch (ParseException ex) {
+                                Logger.getLogger(reservationManage.class.getName()).log(Level.SEVERE, null, ex);
+                                
+                            }
+                        }
+                    }
 
                 }
 
                 System.out.println(time.getDescription() + time.time());
-                if (isChecked == false) {
+                if(adminChecked == true){
                     Calendar cal = Calendar.getInstance();
                     int str = 0;
                     try {
@@ -501,12 +520,24 @@ public class reservationManage extends javax.swing.JFrame {
 
                     ReservationDTO dto = new ReservationDTO();
                     dao.UpdateReser(dto, reser_number, formatter.format(cal.getTime()));
-//                    for (int j = 0; j < reservationList.size(); j++) {
-//                        if (reser_number.equals(Integer.toString(reservationList.get(j).getReser_number()))) {
-//                            ClassAdmin classadmin = new ClassAdmin();
-//                            classadmin.classAdminSet(reservationList.get(i).getOk(), reservationList.get(i).getClassadmin(), reservationList.get(i).getClassnumber(), Integer.toString(reservationList.get(i).getReser_number()), reservationList.get(i).getReser_date(), reservationList.get(i).getReser_endtime(), reservationList.get(i).getId());
-//                        }
-//                    }
+                    loadReserTable();
+                    showMessageDialog(null, "※       연장성공※\n예약이 " + Integer.toString(str) + "분 연장됩니다.");
+                    //classadmin 추가해야함
+                }
+                else if (isChecked == false) {
+                    Calendar cal = Calendar.getInstance();
+                    int str = 0;
+                    try {
+                        cal.setTime(formatter.parse(reservationList.get(i).getReser_endtime()));
+                        cal.add(Calendar.MINUTE, time.time());
+                        str = time.time();
+
+                    } catch (ParseException ex) {
+                        Logger.getLogger(reservationManage.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    ReservationDTO dto = new ReservationDTO();
+                    dao.UpdateReser(dto, reser_number, formatter.format(cal.getTime()));
                     loadReserTable();
                     showMessageDialog(null, "※       연장성공※\n예약이 " + Integer.toString(str) + "분 연장됩니다.");
 
