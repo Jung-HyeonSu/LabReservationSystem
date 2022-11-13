@@ -7,7 +7,6 @@ package deu.cse.team.mainmenu;
 import deu.cse.team.accountmanagement.AccountInfo;
 import deu.cse.team.login.Login;
 import deu.cse.team.noticeBoard.MBoard;
-import deu.cse.team.observer.NoticeCheck;
 import deu.cse.team.reservation.reservationManage;
 import deu.cse.team.singleton.AccountDTO;
 import deu.cse.team.singleton.DAO;
@@ -67,7 +66,6 @@ public class StudentMain extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         idarea = new javax.swing.JLabel();
         jButton11 = new javax.swing.JButton();
-        jButton13 = new javax.swing.JButton();
 
         jLabel4.setText("예약 관리");
 
@@ -273,13 +271,6 @@ public class StudentMain extends javax.swing.JFrame {
             }
         });
 
-        jButton13.setText("알림 확인");
-        jButton13.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton13ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -305,8 +296,7 @@ public class StudentMain extends javax.swing.JFrame {
                     .addComponent(jButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(129, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -330,11 +320,9 @@ public class StudentMain extends javax.swing.JFrame {
                 .addComponent(jButton5)
                 .addGap(18, 18, 18)
                 .addComponent(jButton6)
-                .addGap(18, 18, 18)
-                .addComponent(jButton13)
-                .addGap(45, 45, 45)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                 .addComponent(jButton11)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addGap(34, 34, 34))
         );
 
         pack();
@@ -408,11 +396,6 @@ public class StudentMain extends javax.swing.JFrame {
         reservationManage reservationmanage = new reservationManage(idarea.getText());
         reservationmanage.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
-        // TODO add your handling code here:
-        new NoticeCheck().setVisible(true);
-    }//GEN-LAST:event_jButton13ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
@@ -491,7 +474,6 @@ public class StudentMain extends javax.swing.JFrame {
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
-    private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;

@@ -7,7 +7,6 @@ package deu.cse.team.mainmenu;
 import deu.cse.team.accountmanagement.Accountmanagement;
 import deu.cse.team.login.Login;
 import deu.cse.team.noticeBoard.MBoard;
-import deu.cse.team.observer.Notice;
 import deu.cse.team.register.AdminRegister;
 import deu.cse.team.singleton.AccountDTO;
 import deu.cse.team.singleton.DAO;
@@ -78,7 +77,6 @@ public class AdminMain extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jButton8 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
-        jButton16 = new javax.swing.JButton();
 
         jLabel6.setText("실습실 시간표 입력");
 
@@ -265,13 +263,6 @@ public class AdminMain extends javax.swing.JFrame {
             }
         });
 
-        jButton16.setText("알림 전송");
-        jButton16.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton16ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -302,8 +293,7 @@ public class AdminMain extends javax.swing.JFrame {
                         .addComponent(jButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
                         .addComponent(classstaus, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
-                        .addComponent(jButton16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE))
                     .addComponent(jLabel1)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
@@ -338,9 +328,7 @@ public class AdminMain extends javax.swing.JFrame {
                 .addComponent(jButton6)
                 .addGap(18, 18, 18)
                 .addComponent(jButton7)
-                .addGap(18, 18, 18)
-                .addComponent(jButton16)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                 .addComponent(jButton8)
                 .addGap(24, 24, 24))
         );
@@ -437,11 +425,6 @@ public class AdminMain extends javax.swing.JFrame {
         tokenAuth.setVisible(true);
     }//GEN-LAST:event_jButton9ActionPerformed
 
-    private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
-        // TODO add your handling code here:
-       new Notice().setVisible(true);
-    }//GEN-LAST:event_jButton16ActionPerformed
-
     private void classstausActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_classstausActionPerformed
         // TODO add your handling code here:
         ReserveStatus rs = new ReserveStatus();
@@ -499,7 +482,6 @@ public class AdminMain extends javax.swing.JFrame {
     private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;
     private javax.swing.JButton jButton15;
-    private javax.swing.JButton jButton16;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
