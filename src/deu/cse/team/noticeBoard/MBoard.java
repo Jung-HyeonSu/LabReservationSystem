@@ -4,16 +4,11 @@
  */
 package deu.cse.team.noticeBoard;
 
-
-import deu.cse.team.login.Login;
+import deu.cse.team.singleton.AccountDTO;
 import deu.cse.team.singleton.BoardDTO;
 import deu.cse.team.singleton.DAO;
-import java.sql.SQLException;
-import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.naming.NamingException;
-
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -21,26 +16,29 @@ import javax.naming.NamingException;
  */
 public class MBoard extends javax.swing.JFrame {
 
-    public static String pid="";
-    
-    public MBoard() throws SQLException, NamingException {
+    public static String division;
+    public MBoard(){
         initComponents();
-        init();
-        if(pid.equals("admin")){
+        init("신고");
+        if (division.equals("admin")) {
             this.sanctionsBtn.setVisible(true);
-        }else{
+            this.writeBtn.setVisible(false);
+        } else {
             this.sanctionsBtn.setVisible(false);
+            this.writeBtn.setVisible(true);
         }
     }
-    
-    public MBoard(String s) throws SQLException, NamingException {
+
+    public MBoard(String division) {
         initComponents();
-        pid=s;
-        init();
-        if(pid.equals("admin")){
+        this.division = division;
+        init("신고");
+        if (division.equals("admin")) {
             this.sanctionsBtn.setVisible(true);
-        }else{
+            this.writeBtn.setVisible(false);
+        } else {
             this.sanctionsBtn.setVisible(false);
+            this.writeBtn.setVisible(true);
         }
     }
 
@@ -54,6 +52,7 @@ public class MBoard extends javax.swing.JFrame {
         sanctionsBtn = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        jComboBox1 = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(500, 300));
@@ -150,6 +149,13 @@ public class MBoard extends javax.swing.JFrame {
             }
         });
 
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "신고", "문의", "공지", "규칙" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -166,23 +172,28 @@ public class MBoard extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(writeBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
                             .addComponent(sanctionsBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(24, 24, 24))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(10, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(10, Short.MAX_VALUE)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(writeBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(sanctionsBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jButton1)))
                 .addGap(31, 31, 31))
         );
 
@@ -190,7 +201,7 @@ public class MBoard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void writeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_writeBtnActionPerformed
-        new writeDlg().setVisible(true);
+        new writeDlg(jComboBox1.getSelectedItem().toString()).setVisible(true);
     }//GEN-LAST:event_writeBtnActionPerformed
 
     private void sanctionsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sanctionsBtnActionPerformed
@@ -198,76 +209,67 @@ public class MBoard extends javax.swing.JFrame {
     }//GEN-LAST:event_sanctionsBtnActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        if(this.pid.equals("admin")){
-          new detailView(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()).setVisible(true);
+        if (this.division.equals("admin")) {
+            new detailView(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()).setVisible(true);
 
-       }else{
-           new checkPerm(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()).setVisible(true);
-       }
+        } else {
+            new checkPerm(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()).setVisible(true);
+        }
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       init();
+        init(jComboBox1.getSelectedItem().toString());
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+        init(jComboBox1.getSelectedItem().toString());
+        userDivision();
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
     public static void main(String args[]) {
-
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MBoard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MBoard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MBoard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MBoard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                try {
-                    new MBoard().setVisible(true);
-                } catch (SQLException ex) {
-                    Logger.getLogger(MBoard.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (NamingException ex) {
-                    Logger.getLogger(MBoard.class.getName()).log(Level.SEVERE, null, ex);
-                }
             }
         });
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JButton sanctionsBtn;
     private javax.swing.JButton writeBtn;
     // End of variables declaration//GEN-END:variables
-    public void init(){
+    public void init(String division) {
+        DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
+        dtm.setRowCount(0);
         DAO dao = DAO.getInstance();
-        for (int j = 0; j < 30; j++) {
-            for(int i=0; i<5; i++){
-                jTable1.setValueAt("", j, i);
+        List<BoardDTO> boardlist = dao.boardSelect();
+        for (int i = 0; i < boardlist.size(); i++) {
+            if (division.equals(boardlist.get(i).getType())) {
+                dtm.addRow(new Object[]{boardlist.get(i).getNo(), boardlist.get(i).getTitle(), boardlist.get(i).getSid(), boardlist.get(i).getWdate(), boardlist.get(i).getType()});
             }
-	}
-	Iterator<BoardDTO> it = dao.boardSelect().iterator();
-        BoardDTO b;
-	int i = 0;	
-	while(it.hasNext()) {
-            b=it.next();
-            jTable1.setValueAt(b.getNo(), i, 0);
-            jTable1.setValueAt(b.getTitle(), i, 1);
-            jTable1.setValueAt(b.getSid(), i, 2);
-            jTable1.setValueAt(b.getWdate(), i, 3);
-            jTable1.setValueAt(b.getType(), i, 4);
-            i++;
-	}
+        }
+    }
+    
+    public void userDivision(){
+        if(division.equals("admin")){
+            if("신고".equals(jComboBox1.getSelectedItem().toString())||"문의".equals(jComboBox1.getSelectedItem().toString())){
+                this.writeBtn.setVisible(false);
+            }
+            else{
+                this.writeBtn.setVisible(true);
+            }
+        }else{
+            if("신고".equals(jComboBox1.getSelectedItem().toString())||"문의".equals(jComboBox1.getSelectedItem().toString())){
+                this.writeBtn.setVisible(true);
+            }
+            else{
+                this.writeBtn.setVisible(false);
+            }
+        }
     }
 }

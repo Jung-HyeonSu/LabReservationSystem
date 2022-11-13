@@ -5,6 +5,9 @@
 package deu.cse.team.noticeBoard;
 
 import deu.cse.team.login.Login;
+import deu.cse.team.observer.AdminObserver;
+import deu.cse.team.observer.NoticeData;
+import deu.cse.team.observer.StudentObserver;
 import deu.cse.team.singleton.BoardDTO;
 import deu.cse.team.singleton.DAO;
 import javax.swing.JOptionPane;
@@ -18,16 +21,8 @@ public class writeDlg extends javax.swing.JFrame {
     /**
      * Creates new form sanctionsDlg
      */
-    public writeDlg() {
+    public writeDlg(String division) {
         initComponents();
-        if(MBoard.pid.equals("admin")){
-            this.jComboBox1.addItem("공지");
-            this.jComboBox1.addItem("규칙");
-        }else{
-            this.jComboBox1.addItem("신고");
-            this.jComboBox1.addItem("문의");
-        }
-        
     }
     DAO dao = DAO.getInstance();
     /**
@@ -47,8 +42,8 @@ public class writeDlg extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(600, 320));
@@ -80,13 +75,10 @@ public class writeDlg extends javax.swing.JFrame {
 
         jLabel3.setText("[ 글 작성 ]");
 
-        jComboBox1.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jComboBox1ItemStateChanged(evt);
-            }
-        });
-
         jLabel5.setText("유형");
+
+        jLabel4.setForeground(new java.awt.Color(0, 0, 255));
+        jLabel4.setText("jLabel4");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -105,7 +97,8 @@ public class writeDlg extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel4)
+                        .addGap(44, 44, 44)))
                 .addGap(50, 50, 50))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(180, Short.MAX_VALUE)
@@ -127,8 +120,8 @@ public class writeDlg extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel4))
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
@@ -144,24 +137,32 @@ public class writeDlg extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        NoticeData noticeData = new NoticeData();
+        String contents;
+        if("신고".equals(jLabel4.getText()) || "문의".equals(jLabel4.getText())){
+            StudentObserver studentObserver = new StudentObserver(noticeData);
+            noticeData.setNotice(jTextArea1.getText());
+            contents = studentObserver.display();
+        }else{
+            AdminObserver adminObserver = new AdminObserver(noticeData);
+            noticeData.setNotice(jTextArea1.getText());
+            contents = adminObserver.display();
+        }
+        
         BoardDTO b=new BoardDTO();
         b.setTitle(jTextField1.getText());
-        b.setContent(jTextArea1.getText());
+        b.setContent(contents);
         b.setSid(Login.S.getId());
         b.setSps(Login.S.getPassword());
-        b.setType(jComboBox1.getSelectedItem().toString());
+        b.setType(jLabel4.getText());
         dao.boardInsert(b);
         JOptionPane.showMessageDialog(null, "등록 완료.");
-        this.dispose();
+        this.dispose();    
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
-        
-    }//GEN-LAST:event_jComboBox1ItemStateChanged
 
     /**
      * @param args the command line arguments
@@ -196,7 +197,6 @@ public class writeDlg extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new writeDlg().setVisible(true);
             }
         });
     }
@@ -204,10 +204,10 @@ public class writeDlg extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
