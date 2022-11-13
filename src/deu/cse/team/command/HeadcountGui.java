@@ -75,12 +75,12 @@ public class HeadcountGui extends javax.swing.JFrame {
             showMessageDialog(null, cid.get(i).getClassnumber() + "강의실에서 예약을 시작합니다.");
             beforeReserve br = new beforeReserve(id, starttime, endtime, 1, cid.get(i).getMaxseat(), cid.get(i).getClassnumber());
             br.setVisible(true);
-            br.setSize(818, 477);
+            br.setSize(818, 550);
         } else {
             showMessageDialog(null, cid.get(i).getClassnumber() + "강의실에서 예약을 시작합니다.");
             afterReserve ar = new afterReserve(id, starttime, endtime, 1, cid.get(i).getMaxseat(), cid.get(i).getClassnumber());
             ar.setVisible(true);
-            ar.setSize(818, 477);
+            ar.setSize(818, 550);
         }
     }
 

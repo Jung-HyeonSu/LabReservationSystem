@@ -153,18 +153,16 @@ public class beforetime extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
         void checkingclassschedule() {
         for (; index < cid.size(); index++) {
-            getSchedule(index);            
+            getSchedule(index);
             iscount = false;
-            System.out.println("check1");
-            for (int i = Integer.parseInt(starttime) - 9; i < Integer.parseInt(endtime) - 9; i++) {                
-                System.out.println("check2");
+            System.out.println(index);
+            for (int i = Integer.parseInt(starttime) - 9; i < Integer.parseInt(endtime) - 9; i++) {
+                System.out.println(Integer.parseInt(starttime));
+                System.out.println("iscount = " + iscount);
                 if (classTime[i] == true) {
                     iscount = true;
                     System.out.println("iscount = " + iscount);
-//                        if (index==cid.size()-1) {
-//                            index++;
-//                            System.out.println(index);
-//                        }
+
                 }
             }// 시간표랑 비교하는 알고리즘
             if (!iscount) {
@@ -176,8 +174,8 @@ public class beforetime extends javax.swing.JFrame {
         // TODO add your handling code here:
         DAO dao = DAO.getInstance();
         String today = Integer.toString(c.get(Calendar.YEAR)) + "/" + Integer.toString(c.get(Calendar.MONTH) + 1) + "/" + Integer.toString(c.get(Calendar.DATE));
-        String starttime = starttimebox.getSelectedItem().toString();
-        String endtime = endtimebox.getSelectedItem().toString();
+        starttime = starttimebox.getSelectedItem().toString();
+        endtime = endtimebox.getSelectedItem().toString();
         if (Integer.parseInt(starttime) > Integer.parseInt(endtime)) {
             showMessageDialog(null, "시작 시간이 종료 시간보다 클 수는 없습니다.");
         } else if (Integer.parseInt(starttime) == Integer.parseInt(endtime)) {
@@ -188,10 +186,8 @@ public class beforetime extends javax.swing.JFrame {
 
             for (; index < cid.size(); index++) {
                 getSchedule(index);
-                showMessageDialog(null, index);
                 boolean iscount = false;
                 for (int i = Integer.parseInt(starttime) - 9; i < Integer.parseInt(endtime) - 9; i++) {
-                    
                     if (classTime[i] == true) {
                         iscount = true;
                     }
@@ -215,31 +211,32 @@ public class beforetime extends javax.swing.JFrame {
 //              for문으로  모든 좌석이 예약되었는지 확인하기
 
             for (; index < cid.size(); index++) {
-                showMessageDialog(null, index);
                 checkingclassschedule();
-                resercount = dao.getselecttimeReserLength(cid.get(index).getClassnumber(), today, starttime, endtime);
-                if (resercount == cid.get(index).getMaxseat()) {
+                if (!iscount) {
+
+                    resercount = dao.getselecttimeReserLength(cid.get(index).getClassnumber(), today, starttime, endtime);
+                    if (resercount == cid.get(index).getMaxseat()) {
 //              showMessageDialog(null,"설정한 시간에 모든 좌석 예약이 완료되어있습니다");
-                } //             2. 풀방인지 확인
-                /*             풀방이면 넘기고 아니면아래로     /구현 완료  */ else if (resercount >= 25) {
-                    showMessageDialog(null, "선택한 시간에 예약한 사람이 25명이 넘습니다.\n선택예약으로 이동합니다.");
-                    //다음 확인하고 ++
-                    HeadcountGui h = new HeadcountGui(starttime, endtime, "before", id, index); //생성자에 강의실 번호 추가하기0
-                    //옮긴다고하면 index +=1로 수정 아니면 그냥 그래도 ㄱㄱ                    
-                    h.setVisible(true);
-                    break;
-                } //             3. 25명 넘는지 확인   
-                else if (resercount < 25) {
-                    beforeReserve br = new beforeReserve(id, starttime, endtime, 1, cid.get(index).getMaxseat(), cid.get(index).getClassnumber());
-                    br.setVisible(true);
-                    br.setSize(818, 477);
-                    break;
-                }
+                    } //             2. 풀방인지 확인
+                    /*             풀방이면 넘기고 아니면아래로     /구현 완료  */ else if (resercount >= 25) {
+                        showMessageDialog(null, "선택한 시간에 예약한 사람이 25명이 넘습니다.\n선택예약으로 이동합니다.");
+                        //다음 확인하고 ++
+                        HeadcountGui h = new HeadcountGui(starttime, endtime, "before", id, index); //생성자에 강의실 번호 추가하기0
+                        //옮긴다고하면 index +=1로 수정 아니면 그냥 그래도 ㄱㄱ                    
+                        h.setVisible(true);
+                        break;
+                    } //             3. 25명 넘는지 확인   
+                    else if (resercount < 25) {
+                        beforeReserve br = new beforeReserve(id, starttime, endtime, 1, cid.get(index).getMaxseat(), cid.get(index).getClassnumber());
+                        br.setVisible(true);
+                        br.setSize(818, 550);
+                        break;
+                    }
 //                    4. 25명 안 넘으면 예약가능한 강의실로 이동 //구현 완
-            }
-            if (index == cid.size()) {
+                }
+            }            
+            if (index == cid.size() + 1) {
                 showMessageDialog(null, "현재 예약가능한 강의실이 없습니다.");
-                dispose();
 //              5. 모든 강의실이 수업중인경우
 //                 모든 강의실이 예약이 된경우
             }
