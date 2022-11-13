@@ -1,15 +1,22 @@
-    package deu.cse.team.observer;
+package deu.cse.team.observer;
 
-    public class StudentObserver implements Observer{
-            private String notice;
-            private NoticeData noticeData;
+public class StudentObserver implements Observer {
 
-            public StudentObserver(NoticeData noticedata) {
-                    this.noticeData = noticedata;
-                    noticedata.registerObserver(this);
-            }
+    private NoticeData noticeData;
+    private String notice;
 
-            public void update(String notice,String noticeData) {
-
-            }
+    public StudentObserver(NoticeData noticeData) {
+        this.noticeData = noticeData;
+        noticeData.registerObserver(this);
     }
+
+    public void update(String notice) {
+        this.notice = notice;
+        display();
+    }
+
+    public String display() {
+        return notice;
+
+    }
+}
