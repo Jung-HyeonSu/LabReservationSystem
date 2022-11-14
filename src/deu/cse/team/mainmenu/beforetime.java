@@ -10,6 +10,7 @@ import deu.cse.team.reservation.beforeReserve;
 import deu.cse.team.singleton.ClassInformationDTO;
 import deu.cse.team.singleton.ClassTimetableDTO;
 import deu.cse.team.singleton.DAO;
+import deu.cse.team.state.SeatChecking;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -41,6 +42,23 @@ public class beforetime extends javax.swing.JFrame {
     public beforetime(String id) {
         initComponents();
         this.id = id;
+    }
+    void setseatstatus(){
+        for (int i = 0; i < max; i++) {
+            for (int j = Integer.parseInt(starttime) - 9; j < Integer.parseInt(endtime) - 9; j++) {
+                if (reserseat[i][j] == true) {
+//                    seatcheckbox[i].setEnabled(false);
+//                    seatcheckbox[i].setSelected(false);
+                    SeatChecking sc  = new SeatChecking(true,seatcheckbox[i],seatstatus[i]);
+                    sc.toset();
+//                    seatstatus[i].setText(sc.toString(seatcheckbox[i]));                    
+                    resercount++;
+                    break;
+                }
+
+            }// 예약이랑 비교하는 알고리즘
+            seattotal.setText(resercount + "/" + max);
+        }
     }
 
     void getSchedule(int index) {
@@ -214,7 +232,7 @@ public class beforetime extends javax.swing.JFrame {
                 checkingclassschedule();
                 if (!iscount) {
 
-                    resercount = dao.getselecttimeReserLength(cid.get(index).getClassnumber(), today, starttime, endtime);
+                    resercount = dao.getselecttimeReserLength(cid.get(index).getClassnumber(), today, starttime);
                     if (resercount == cid.get(index).getMaxseat()) {
 //              showMessageDialog(null,"설정한 시간에 모든 좌석 예약이 완료되어있습니다");
                     } //             2. 풀방인지 확인

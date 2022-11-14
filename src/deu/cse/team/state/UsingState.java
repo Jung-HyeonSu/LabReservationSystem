@@ -26,6 +26,7 @@ public class UsingState implements State {
         seatchecking.getSeatcheckbox().setEnabled(false);
         seatchecking.getSeatcheckbox().setSelected(false);
         seatchecking.getSeatstatus().setText("예약완료");
+        
     }
 
 }

@@ -441,7 +441,7 @@ public class DAO {
                     //sql구문 실행 (Select문의 결과는 ResultSet에 저장. (위에서 선언))
                     rs = stmt.executeQuery(sql);
                     while (rs.next()) {
-                        count = rs.getInt("reser_number")+1;
+                        count = rs.getInt("reser_number") + 1;
                     }
                 }
             } catch (SQLException e) {
@@ -456,12 +456,53 @@ public class DAO {
         return count;
     }
 
-    public int getselecttimeReserLength(String classnumber, String today, String starttime, String endtime) {
+    public ArrayList<ReservationDTO> getreservation(String classnumber, String today, String starttime, String endtime) {
+        ArrayList<ReservationDTO> list=null;
+        String sql = "SELECT * FROM reservation where classnumber = '" + classnumber + "' and reser_date= '" + today + "' and reser_starttime >= '" + starttime + ":00' and reser_endtime <= '" + endtime + ":00'";
+        if (this.connect()) {
+            try {
+                //값이 삽입되어야 하는 자리에는 물음표
+                System.out.println(sql);
+                PreparedStatement pstmt = con.prepareStatement(sql);
+                stmt = con.createStatement();
+                stmt = con.createStatement();
+                if (stmt != null) {
+                    rs = stmt.executeQuery(sql);
+                    list = new ArrayList<ReservationDTO>();
+                    while (rs.next()) {
+                        ReservationDTO reserList = new ReservationDTO();
+                        reserList.setReser_number(rs.getInt("reser_number"));
+                        reserList.setSeat_number(rs.getInt("seat_number"));
+                        reserList.setId(rs.getString("id"));
+                        reserList.setClassnumber(rs.getString("classnumber"));
+                        reserList.setReser_date(rs.getString("reser_date"));
+                        reserList.setReser_starttime(rs.getString("reser_starttime"));
+                        reserList.setReser_endtime(rs.getString("reser_endtime"));
+                        reserList.setClassadmin(rs.getString("classadmin"));
+                        reserList.setOk(rs.getString("ok"));
+
+                        list.add(reserList);
+                    }
+                }
+
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+
+        } else {
+            System.out.println("데이터베이스 연결에 실패");
+            System.exit(0);
+        }
+
+        return list;
+    }
+
+    public int getselecttimeReserLength(String classnumber, String today, String starttime) {
         int count = 0;
         if (this.connect()) {
             try {
                 //값이 삽입되어야 하는 자리에는 물음표
-                String sql = "SELECT * FROM reservation where classnumber = '" + classnumber + "' and reser_date= '" + today + "' and reser_starttime >= '" + starttime + ":00' and reser_endtime <= '" + endtime + ":00'";
+                String sql = "SELECT * FROM reservation where classnumber = '" + classnumber + "' and reser_date= '" + today + "' and reser_starttime >= '" + starttime + ":00'";
                 System.out.println(sql);
                 PreparedStatement pstmt = con.prepareStatement(sql);
                 stmt = con.createStatement();

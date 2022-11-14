@@ -215,7 +215,7 @@ public class HeadcountGui extends javax.swing.JFrame {
             if (option == 0) {
                 index += 1;
                 while (index < cid.size()) {
-                    resercount = dao.getselecttimeReserLength(cid.get(index).getClassnumber(), today, starttime, endtime);
+                    resercount = dao.getselecttimeReserLength(cid.get(index).getClassnumber(), today, starttime);
                     if (resercount + Integer.parseInt(usernumber.getText()) > cid.get(index).getMaxseat()) {
                         index++;
                         
@@ -226,11 +226,11 @@ public class HeadcountGui extends javax.swing.JFrame {
 
             } else if (option == 1) {
                 int tmpindex = index;
-                resercount = dao.getselecttimeReserLength(cid.get(index).getClassnumber(), today, starttime, endtime);
+                resercount = dao.getselecttimeReserLength(cid.get(index).getClassnumber(), today, starttime);
                 if (resercount + Integer.parseInt(usernumber.getText()) > cid.get(index).getMaxseat()) {
                     index += 1;
                     while (index < cid.size()) {
-                        resercount = dao.getselecttimeReserLength(cid.get(index).getClassnumber(), today, starttime, endtime);
+                        resercount = dao.getselecttimeReserLength(cid.get(index).getClassnumber(), today, starttime);
                         if (resercount + Integer.parseInt(usernumber.getText()) > cid.get(index).getMaxseat()) {
                             index++;
                         } else {

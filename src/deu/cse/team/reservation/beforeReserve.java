@@ -48,7 +48,7 @@ public class beforeReserve extends javax.swing.JFrame {
     Calendar c = Calendar.getInstance();
     DAO dao = DAO.getInstance();
 
-    boolean[][] reserseat = new boolean[max][9];
+    boolean[][] reserseat = new boolean[max][15];
     List<ReservationDTO> rdto;
 
     public beforeReserve(String id,String starttime, String endtime, int headcount, int max,String classnumber) {
@@ -62,7 +62,7 @@ public class beforeReserve extends javax.swing.JFrame {
         resertime.setText(starttime + ":00 ~ " + endtime + ":00");
         remoteControl.setCommand(1, reservationOk, reservationCancel);
         //max=40;//값가져와서 변경하기
-        setSeat();
+        setSeat(this.max);
         rdto = dao.getclassReserList(classnumber);
         getreserseat();
         responsiblename.setText("조교");        
@@ -112,7 +112,7 @@ public class beforeReserve extends javax.swing.JFrame {
 //                        }
     }
 
-    void setSeat() {
+    void setSeat(int max) {
         int count = 0;
         for (int k = 0; k < max; k++) {
             seatnumber = null;
