@@ -25,6 +25,8 @@ public class EmptyState implements State {
 
     @Override
     public void toset() {
+        seatchecking.getSeatcheckbox().setVisible(true);
+        seatchecking.getSeatstatus().setVisible(true);
         seatchecking.getSeatcheckbox().setEnabled(true);
         seatchecking.getSeatcheckbox().setSelected(false);
         seatchecking.getSeatstatus().setText("예약가능");

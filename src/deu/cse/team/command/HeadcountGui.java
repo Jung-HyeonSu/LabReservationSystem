@@ -28,9 +28,13 @@ public class HeadcountGui extends javax.swing.JFrame {
     String id;
     int max = 40;
     HeadcountConfirm headcountConfirm = new HeadcountConfirm();
-    String headCount = "";
+    String headCount = "1";
+    public String getHeadCount() {
+        return headCount;
+    }
     IndividualCommand individual = new IndividualCommand(headcountConfirm);
-    List<ClassInformationDTO> cid = dao.getClassInformation(); //강의실 리스트 가져오기      
+    List<ClassInformationDTO> cid = dao.getClassInformation(); //강의실 리스트 가져오기     
+    
     TeamCommand team = new TeamCommand(headcountConfirm);
     String starttime = "9";
     String endtime = "1";

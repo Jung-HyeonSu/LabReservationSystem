@@ -7,6 +7,11 @@ public class SeatChecking {
 
     State emptyState;
     State usingState;
+    State notusing;
+
+    public State getNotusing() {
+        return notusing;
+    }
     JCheckBox seatcheckbox;
 
     public JCheckBox getSeatcheckbox() {
@@ -20,17 +25,18 @@ public class SeatChecking {
     State state;
     boolean status;
 
-    public SeatChecking(boolean status, JCheckBox seatcheckbox, JLabel seatstatus) {
+    public SeatChecking( JCheckBox seatcheckbox, JLabel seatstatus) {
         usingState = new UsingState(this);
         emptyState = new EmptyState(this);
+        notusing =  new NotUse(this);
         this.seatcheckbox=seatcheckbox;
         this.seatstatus=seatstatus;
-        this.status = status;
-        if (status) { //예약이면 true
-            state = usingState;
-        } else {
-            state = emptyState;
-        }
+        state = emptyState;
+//        if (status) { //예약이면 true
+//            state = usingState;
+//        } else {
+//            state = emptyState;
+//        }
     }
 
     public void using() {

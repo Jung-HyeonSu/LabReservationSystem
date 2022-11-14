@@ -17,16 +17,18 @@ public class UsingState implements State {
     public String empty() {
         return ("빈자리");
     }
+    
 
     public String toString() {
         return "예약완료";
     }
 
     public void toset() {
+        seatchecking.getSeatcheckbox().setVisible(true);
+        seatchecking.getSeatstatus().setVisible(true);
         seatchecking.getSeatcheckbox().setEnabled(false);
         seatchecking.getSeatcheckbox().setSelected(false);
-        seatchecking.getSeatstatus().setText("예약완료");
-        
+        seatchecking.getSeatstatus().setText("예약완료");        
     }
 
 }
