@@ -1,9 +1,9 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
+ */
 package deu.cse.team.mainmenu;
 
-import deu.cse.team.command.RemoteControl;
-import deu.cse.team.command.Reservation;
-import deu.cse.team.command.ReservationCancelCommand;
-import deu.cse.team.command.ReservationOkCommand;
 import deu.cse.team.singleton.ClassInformationDTO;
 import deu.cse.team.singleton.ClassTimetableDTO;
 import deu.cse.team.singleton.DAO;
@@ -15,11 +15,11 @@ import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
  *
- * @author Seongchan
+ * @author PC
  */
-public class ReserveStatus extends javax.swing.JFrame {
+public class ReserveStatus extends javax.swing.JPanel {
 
-    /**
+     /**
      * 2022.11.07 [최초작성자 20183207 김성찬] 사용자 계정관리
      */
     int max = 40;
@@ -131,7 +131,6 @@ public class ReserveStatus extends javax.swing.JFrame {
         changebtn = new javax.swing.JButton();
         resertimearea = new javax.swing.JLabel();
         resertime = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
         selectclassnumber = new javax.swing.JComboBox<>();
 
         jLabel1.setFont(new java.awt.Font("맑은 고딕", 1, 24)); // NOI18N
@@ -206,8 +205,6 @@ public class ReserveStatus extends javax.swing.JFrame {
                 .addGap(45, 45, 45))
         );
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
         settotal.setText("예약된 좌석의 수");
 
         seattotal.setForeground(new java.awt.Color(255, 0, 51));
@@ -224,13 +221,6 @@ public class ReserveStatus extends javax.swing.JFrame {
 
         resertime.setText("시간을 선택하세요");
 
-        jButton2.setText("이전");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
         selectclassnumber.setFont(new java.awt.Font("맑은 고딕", 1, 24)); // NOI18N
         selectclassnumber.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "915 강의실", "916 강의실", "911 강의실", "918 강의실" }));
         selectclassnumber.addItemListener(new java.awt.event.ItemListener() {
@@ -244,14 +234,10 @@ public class ReserveStatus extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addGap(369, 369, 369))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -270,7 +256,7 @@ public class ReserveStatus extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(328, 328, 328)
                         .addComponent(selectclassnumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(317, Short.MAX_VALUE))
+                .addContainerGap(314, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -286,12 +272,8 @@ public class ReserveStatus extends javax.swing.JFrame {
                     .addComponent(changebtn)
                     .addComponent(resertimearea)
                     .addComponent(resertime))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 292, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addGap(29, 29, 29))
+                .addContainerGap(352, Short.MAX_VALUE))
         );
-
-        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void changebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changebtnActionPerformed
@@ -300,10 +282,24 @@ public class ReserveStatus extends javax.swing.JFrame {
         editTime.setSize(450, 400);
     }//GEN-LAST:event_changebtnActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void selectclassnumberItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_selectclassnumberItemStateChanged
         // TODO add your handling code here:
-            dispose();
-    }//GEN-LAST:event_jButton2ActionPerformed
+        String select = selectclassnumber.getSelectedItem().toString().split(" ")[0];
+        rdto = dao.getclassReserList(select);
+        getreserseat();
+        getSchedule(selectclassnumber.getSelectedIndex());
+        max = cid.get(selectclassnumber.getSelectedIndex()).getMaxseat();
+        resertime.setText("시간을 선택하세요");
+        for (int i = 0; i < max; i++) {
+            seatcheckbox[i].setEnabled(false);
+            seatcheckbox[i].setSelected(false);
+        }
+        seattotal.setText("0/" + max);
+    }//GEN-LAST:event_selectclassnumberItemStateChanged
+
+    private void selectclassnumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectclassnumberActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_selectclassnumberActionPerformed
 
     private void changebtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changebtn1ActionPerformed
         // TODO add your handling code here:
@@ -317,7 +313,7 @@ public class ReserveStatus extends javax.swing.JFrame {
         } else {
             editTime.dispose();
             resertime.setText(starttime + ":00 ~ " + endtime + ":00");
-//            rdto = dao.getReserList();
+            //            rdto = dao.getReserList();
             if (Integer.parseInt(starttime) <= 17) {
                 iscount = false;
                 int end = Integer.parseInt(endtime)-9;
@@ -358,7 +354,6 @@ public class ReserveStatus extends javax.swing.JFrame {
             }
 
         }
-
     }//GEN-LAST:event_changebtn1ActionPerformed
 
     private void cancelbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelbtnActionPerformed
@@ -366,81 +361,6 @@ public class ReserveStatus extends javax.swing.JFrame {
         editTime.dispose();
     }//GEN-LAST:event_cancelbtnActionPerformed
 
-    private void selectclassnumberItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_selectclassnumberItemStateChanged
-        // TODO add your handling code here:
-        String select = selectclassnumber.getSelectedItem().toString().split(" ")[0];
-        rdto = dao.getclassReserList(select);
-        getreserseat();
-        getSchedule(selectclassnumber.getSelectedIndex());
-        max = cid.get(selectclassnumber.getSelectedIndex()).getMaxseat();
-        resertime.setText("시간을 선택하세요");
-        for (int i = 0; i < max; i++) {
-            seatcheckbox[i].setEnabled(false);
-            seatcheckbox[i].setSelected(false);
-        }
-        seattotal.setText("0/" + max);
-    }//GEN-LAST:event_selectclassnumberItemStateChanged
-
-    private void selectclassnumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectclassnumberActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_selectclassnumberActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ReserveStatus.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ReserveStatus.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ReserveStatus.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ReserveStatus.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ReserveStatus().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelbtn;
@@ -448,7 +368,6 @@ public class ReserveStatus extends javax.swing.JFrame {
     private javax.swing.JButton changebtn1;
     private javax.swing.JDialog editTime;
     private javax.swing.JComboBox<String> endtimebox;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jlabel;

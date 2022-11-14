@@ -1,6 +1,6 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package deu.cse.team.reservation;
 
@@ -31,13 +31,13 @@ import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.table.DefaultTableModel;
 
 /**
- * 2022.11.12 [최초작성자 20183215 정현수]
  *
+ * @author PC
  */
-public class reservationManage extends javax.swing.JFrame {
+public class ReservationMgmt extends javax.swing.JPanel {
 
     /**
-     * Creates new form reservationManage
+     * Creates new form NewJPanel
      */
     String id;
     String reser_number;
@@ -45,17 +45,16 @@ public class reservationManage extends javax.swing.JFrame {
     String classnumber;
     String reser_date;
     String reser_endtime;
-
-    public reservationManage() {
+    
+    public ReservationMgmt() {
         initComponents();
     }
 
-    public reservationManage(String id) {
+    public ReservationMgmt(String id) {
         this.id = id;
         initComponents();
         loadReserTable();
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -88,7 +87,6 @@ public class reservationManage extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        cancel = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
@@ -297,7 +295,7 @@ public class reservationManage extends javax.swing.JFrame {
                 .addGap(17, 17, 17))
         );
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(818, 477));
 
         jLabel1.setFont(new java.awt.Font("맑은 고딕", 1, 24)); // NOI18N
         jLabel1.setText("예약확인");
@@ -321,13 +319,6 @@ public class reservationManage extends javax.swing.JFrame {
         jTable1.setFocusable(false);
         jScrollPane1.setViewportView(jTable1);
 
-        cancel.setText("닫기");
-        cancel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cancelActionPerformed(evt);
-            }
-        });
-
         jButton1.setText("예약 취소");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -344,30 +335,27 @@ public class reservationManage extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(32, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 766, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(355, 355, 355)
+                        .addComponent(jLabel1)))
+                .addContainerGap(26, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(cancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton4)
-                                .addGap(55, 55, 55)
-                                .addComponent(jButton1)))
-                        .addGap(137, 137, 137))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(197, 197, 197))))
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jButton4)
+                .addGap(55, 55, 55)
+                .addComponent(jButton1)
+                .addGap(294, 294, 294))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -375,25 +363,16 @@ public class reservationManage extends javax.swing.JFrame {
                 .addGap(16, 16, 16)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(cancel)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addGap(24, 24, 24))
         );
-
-        pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelActionPerformed
-        // TODO add your handling code here:
-        dispose();
-    }//GEN-LAST:event_cancelActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
@@ -406,10 +385,19 @@ public class reservationManage extends javax.swing.JFrame {
         jDialog1.setSize(350, 250);
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        jDialog1.dispose();
-    }//GEN-LAST:event_jButton3ActionPerformed
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        int row = jTable1.getSelectedRow();
+        reser_number = model.getValueAt(row, 0).toString();
+        classnumber = model.getValueAt(row, 3).toString();
+        reser_date = model.getValueAt(row, 1).toString();
+        reser_endtime = model.getValueAt(row, 5).toString();
+
+        jDialog2.setVisible(true);
+        jDialog2.setLocationRelativeTo(this);
+        jDialog2.setSize(320, 330);
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
@@ -430,19 +418,10 @@ public class reservationManage extends javax.swing.JFrame {
         jDialog1.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        int row = jTable1.getSelectedRow();
-        reser_number = model.getValueAt(row, 0).toString();
-        classnumber = model.getValueAt(row, 3).toString();
-        reser_date = model.getValueAt(row, 1).toString();
-        reser_endtime = model.getValueAt(row, 5).toString();
-
-        jDialog2.setVisible(true);
-        jDialog2.setLocationRelativeTo(this);
-        jDialog2.setSize(320, 330);
-    }//GEN-LAST:event_jButton4ActionPerformed
+        jDialog1.dispose();
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
@@ -458,7 +437,6 @@ public class reservationManage extends javax.swing.JFrame {
         Time time = null;
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         int row = jTable1.getSelectedRow();
-        
 
         for (int i = 0; i < reservationList.size(); i++) {
 
@@ -497,7 +475,7 @@ public class reservationManage extends javax.swing.JFrame {
                                     isChecked = true;
                                 }
                             } catch (ParseException ex) {
-                                Logger.getLogger(reservationManage.class.getName()).log(Level.SEVERE, null, ex);
+                                Logger.getLogger(ReservationMgmt.class.getName()).log(Level.SEVERE, null, ex);
 
                             }
                         }
@@ -514,7 +492,7 @@ public class reservationManage extends javax.swing.JFrame {
                                     adminChecked = true;
                                 }
                             } catch (ParseException ex) {
-                                Logger.getLogger(reservationManage.class.getName()).log(Level.SEVERE, null, ex);
+                                Logger.getLogger(ReservationMgmt.class.getName()).log(Level.SEVERE, null, ex);
 
                             }
                         }
@@ -547,12 +525,12 @@ public class reservationManage extends javax.swing.JFrame {
                         str = time.time();
 
                     } catch (ParseException ex) {
-                        Logger.getLogger(reservationManage.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(ReservationMgmt.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
                     for (int j = 0; j < reserlist.size(); j++) {
                         if (classnumber.equals(reserlist.get(j).getClassnumber()) && (reserlist.get(j).getClassadmin()).equals(classnumber + "관리권한") && !(reser_number.equals(reserlist.get(j).getReser_number()))) { //같은 강의실, 관리권한자인 경우만 비교
-                            if ((reserlist.get(j).getReser_date()).equals(reser_date)) { // 날짜가 같은 경우만 비교 
+                            if ((reserlist.get(j).getReser_date()).equals(reser_date)) { // 날짜가 같은 경우만 비교
                                 if ((reserlist.get(j).getOk()).equals("1")) {
                                     try {
                                         if ((formatter.parse(formatter.format(cal.getTime()))).after(formatter.parse(reserlist.get(j).getReser_endtime())) || (formatter.parse(formatter.format(cal.getTime()))).equals(formatter.parse(reserlist.get(j).getReser_endtime()))) {
@@ -614,7 +592,7 @@ public class reservationManage extends javax.swing.JFrame {
                         str = time.time();
 
                     } catch (ParseException ex) {
-                        Logger.getLogger(reservationManage.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(ReservationMgmt.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
                     ReservationDTO dto = new ReservationDTO();
@@ -627,7 +605,6 @@ public class reservationManage extends javax.swing.JFrame {
                 }
             }
         }
-
 
     }//GEN-LAST:event_jButton5ActionPerformed
 
@@ -677,41 +654,6 @@ public class reservationManage extends javax.swing.JFrame {
         jDialog2.dispose();
     }//GEN-LAST:event_jButton8ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(reservationManage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(reservationManage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(reservationManage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(reservationManage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new reservationManage().setVisible(true);
-            }
-        });
-    }
-
     void loadReserTable() {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setNumRows(0);
@@ -727,10 +669,8 @@ public class reservationManage extends javax.swing.JFrame {
         }
 
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JButton cancel;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
