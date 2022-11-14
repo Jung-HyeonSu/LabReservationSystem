@@ -46,12 +46,10 @@ public class HeadcountGui extends javax.swing.JFrame {
     boolean[] classTime = new boolean[9];//수업시간있는지 확인하는 객체  | true = 수업 O false = 수업 X    
     List<ClassTimetableDTO> cdto = dao.getTimetableList();
     
-    public HeadcountGui(String starttime, String endtime, String check, String id, int index) {
+    public HeadcountGui(String starttime, String endtime, int index) {
         initComponents();
         this.starttime = starttime;
         this.endtime = endtime;
-        this.check = check;
-        this.id = id;
         this.index = index;
         remoteControl.setCommand(0, individual, team);
     }
@@ -250,30 +248,6 @@ public class HeadcountGui extends javax.swing.JFrame {
             if (index == cid.size()) {
                 showMessageDialog(null, "설정한 시간에 해당 인원으로 예약할 수 있는 강의실이 없습니다. 다시설정해주세요");
             }
-
-//            for (int i = index; i < cid.size(); i++) {
-//                resercount = dao.getClassReserLength(cid.get(i).getClassnumber()); // 첫 강의실 정보 가져오기
-//                if (resercount == max || resercount + Integer.parseInt(usernumber.getText()) >= cid.get(i).getMaxseat()) {
-//                    if (i == cid.size() - 1) {
-//                        showMessageDialog(null, "설정한 시간에 해당 인원으로 예약할 수 있는 강의실이 없습니다. 다시설정해주세요");
-//                    }
-//                } else {
-//                    if (check.equals("before")) {
-//                        showMessageDialog(null, cid.get(i).getClassnumber() + "강의실에서 예약을 시작합니다.");
-//                        beforeReserve br = new beforeReserve(id, starttime, endtime, Integer.parseInt(usernumber.getText()), cid.get(i).getMaxseat(), cid.get(i).getClassnumber());
-//                        br.setVisible(true);
-//                        br.setSize(818, 477);
-//
-//                        break;
-//                    } else {
-//                        showMessageDialog(null, cid.get(i).getClassnumber() + "강의실에서 예약을 시작합니다.");
-//                        afterReserve ar = new afterReserve(id, starttime, endtime, Integer.parseInt(usernumber.getText()), cid.get(i).getMaxseat(), cid.get(i).getClassnumber());
-//                        ar.setVisible(true);
-//                        ar.setSize(818, 477);
-//                        break;
-//                    }
-//                }
-//            }
         }
 
         dispose();
@@ -309,7 +283,7 @@ public class HeadcountGui extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new HeadcountGui("09:00", "10:00", "before", "20183207", 0).setVisible(true);
+                new HeadcountGui("09:00", "10:00",0).setVisible(true);
             }
         });
     }
