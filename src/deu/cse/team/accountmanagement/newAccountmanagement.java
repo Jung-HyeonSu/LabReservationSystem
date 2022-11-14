@@ -70,6 +70,7 @@ public class newAccountmanagement extends javax.swing.JPanel {
 
     public newAccountmanagement() {
         initComponents();
+        reloadTable();
     }
 
     /**

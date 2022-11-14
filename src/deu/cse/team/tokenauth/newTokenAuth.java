@@ -20,6 +20,7 @@ public class newTokenAuth extends javax.swing.JPanel {
      */
     public newTokenAuth() {
         initComponents();
+        loadTable();
     }
 
     /**
