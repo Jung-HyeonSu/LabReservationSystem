@@ -5,7 +5,6 @@
 package deu.cse.team.reservation;
 
 import deu.cse.team.command.HeadcountConfirm;
-import deu.cse.team.command.HeadcountGui;
 import deu.cse.team.command.IndividualCommand;
 import deu.cse.team.mainmenu.*;
 import deu.cse.team.command.RemoteControl;
@@ -36,7 +35,7 @@ import static javax.swing.JOptionPane.showMessageDialog;
  *
  * @author PC
  */
-public class tmpReserve extends javax.swing.JPanel {
+public class Reserve extends javax.swing.JPanel {
 
     /**
      * 2022.11.07 [최초작성자 20183207 김성찬] 사용자 계정관리
@@ -76,7 +75,7 @@ public class tmpReserve extends javax.swing.JPanel {
     RemoteControl remoteControl = new RemoteControl();
     int count = 0;
 
-    public tmpReserve(String id) {
+    public Reserve(String id) {
         remoteControl.setCommand(0, individual, team);
         this.id = id;
         initComponents();
@@ -144,6 +143,8 @@ public class tmpReserve extends javax.swing.JPanel {
             seatcheckbox.add(tmpseatcheckbox);
             add(seatcheckbox.get(k));
             add(seatstatus.get(k));
+            seatcheckbox.get(k).setVisible(false);
+            seatstatus.get(k).setVisible(false);
             SeatChecking tmpsc = new SeatChecking(seatcheckbox.get(k), seatstatus.get(k)); //전부 예약 가능한 상태
             sc.add(tmpsc);
             seatcheckbox.get(k).addItemListener(new clickseat(((count + 1) + (row * 8))));

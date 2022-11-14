@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package deu.cse.team.accountmanagement;
 
@@ -19,11 +18,10 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Seongchan
  */
-public class Accountmanagement extends javax.swing.JFrame {
+public class Accountmanagement extends javax.swing.JPanel {
 
     /**
-     * 2022.11.05 [최초작성자 20183207 김성찬] 사용자 계정관리 2022.11.12 [수정 20183215 정현수]
-     * 관리권한 판단 추가
+     * Creates new form newAccountmanagement
      */
     String stu_id;
     String id;
@@ -72,9 +70,7 @@ public class Accountmanagement extends javax.swing.JFrame {
 
     public Accountmanagement() {
         initComponents();
-
         reloadTable();
-        //테이블 데이터 갱신
     }
 
     /**
@@ -114,7 +110,6 @@ public class Accountmanagement extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         accountTable = new javax.swing.JTable();
-        closebtn = new javax.swing.JButton();
         editbtn = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
 
@@ -333,8 +328,6 @@ public class Accountmanagement extends javax.swing.JFrame {
                 .addContainerGap(24, Short.MAX_VALUE))
         );
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
         accountTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -353,13 +346,6 @@ public class Accountmanagement extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(accountTable);
 
-        closebtn.setText("닫기");
-        closebtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                closebtnActionPerformed(evt);
-            }
-        });
-
         editbtn.setText("수정");
         editbtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -374,81 +360,56 @@ public class Accountmanagement extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(42, 42, 42)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(editbtn)
-                    .addComponent(jButton3))
-                .addGap(35, 35, 35))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(261, 261, 261)
-                .addComponent(closebtn)
-                .addContainerGap(214, Short.MAX_VALUE))
+                .addGap(242, 242, 242)
+                .addComponent(editbtn)
+                .addGap(181, 181, 181)
+                .addComponent(jButton3)
+                .addContainerGap(252, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(75, 75, 75)
-                        .addComponent(editbtn)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton3)
-                        .addGap(204, 204, 204))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(32, 32, 32)))
-                .addComponent(closebtn)
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 421, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(editbtn)
+                    .addComponent(jButton3))
+                .addGap(25, 25, 25))
         );
-
-        pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void closebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closebtnActionPerformed
-        // TODO add your handling code here:
-        dispose();
-        //현재 창 닫기
-    }//GEN-LAST:event_closebtnActionPerformed
 
     private void editbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editbtnActionPerformed
         // TODO add your handling code here:
         jDialog1.setVisible(true);
         jDialog1.setLocationRelativeTo(this);
-        jDialog1.setSize(450, 600);       
-        
-        
+        jDialog1.setSize(450, 600);
+
         DefaultTableModel model = (DefaultTableModel) accountTable.getModel();
         int row = accountTable.getSelectedRow();
         DAO dao = DAO.getInstance();
         accountlist = dao.getAccountList();
-        
+
         idarea.setText((model.getValueAt(row, 1).toString()));
         for (int i = 0; i < accountlist.size(); i++) {
             if ((model.getValueAt(row, 1).toString()).equals(accountlist.get(i).getId())) {
                 String split = accountlist.get(i).getName();
-                if(split.contains("[학생]")){
+                if (split.contains("[학생]")) {
                     jComboBox3.setSelectedIndex(0);
-                }
-                else if(split.contains("[조교]")){
+                } else if (split.contains("[조교]")) {
                     jComboBox3.setSelectedIndex(1);
-                }
-                else if(split.contains("[교수]")){
+                } else if (split.contains("[교수]")) {
                     jComboBox3.setSelectedIndex(2);
                 }
                 split = split.replace("[학생]", "");
                 split = split.replace("[조교]", "");
                 split = split.replace("[교수]", "");
-                
-                
-                
+
                 namearea.setText(split);
                 passwordarea.setText(accountlist.get(i).getPassword());
                 phonenumberarea.setText(accountlist.get(i).getPhonenumber());
@@ -467,7 +428,6 @@ public class Accountmanagement extends javax.swing.JFrame {
             }
         }
 
-
     }//GEN-LAST:event_editbtnActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -480,6 +440,47 @@ public class Accountmanagement extends javax.swing.JFrame {
         jDialog2.setLocationRelativeTo(this);
         jDialog2.setSize(250, 200);
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void editbtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editbtn1ActionPerformed
+        // TODO add your handling code here:
+        String allowedCheck;
+        String division = null;
+        if ("학생".equals(jComboBox3.getSelectedItem().toString()) && "O".equals(jComboBox1.getSelectedItem().toString())) {
+            JOptionPane.showMessageDialog(null, "학생은 관리 권한을 가질 수 없습니다.");
+        } else if ("조교".equals(jComboBox3.getSelectedItem().toString()) && "X".equals(jComboBox1.getSelectedItem().toString())) {
+            JOptionPane.showMessageDialog(null, "조교는 관리 권한이 필요합니다.");
+        } else if ("교수".equals(jComboBox3.getSelectedItem().toString()) && "X".equals(jComboBox1.getSelectedItem().toString())) {
+            JOptionPane.showMessageDialog(null, "교수는 관리 권한이 필요합니다.");
+        }
+        else {
+            DAO dao = DAO.getInstance();
+            AccountDTO dto = new AccountDTO();
+            if ("O".equals(jComboBox2.getSelectedItem().toString())) {
+                allowedCheck = "1";
+            } else {
+                allowedCheck = "0";
+            }
+
+            dao.UpdateAccount(dto, idarea.getText(), passwordarea.getText(), "["+jComboBox3.getSelectedItem().toString()+"]"+namearea.getText(), phonenumberarea.getText(), Integer.parseInt(warningarea.getText()), jComboBox1.getSelectedItem().toString(), allowedCheck);
+            reloadTable();
+            JOptionPane.showMessageDialog(null, "계정 정보가 수정되었습니다.");
+        }
+    }//GEN-LAST:event_editbtn1ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        jDialog2.setVisible(true);
+        jDialog2.setLocationRelativeTo(this);
+        jDialog2.setSize(450, 400);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void nameareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameareaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nameareaActionPerformed
+
+    private void idareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idareaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_idareaActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
@@ -510,86 +511,9 @@ public class Accountmanagement extends javax.swing.JFrame {
         jDialog1.dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        jDialog2.setVisible(true);
-        jDialog2.setLocationRelativeTo(this);
-        jDialog2.setSize(450, 400);
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void editbtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editbtn1ActionPerformed
-        // TODO add your handling code here:
-        String allowedCheck;
-        String division = null;
-        if ("학생".equals(jComboBox3.getSelectedItem().toString()) && "O".equals(jComboBox1.getSelectedItem().toString())) {
-            JOptionPane.showMessageDialog(null, "학생은 관리 권한을 가질 수 없습니다.");
-        } else if ("조교".equals(jComboBox3.getSelectedItem().toString()) && "X".equals(jComboBox1.getSelectedItem().toString())) {
-            JOptionPane.showMessageDialog(null, "조교는 관리 권한이 필요합니다.");
-        } else if ("교수".equals(jComboBox3.getSelectedItem().toString()) && "X".equals(jComboBox1.getSelectedItem().toString())) {
-            JOptionPane.showMessageDialog(null, "교수는 관리 권한이 필요합니다.");
-        }
-        else {
-            DAO dao = DAO.getInstance();
-            AccountDTO dto = new AccountDTO();
-            if ("O".equals(jComboBox2.getSelectedItem().toString())) {
-                allowedCheck = "1";
-            } else {
-                allowedCheck = "0";
-            }
-
-            dao.UpdateAccount(dto, idarea.getText(), passwordarea.getText(), "["+jComboBox3.getSelectedItem().toString()+"]"+namearea.getText(), phonenumberarea.getText(), Integer.parseInt(warningarea.getText()), jComboBox1.getSelectedItem().toString(), allowedCheck);
-            reloadTable();
-            JOptionPane.showMessageDialog(null, "계정 정보가 수정되었습니다.");
-        }
-    }//GEN-LAST:event_editbtn1ActionPerformed
-
-    private void nameareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameareaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_nameareaActionPerformed
-
-    private void idareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idareaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_idareaActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Accountmanagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Accountmanagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Accountmanagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Accountmanagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Accountmanagement().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable accountTable;
-    private javax.swing.JButton closebtn;
     private javax.swing.JButton editbtn;
     private javax.swing.JButton editbtn1;
     private javax.swing.JTextField idarea;
