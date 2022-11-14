@@ -53,7 +53,7 @@ public class Reserve extends javax.swing.JPanel {
     String Message = "예약 완료";
     String seatnumber;
     //"DB에서 이용규칙 가져오기. 관리자는 이용수칙을 DB에 저장하고 수정도 가능해야함";
-    ArrayList<Integer> reserseatnumber = new ArrayList<Integer>(max);
+    ArrayList<String> reserseatnumber = new ArrayList<String>(max);
     DAO dao = DAO.getInstance();
     String headCount = "1";
     int dayofWeek = c.get(Calendar.DAY_OF_WEEK);//요일 판단 일 ~ 토 = 1 ~ 7
@@ -171,16 +171,17 @@ public class Reserve extends javax.swing.JPanel {
         public void itemStateChanged(ItemEvent e) {
             if (e.getStateChange() == 1) {
                 checkboxcount++;
-                reserseatnumber.add(Integer.parseInt(value));
+                reserseatnumber.add(value);
             } else {
                 checkboxcount--;
-                reserseatnumber.remove(Integer.parseInt(value));
+                reserseatnumber.remove((value));
             }
             isselected = true;
         }
     }
+
     void setseatstatus(int max) {
-        count=0;
+        count = 0;
         for (int i = 0; i < max; i++) {
             boolean bool = false;
             for (int j = Integer.parseInt(starttime) - 9; j < Integer.parseInt(endtime) - 9; j++) {
@@ -491,20 +492,27 @@ public class Reserve extends javax.swing.JPanel {
         int head = Integer.parseInt(headCount);
         if (isselected && checkboxcount == head) { //단체예약이면 단체로 바꿔줄 예정
             //            if ("ok".equals(remoteControl.A_ButtonWasPushed(1))) {
-                //                showMessageDialog(null, Message);
-                //            }
+            //                showMessageDialog(null, Message);
+            //            }
             String time[] = resertime.getText().split("~");
             ReservationDTO rdto;
             String today = Integer.toString(c.get(Calendar.YEAR)) + "/" + Integer.toString(c.get(Calendar.MONTH) + 1) + "/" + Integer.toString(c.get(Calendar.DATE));
             for (int i = 0; i < head; i++) {
+                System.out.println(Integer.parseInt(reserseatnumber.get(i)) - 1);
+                seatcheckbox.get(Integer.parseInt(reserseatnumber.get(i)) - 1).setEnabled(false);
+                seatstatus.get(Integer.parseInt(reserseatnumber.get(i)) - 1).setText("예약완료");
+
+//                sc.get().setState(sc.get(reserseatnumber.get(i) - i).getUsingState());
                 if (Integer.parseInt(endtime) > 17) {
-                    rdto = new ReservationDTO(dao.getReserLength(), reserseatnumber.get(i), id, classnumberarea.getText(), today, starttime + ":00", endtime + ":00", "-", "0");
-                    showMessageDialog(null, "예약시간이 17시 이후여서 승인이 필요합니다");
+                    rdto = new ReservationDTO(dao.getReserLength(), Integer.parseInt(reserseatnumber.get(i)), id, classnumberarea.getText(), today, starttime + ":00", endtime + ":00", "-", "0");                    
                 } else {
-                    rdto = new ReservationDTO(dao.getReserLength(), reserseatnumber.get(i), id, classnumberarea.getText(), today, starttime + ":00", endtime + ":00", "조교", "1");
+                    rdto = new ReservationDTO(dao.getReserLength(), Integer.parseInt(reserseatnumber.get(i)), id, classnumberarea.getText(), today, starttime + ":00", endtime + ":00", "조교", "1");
                 }
                 boolean checkReservation = dao.InsertReservation(rdto);
+                seatcheckbox.get(Integer.parseInt(reserseatnumber.get(i)) - 1).setSelected(false);
             }
+            if (Integer.parseInt(endtime) > 17) showMessageDialog(null, "예약시간이 17시 이후여서 승인이 필요합니다");
+            reserseatnumber.clear();
             Notice notice = new Notice();
             notice.setVisible(true);
             notice.setSize(359, 300);
@@ -623,8 +631,8 @@ public class Reserve extends javax.swing.JPanel {
                 } else {
                     showMessageDialog(null, cid.get(index).getClassnumber() + "강의실은 선택한 시간사이에 수업이 있습니다.");
                     //                    for (int i = 0; i < max; i++) {
-                        //                        SeatChecking sc = new SeatChecking(true, seatcheckbox[i], seatstatus[i]);
-                        //                    }
+                    //                        SeatChecking sc = new SeatChecking(true, seatcheckbox[i], seatstatus[i]);
+                    //                    }
                     //좌석 보여주는 것 컨트롤 필요
                 }
             }
