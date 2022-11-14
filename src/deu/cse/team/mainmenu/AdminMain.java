@@ -69,6 +69,8 @@ public class AdminMain extends javax.swing.JFrame {
 
     public AdminMain() {
         initComponents();
+        setLocationRelativeTo(this);
+        setTitle("AdminMain");
         tokenAuth = new TokenAuth();
         adminRegister = new AdminRegister();
         mgmtAccount = new Accountmanagement();

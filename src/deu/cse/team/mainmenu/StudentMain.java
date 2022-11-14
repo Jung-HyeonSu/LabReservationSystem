@@ -41,6 +41,8 @@ public class StudentMain extends javax.swing.JFrame {
 
     public StudentMain() {
         initComponents();
+        setLocationRelativeTo(this);
+        setTitle("Student Main");
         reserve = new Reserve(idarea.getText());
         reservationManage = new ReservationMgmt(idarea.getText());
         reserveStatus = new ReserveStatus();
