@@ -45,7 +45,7 @@ public class ReservationMgmt extends javax.swing.JPanel {
     String classnumber;
     String reser_date;
     String reser_endtime;
-    
+
     public ReservationMgmt() {
         initComponents();
     }
@@ -55,6 +55,7 @@ public class ReservationMgmt extends javax.swing.JPanel {
         initComponents();
         loadReserTable();
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -305,11 +306,11 @@ public class ReservationMgmt extends javax.swing.JPanel {
 
             },
             new String [] {
-                "예약번호", "날짜", "좌석번호", "강의실", "시작시간", "종료시간"
+                "예약번호", "날짜", "좌석번호", "강의실", "시작시간", "종료시간", "승인"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -360,7 +361,7 @@ public class ReservationMgmt extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(45, Short.MAX_VALUE)
+                .addContainerGap(15, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -409,7 +410,7 @@ public class ReservationMgmt extends javax.swing.JPanel {
                 ClassAdmin classadmin = new ClassAdmin();
                 classadmin.classAdminSet(reservationList.get(i).getOk(), reservationList.get(i).getClassadmin(), reservationList.get(i).getClassnumber(), Integer.toString(reservationList.get(i).getReser_number()), reservationList.get(i).getReser_date(), reservationList.get(i).getReser_endtime(), reservationList.get(i).getId());
 
-                dao.CancelReser(dto, reser_number);
+                dao.UpdateCancelReser(dto, reser_number);
             }
         }
         loadReserTable();
@@ -427,6 +428,7 @@ public class ReservationMgmt extends javax.swing.JPanel {
         // TODO add your handling code here:
         boolean isChecked = false;
         boolean adminChecked = false;
+        boolean newChecked = false;
         Date starttime1;
         Date starttime2;
         Date endtime1;
@@ -467,7 +469,9 @@ public class ReservationMgmt extends javax.swing.JPanel {
                                 starttime2 = formatter.parse(reservationList.get(j).getReser_starttime());
                                 endtime1 = formatter.parse(formatter.format(cal.getTime()));
                                 endtime2 = formatter.parse(reservationList.get(j).getReser_endtime());
-                                if (starttime1.equals(starttime2) || endtime1.equals(endtime2)) {
+                                if (Integer.parseInt((reservationList.get(i).getReser_endtime()).substring(0, 2)) <= 17 && Integer.parseInt((formatter.format(cal.getTime())).substring(0, 2)) > 17) {
+                                    newChecked = true;
+                                } else if (starttime1.equals(starttime2) || endtime1.equals(endtime2)) {
                                     isChecked = true;
                                 } else if (starttime1.before(starttime2) && endtime1.after(starttime2)) {
                                     isChecked = true;
@@ -502,7 +506,12 @@ public class ReservationMgmt extends javax.swing.JPanel {
 
                 System.out.println(time.getDescription() + time.time());
                 Calendar cal = Calendar.getInstance();
-                if (adminChecked == true) {
+                if (newChecked == true) {
+                    ReservationDTO dto = new ReservationDTO();
+                    dao.UpdateReser(dto, reser_number, "-", "0");
+                    dao.UpdateReser(dto, reser_number, formatter.format(cal.getTime()));
+                    showMessageDialog(null, "※       연장성공※\n예약 시간이 17시를 넘었습니다. 다시 승인을 받으세요.");
+                } else if (adminChecked == true) {
                     ReservationDTO dto = new ReservationDTO();
                     List<ReservationDTO> reserlist = dao.getReserList();
                     List<AccountDTO> accountlist = dao.getAccountList();
@@ -659,12 +668,19 @@ public class ReservationMgmt extends javax.swing.JPanel {
         model.setNumRows(0);
         DAO dao = DAO.getInstance();
         List<ReservationDTO> reservationList = dao.getReserList();
-
+        String state;
         for (int i = 0; i < reservationList.size(); i++) {
             if (id.equals(reservationList.get(i).getId())) {
+                if ("0".equals(reservationList.get(i).getOk())) {
+                    state = "승인대기";
+                } else if ("1".equals(reservationList.get(i).getOk())) {
+                    state = "승인";
+                } else {
+                    state = "취소";
+                }
                 model.addRow(new Object[]{
                     reservationList.get(i).getReser_number(), reservationList.get(i).getReser_date(), reservationList.get(i).getSeat_number(),
-                    reservationList.get(i).getClassnumber(), reservationList.get(i).getReser_starttime(), reservationList.get(i).getReser_endtime()});
+                    reservationList.get(i).getClassnumber(), reservationList.get(i).getReser_starttime(), reservationList.get(i).getReser_endtime(), state});
             }
         }
 

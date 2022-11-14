@@ -45,7 +45,7 @@ public class ClassAdmin {
         String admin = "-";
         int count = 0; //삭제 후 리스트에 값이 0개일 경우를 계산하기 위함
         boolean check = false; // 리스트에 값이 없는지 확인
-
+        
         if ("1".equals(ok)) { //예약 승인을 취소
             if ((classadmin).contains("관리권한")) { //취소하려는 예약이 관리권한자인 경우
                 for (int i = 0; i < reserlist.size(); i++) {
