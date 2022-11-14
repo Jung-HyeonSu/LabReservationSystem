@@ -1106,7 +1106,7 @@ public class DAO {
     public void AllowedUpdate(String sid) {
         if (this.connect()) {
             try {
-                String sql = "update account set allowed='1' where id=?";
+                String sql = "update account set allowed='0' where id=?";
                 PreparedStatement st = con.prepareStatement(sql);
                 st.setString(1, sid);
 
