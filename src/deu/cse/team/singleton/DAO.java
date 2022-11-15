@@ -452,6 +452,46 @@ public class DAO {
 
         return count;
     }
+    public ArrayList<ReservationDTO> getreservationcanadd(String classnumber, String today,String endtime,String seat_number) {
+        ArrayList<ReservationDTO> list=null;
+        String sql = "SELECT * FROM reservation where classnumber = '" + classnumber + "' and reser_date= '" + today + "' and reser_starttime <= '" + endtime + "' and seat_number = '"+seat_number+"' and ok='1'";
+        System.out.println(sql);
+        if (this.connect()) {
+            try {
+                //값이 삽입되어야 하는 자리에는 물음표
+                PreparedStatement pstmt = con.prepareStatement(sql);
+                stmt = con.createStatement();
+                stmt = con.createStatement();
+                if (stmt != null) {
+                    rs = stmt.executeQuery(sql);
+                    list = new ArrayList<ReservationDTO>();
+                    while (rs.next()) {
+                        ReservationDTO reserList = new ReservationDTO();
+                        reserList.setReser_number(rs.getInt("reser_number"));
+                        reserList.setSeat_number(rs.getInt("seat_number"));
+                        reserList.setId(rs.getString("id"));
+                        reserList.setClassnumber(rs.getString("classnumber"));
+                        reserList.setReser_date(rs.getString("reser_date"));
+                        reserList.setReser_starttime(rs.getString("reser_starttime"));
+                        reserList.setReser_endtime(rs.getString("reser_endtime"));
+                        reserList.setClassadmin(rs.getString("classadmin"));
+                        reserList.setOk(rs.getString("ok"));
+
+                        list.add(reserList);
+                    }
+                }
+
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+
+        } else {
+            System.out.println("데이터베이스 연결에 실패");
+            System.exit(0);
+        }
+
+        return list;
+    }
 
     public ArrayList<ReservationDTO> getreservation(String classnumber, String today, String starttime, String endtime) {
         ArrayList<ReservationDTO> list=null;
