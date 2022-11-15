@@ -357,7 +357,7 @@ public class Reserve extends javax.swing.JPanel {
             }
         });
 
-        starttimebox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24" }));
+        starttimebox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24" }));
 
         endtimebox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24" }));
 
@@ -493,6 +493,7 @@ public class Reserve extends javax.swing.JPanel {
         boolean isresered = false;
         isresered = dao.isuserreserd(id, today, starttime);
         //dao에 회원번호, 시작시간, 날짜 해서 오늘 해당시간에 예약 내역이 있는지 확인하고
+        System.out.println(isresered);
         if (isresered)
             showMessageDialog(null, "해당시간에 이미 예약한 내역이 있습니다.");
         else {
@@ -504,24 +505,25 @@ public class Reserve extends javax.swing.JPanel {
                 ReservationDTO rdto;
                 String today = Integer.toString(c.get(Calendar.YEAR)) + "/" + Integer.toString(c.get(Calendar.MONTH) + 1) + "/" + Integer.toString(c.get(Calendar.DATE));
                 for (int i = 0; i < head; i++) {
-                    seatcheckbox.get(Integer.parseInt(reserseatnumber.get(i)) - 1).setEnabled(false);
-                    seatstatus.get(Integer.parseInt(reserseatnumber.get(i)) - 1).setText("예약완료");
 
 //                sc.get().setState(sc.get(reserseatnumber.get(i) - i).getUsingState());
                     if (Integer.parseInt(endtime) > 17) {
                         rdto = new ReservationDTO(dao.getReserLength(), Integer.parseInt(reserseatnumber.get(i)), id, classnumberarea.getText(), today, starttime + ":00", endtime + ":00", "-", "0");
                     } else {
                         rdto = new ReservationDTO(dao.getReserLength(), Integer.parseInt(reserseatnumber.get(i)), id, classnumberarea.getText(), today, starttime + ":00", endtime + ":00", "조교", "1");
+                        seatcheckbox.get(Integer.parseInt(reserseatnumber.get(i)) - 1).setEnabled(false);
+                        seatstatus.get(Integer.parseInt(reserseatnumber.get(i)) - 1).setText("예약완료");
                     }
                     boolean checkReservation = dao.InsertReservation(rdto);
                     seatcheckbox.get(Integer.parseInt(reserseatnumber.get(i)) - 1).setSelected(false);
                 }
                 if (Integer.parseInt(endtime) > 17) {
                     showMessageDialog(null, "예약시간이 17시 이후여서 승인이 필요합니다");
+                } else {
+
                 }
                 reserseatnumber.clear();
                 Notice notice = new Notice();
-                notice.setVisible(true);
                 notice.setSize(359, 300);
             } else {
                 showMessageDialog(null, "예약 명단보다 선택한 좌석이 많거나 적습니다");
@@ -581,7 +583,6 @@ public class Reserve extends javax.swing.JPanel {
 
                 }
             }
-
 
             if (index >= cid.size()) {
                 showMessageDialog(null, "설정한 시간에 해당 인원으로 예약할 수 있는 강의실이 없습니다. 다시설정해주세요");
@@ -648,7 +649,7 @@ public class Reserve extends javax.swing.JPanel {
                 }
                 if (!iscount) {
                     resercount = dao.getselecttimeReserLength(cid.get(index).getClassnumber(), today, starttime);
-                    
+
                     if (resercount == cid.get(index).getMaxseat()) {
                         showMessageDialog(null, cid.get(index).getClassnumber() + " 강의은 모두예약되어있습니다.");
                     } else if (resercount >= 25) {

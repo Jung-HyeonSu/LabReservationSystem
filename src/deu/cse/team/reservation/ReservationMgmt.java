@@ -492,14 +492,19 @@ public class ReservationMgmt extends javax.swing.JPanel {
 
                                 endtime1 = formatter.parse(formatter.format(cal.getTime()));
                                 endtime2 = formatter.parse(reservationList.get(j).getReser_endtime());
-                                
+
                                 System.out.println((reser_endtime).substring(0, 2));
                                 System.out.println(formatter.format(cal.getTime()));
                                 if (Integer.parseInt((reser_endtime).substring(0, 2)) <= 17 && Integer.parseInt((formatter.format(cal.getTime())).substring(0, 2)) > 17) {
                                     newChecked = true;
-                                } else if (endtime1.after(endtime2) || endtime1.equals(endtime2)) {
+                                }
+                                if (endtime1.after(endtime2) || endtime1.equals(endtime2)) {
+
                                     adminChecked = true;
                                 }
+                                System.out.println(reservationList.get(i).getSeat_number());
+                                System.out.println(endtime1);
+                                System.out.println(endtime2);
                             } catch (ParseException ex) {
                                 Logger.getLogger(ReservationMgmt.class.getName()).log(Level.SEVERE, null, ex);
 
