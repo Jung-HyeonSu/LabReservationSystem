@@ -4,13 +4,17 @@
  */
 package deu.cse.team.mainmenu;
 
+import deu.cse.team.reservation.Reserve;
 import deu.cse.team.singleton.ClassInformationDTO;
 import deu.cse.team.singleton.ClassTimetableDTO;
 import deu.cse.team.singleton.DAO;
 import deu.cse.team.singleton.ReservationDTO;
+import deu.cse.team.state.SeatChecking;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import javax.swing.JCheckBox;
+import javax.swing.JLabel;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
@@ -19,26 +23,31 @@ import static javax.swing.JOptionPane.showMessageDialog;
  */
 public class ReserveStatus extends javax.swing.JPanel {
 
-     /**
+    /**
      * 2022.11.07 [최초작성자 20183207 김성찬] 사용자 계정관리
      */
     int max = 40;
+    int index = 0;
     int row = 0;
+    int count = 0;
     String starttime;
     String endtime;
     String seatnumber;
     //"DB에서 이용규칙 가져오기. 관리자는 이용수칙을 DB에 저장하고 수정도 가능해야함";
-    
+    List<SeatChecking> sc = new ArrayList<SeatChecking>();
+    List<JLabel> seatstatus = new ArrayList<JLabel>();
     DAO dao = DAO.getInstance();
-    JCheckBox[] seatcheckbox = new JCheckBox[max];
+//    JCheckBox[] seatcheckbox = new JCheckBox[max];
+    List<JCheckBox> seatcheckbox = new ArrayList<JCheckBox>();
     Calendar c = Calendar.getInstance();
     int dayofWeek = c.get(Calendar.DAY_OF_WEEK);//요일 판단 일 ~ 토 = 1 ~ 7
     boolean[] classTime = new boolean[9];//수업시간있는지 확인하는 객체  | true = 수업 O false = 수업 X    
     List<ClassTimetableDTO> cdto = dao.getTimetableList();
-    boolean[][] reserseat = new boolean[max][16]; //좌석수,예약시간 9~24
+//    boolean[][] reserseat = new boolean[max][16]; //좌석수,예약시간 9~24
+    List<ClassInformationDTO> cid = dao.getClassInformation();
+    boolean[][][] reserseat = new boolean[cid.size()][max][16]; //좌석수,예약시간 9~24
     String classnumber = "915";//최종 제출시 911로 수정할 것
     List<ReservationDTO> rdto = dao.getclassReserList(classnumber);
-    List<ClassInformationDTO> cid = dao.getClassInformation(); //디비에서 가져왔다가졍
 
     public ReserveStatus() {
         initComponents();
@@ -46,9 +55,63 @@ public class ReserveStatus extends javax.swing.JPanel {
         setSeat();
         getreserseat();
         getSchedule(0);
-        for (int j = 0; j < max; j++) {
-            seatcheckbox[j].setEnabled(false);
-            seatcheckbox[j].setSelected(false);
+    }
+
+    void setSeat() {
+        int count = 0;
+        for (int k = 0; k < 40; k++) {
+            seatnumber = null;
+            seatnumber = Integer.toString(((count + 1) + (row * 8))) + "번 좌석";
+            JCheckBox tmpseatcheckbox = new JCheckBox();
+            JLabel tmpseatstatus = new JLabel();
+            tmpseatcheckbox.setText(seatnumber);
+            if (count >= 4) {
+                tmpseatcheckbox.setBounds(80 * count + 130, 50 * row + 170, 80, 30);
+                tmpseatstatus.setBounds(80 * count + 150, 50 * row + 190, 80, 30);
+            } else {
+                tmpseatcheckbox.setBounds(80 * count + 80, 50 * row + 170, 80, 30);
+                tmpseatstatus.setBounds(80 * count + 100, 50 * row + 190, 80, 30);
+            }
+            seatstatus.add(tmpseatstatus);
+            seatcheckbox.add(tmpseatcheckbox);
+            add(seatcheckbox.get(k));
+            add(seatstatus.get(k));
+            seatcheckbox.get(k).setVisible(false);
+            seatstatus.get(k).setVisible(false);
+            SeatChecking tmpsc = new SeatChecking(seatcheckbox.get(k), seatstatus.get(k)); //전부 예약 가능한 상태
+            sc.add(tmpsc);
+            if (row * 8 + count == max - 1) {
+                break;
+            }
+            if (count == 7) {
+                row++;
+                count = -1;
+            }
+            count++;
+        }
+    }
+
+    void setseatstatus(int max) {
+        count = 0;
+        for (int i = 0; i < max; i++) {
+            boolean bool = false;
+            for (int j = Integer.parseInt(starttime) - 9; j < Integer.parseInt(endtime) - 9; j++) {
+                if (reserseat[index][i][j] == true) {
+                    bool = true;
+                    break;
+                }
+            }// 예약이랑 비교하는 알고리즘
+            if (bool) {
+                sc.get(i).setState(sc.get(i).getUsingState());
+                count++;
+            } else {
+                sc.get(i).setState(sc.get(i).getEmptyState());
+            }
+            sc.get(i).toset();
+        }
+        for (int j = max; j < 40; j++) {
+            sc.get(j).setState(sc.get(j).getNotusing());
+            sc.get(j).toset();
         }
     }
 
@@ -57,16 +120,32 @@ public class ReserveStatus extends javax.swing.JPanel {
         int reserStartValue;
         int reserEndValue;
         String today = Integer.toString(c.get(Calendar.YEAR)) + "/" + Integer.toString(c.get(Calendar.MONTH) + 1) + "/" + Integer.toString(c.get(Calendar.DATE));
-        for (int i = 0; i < rdto.size(); i++) {
-            numberValue = rdto.get(i).getSeat_number();
-            reserStartValue = Integer.parseInt(rdto.get(i).getReser_starttime().split(":")[0]);
-            reserEndValue = Integer.parseInt(rdto.get(i).getReser_endtime().split(":")[0]);
-            if (today.equals(rdto.get(i).getReser_date()) && rdto.get(i).getOk().equals("1")) { // 예약완료되면 1 + 오늘 예약인지 확인                
-                for (int j = reserStartValue - 9; j < reserEndValue - 9; j++) {
-                    reserseat[numberValue][j] = true;//예약이 되어있다.                    
+        for (int k = 0; k < cid.size(); k++) {
+            rdto = dao.getclassReserList(cid.get(k).getClassnumber());
+            for (int i = 0; i < rdto.size(); i++) {
+                numberValue = rdto.get(i).getSeat_number();
+                numberValue -= 1;
+
+                reserStartValue = Integer.parseInt(rdto.get(i).getReser_starttime().split(":")[0]);
+                reserEndValue = Integer.parseInt(rdto.get(i).getReser_endtime().split(":")[0]);
+                if (today.equals(rdto.get(i).getReser_date()) && rdto.get(i).getOk().equals("1")) { // 예약완료되면 1 + 오늘 예약인지 확인                
+                    for (int j = reserStartValue - 9; j < reserEndValue - 9; j++) {
+                        reserseat[k][numberValue][j] = true;//예약이 되어있다.
+                    }
                 }
             }
         }
+//        for (int i = 0; i < rdto.size(); i++) {
+//            numberValue = rdto.get(i).getSeat_number();
+//            numberValue -= 1;
+//            reserStartValue = Integer.parseInt(rdto.get(i).getReser_starttime().split(":")[0]);
+//            reserEndValue = Integer.parseInt(rdto.get(i).getReser_endtime().split(":")[0]);
+//            if (today.equals(rdto.get(i).getReser_date()) && rdto.get(i).getOk().equals("1")) { // 예약완료되면 1 + 오늘 예약인지 확인                
+//                for (int j = reserStartValue - 9; j < reserEndValue - 9; j++) {
+//                    reserseat[k][numberValue][j] = true;//예약이 되어있다.               
+//                }
+//            }
+//        }
 //                        }
     }
 
@@ -81,33 +160,33 @@ public class ReserveStatus extends javax.swing.JPanel {
         classTime[7] = !(cdto.get(index).getTime8().split(",")[dayofWeek - 2].equals(" "));
         classTime[8] = false;
     }
-
-    void setSeat() {
-        int count = 0;
-        for (int k = 0; k < max; k++) {
-            seatnumber = null;
-            seatnumber = Integer.toString(((count + 1) + (row * 8))) + "번 좌석";
-            seatcheckbox[k] = new JCheckBox();
-            seatcheckbox[k].setText(seatnumber);
-            if (count >= 4) {
-                seatcheckbox[k].setBounds(80 * count + 130, 50 * row + 170, 80, 30);
-            } else {
-                seatcheckbox[k].setBounds(80 * count + 80, 50 * row + 170, 80, 30);
-            }
-            seatcheckbox[k].setVisible(true);
-            seatcheckbox[k].setFocusable(false);
-            add(seatcheckbox[k]);
-
-            if (row * 8 + count == max - 1) {
-                break;
-            }
-            if (count == 7) {
-                row++;
-                count = -1;
-            }
-            count++;
-        }
-    }
+//
+//    void setSeat() {
+//        int count = 0;
+//        for (int k = 0; k < max; k++) {
+//            seatnumber = null;
+//            seatnumber = Integer.toString(((count + 1) + (row * 8))) + "번 좌석";
+//            seatcheckbox[k] = new JCheckBox();
+//            seatcheckbox[k].setText(seatnumber);
+//            if (count >= 4) {
+//                seatcheckbox[k].setBounds(80 * count + 130, 50 * row + 170, 80, 30);
+//            } else {
+//                seatcheckbox[k].setBounds(80 * count + 80, 50 * row + 170, 80, 30);
+//            }
+//            seatcheckbox[k].setVisible(true);
+//            seatcheckbox[k].setFocusable(false);
+//            add(seatcheckbox[k]);
+//
+//            if (row * 8 + count == max - 1) {
+//                break;
+//            }
+//            if (count == 7) {
+//                row++;
+//                count = -1;
+//            }
+//            count++;
+//        }
+//    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -288,11 +367,12 @@ public class ReserveStatus extends javax.swing.JPanel {
         rdto = dao.getclassReserList(select);
         getreserseat();
         getSchedule(selectclassnumber.getSelectedIndex());
+        index = selectclassnumber.getSelectedIndex();
         max = cid.get(selectclassnumber.getSelectedIndex()).getMaxseat();
         resertime.setText("시간을 선택하세요");
-        for (int i = 0; i < max; i++) {
-            seatcheckbox[i].setEnabled(false);
-            seatcheckbox[i].setSelected(false);
+        for (int i = 0; i < 40; i++) {
+            seatcheckbox.get(i).setVisible(false);
+            seatstatus.get(i).setVisible(false);
         }
         seattotal.setText("0/" + max);
     }//GEN-LAST:event_selectclassnumberItemStateChanged
@@ -313,43 +393,28 @@ public class ReserveStatus extends javax.swing.JPanel {
         } else {
             editTime.dispose();
             resertime.setText(starttime + ":00 ~ " + endtime + ":00");
-            //            rdto = dao.getReserList();
             if (Integer.parseInt(starttime) <= 17) {
                 iscount = false;
-                int end = Integer.parseInt(endtime)-9;
-                if ( end >= 9) {
+                int end = Integer.parseInt(endtime) - 9;
+                if (end >= 9) {
                     end = 8;
                 }
                 for (int i = Integer.parseInt(starttime) - 9; i < end; i++) {
                     if (classTime[i] == true) {
                         iscount = true;
                         for (int j = 0; j < max; j++) {
-                            seatcheckbox[j].setEnabled(false);
-                            seatcheckbox[j].setSelected(false);
+                            seatcheckbox.get(j).setVisible(false);
+                            seatstatus.get(j).setVisible(false);
                         }
                         showMessageDialog(null, "선택한 시간사이에 수업이 있습니다.");
                         break;
                     }
                 }// 시간표랑 비교하는 알고리즘
             }
-
             if (!iscount) {
-                for (int j = 0; j < max; j++) {
-                    seatcheckbox[j].setEnabled(true);
-                    seatcheckbox[j].setSelected(false);
-                }
-                int resercount = 0;
-                for (int i = 0; i < max; i++) {
-                    for (int j = Integer.parseInt(starttime) - 9; j < Integer.parseInt(endtime) - 9; j++) {
-                        if (reserseat[i][j] == true) {
-                            seatcheckbox[i].setEnabled(false);
-                            seatcheckbox[i].setSelected(false);
-                            resercount++;
-                            break;
-                        }
-                    }
-                }
-                seattotal.setText(resercount + "/" + max);
+                max = cid.get(index).getMaxseat();
+                setseatstatus(this.max);
+                seattotal.setText(count + "/" + max);
 
             }
 

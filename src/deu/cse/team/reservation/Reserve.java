@@ -169,6 +169,7 @@ public class Reserve extends javax.swing.JPanel {
 
         @Override
         public void itemStateChanged(ItemEvent e) {
+            System.out.println(value);
             if (e.getStateChange() == 1) {
                 checkboxcount++;
                 reserseatnumber.add(value);
@@ -252,6 +253,7 @@ public class Reserve extends javax.swing.JPanel {
         cancelbtn = new javax.swing.JButton();
         starttimebox = new javax.swing.JComboBox<>();
         endtimebox = new javax.swing.JComboBox<>();
+        buttonGroup1 = new javax.swing.ButtonGroup();
         changebtn = new javax.swing.JButton();
         resertimearea = new javax.swing.JLabel();
         resertime = new javax.swing.JLabel();
@@ -276,6 +278,7 @@ public class Reserve extends javax.swing.JPanel {
         jLabel6.setFont(new java.awt.Font("맑은 고딕", 1, 18)); // NOI18N
         jLabel6.setText("개인/팀 예약 설정");
 
+        buttonGroup1.add(jRadioButton1);
         jRadioButton1.setSelected(true);
         jRadioButton1.setText("개인 예약");
         jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -284,6 +287,7 @@ public class Reserve extends javax.swing.JPanel {
             }
         });
 
+        buttonGroup1.add(jRadioButton2);
         jRadioButton2.setText("팀 예약");
         jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -505,17 +509,17 @@ public class Reserve extends javax.swing.JPanel {
                 ReservationDTO rdto;
                 String today = Integer.toString(c.get(Calendar.YEAR)) + "/" + Integer.toString(c.get(Calendar.MONTH) + 1) + "/" + Integer.toString(c.get(Calendar.DATE));
                 for (int i = 0; i < head; i++) {
-
+                    System.out.println("number = " + reserseatnumber.get(0));
 //                sc.get().setState(sc.get(reserseatnumber.get(i) - i).getUsingState());
                     if (Integer.parseInt(endtime) > 17) {
-                        rdto = new ReservationDTO(dao.getReserLength(), Integer.parseInt(reserseatnumber.get(i)), id, classnumberarea.getText(), today, starttime + ":00", endtime + ":00", "-", "0");
+                        rdto = new ReservationDTO(dao.getReserLength(), Integer.parseInt(reserseatnumber.get(0)), id, classnumberarea.getText(), today, starttime + ":00", endtime + ":00", "-", "0");
                     } else {
-                        rdto = new ReservationDTO(dao.getReserLength(), Integer.parseInt(reserseatnumber.get(i)), id, classnumberarea.getText(), today, starttime + ":00", endtime + ":00", "조교", "1");
-                        seatcheckbox.get(Integer.parseInt(reserseatnumber.get(i)) - 1).setEnabled(false);
-                        seatstatus.get(Integer.parseInt(reserseatnumber.get(i)) - 1).setText("예약완료");
+                        rdto = new ReservationDTO(dao.getReserLength(), Integer.parseInt(reserseatnumber.get(0)), id, classnumberarea.getText(), today, starttime + ":00", endtime + ":00", "조교", "1");
+                        seatcheckbox.get(Integer.parseInt(reserseatnumber.get(0)) - 1).setEnabled(false);
+                        seatstatus.get(Integer.parseInt(reserseatnumber.get(0)) - 1).setText("예약완료");
                     }
                     boolean checkReservation = dao.InsertReservation(rdto);
-                    seatcheckbox.get(Integer.parseInt(reserseatnumber.get(i)) - 1).setSelected(false);
+                    seatcheckbox.get(Integer.parseInt(reserseatnumber.get(0)) - 1).setSelected(false);
                 }
                 if (Integer.parseInt(endtime) > 17) {
                     showMessageDialog(null, "예약시간이 17시 이후여서 승인이 필요합니다");
@@ -597,12 +601,13 @@ public class Reserve extends javax.swing.JPanel {
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
         // TODO add your handling code here:
-        usernumber.setEnabled(true);
+        usernumber.setEnabled(false);
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
     private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
         // TODO add your handling code here:
-        usernumber.setEnabled(false);
+        
+        usernumber.setEnabled(true);
     }//GEN-LAST:event_jRadioButton2ActionPerformed
 
     private void changebtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changebtn1ActionPerformed
@@ -652,7 +657,7 @@ public class Reserve extends javax.swing.JPanel {
 
                     if (resercount == cid.get(index).getMaxseat()) {
                         showMessageDialog(null, cid.get(index).getClassnumber() + " 강의은 모두예약되어있습니다.");
-                    } else if (resercount >= 25) {
+                    } else if (resercount >= 0) {
                         showMessageDialog(null, "선택한 시간에 예약한 사람이 25명이 넘습니다.\n선택예약으로 이동합니다.");
 
                         //예약시 사람수 체크해서 알고리즘 ㄲ
@@ -683,6 +688,7 @@ public class Reserve extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton cancel1;
     private javax.swing.JButton cancelbtn;
     private javax.swing.JButton changebtn;
