@@ -30,6 +30,5 @@ public class EmptyState implements State {
         seatchecking.getSeatcheckbox().setEnabled(true);
         seatchecking.getSeatcheckbox().setSelected(false);
         seatchecking.getSeatstatus().setText("예약가능");
-        System.out.println("reserok");
     }
 }

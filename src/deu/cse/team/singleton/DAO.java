@@ -214,7 +214,6 @@ public class DAO {
     public List<ReservationDTO> getclassReserList(String classnumber) {
         List<ReservationDTO> list = null;
         String sql = "SELECT * FROM reservation where classnumber = '" + classnumber + "'";
-        System.out.println(sql);
         if (connect()) {
             try {
                 stmt = con.createStatement();
@@ -277,7 +276,6 @@ public class DAO {
     public String getClassMaxseat(String classnumber) {
         String maxseat = "0";
         String sql = "SELECT * FROM classinformation where classnumber = '" + classnumber + "'";
-        System.out.println(sql);
         if (connect()) {
             try {
                 stmt = con.createStatement();
@@ -434,7 +432,6 @@ public class DAO {
             try {
                 //값이 삽입되어야 하는 자리에는 물음표
                 String sql = "SELECT max(reser_number) as reser_number FROM reservation";
-                System.out.println(sql);
                 PreparedStatement pstmt = con.prepareStatement(sql);
                 stmt = con.createStatement();
                 if (stmt != null) { //위 객체가 Null이 아니라는 것은 무언가를 받아왔다는 의미. SQL문장을 받아온 것.
@@ -462,7 +459,6 @@ public class DAO {
         if (this.connect()) {
             try {
                 //값이 삽입되어야 하는 자리에는 물음표
-                System.out.println(sql);
                 PreparedStatement pstmt = con.prepareStatement(sql);
                 stmt = con.createStatement();
                 stmt = con.createStatement();
@@ -503,7 +499,6 @@ public class DAO {
             try {
                 //값이 삽입되어야 하는 자리에는 물음표
                 String sql = "SELECT * FROM reservation where classnumber = '" + classnumber + "' and reser_date= '" + today + "' and reser_starttime >= '" + starttime + ":00' and ok = '1'";
-                System.out.println(sql);
                 PreparedStatement pstmt = con.prepareStatement(sql);
                 stmt = con.createStatement();
                 if (stmt != null) { //위 객체가 Null이 아니라는 것은 무언가를 받아왔다는 의미. SQL문장을 받아온 것.
@@ -524,6 +519,34 @@ public class DAO {
         System.out.println(count);
         return count;
     }
+    public boolean isuserreserd(String id, String today, String starttime) {
+        boolean isreserd = false;
+        if (this.connect()) {
+            try {
+                //값이 삽입되어야 하는 자리에는 물음표
+                String sql = "SELECT * FROM reservation where id = '" + id + "' and reser_date= '" + today + "' and reser_starttime >= '" + starttime + ":00' and ok = '1'";
+                PreparedStatement pstmt = con.prepareStatement(sql);
+                stmt = con.createStatement();
+                if (stmt != null) { //위 객체가 Null이 아니라는 것은 무언가를 받아왔다는 의미. SQL문장을 받아온 것.
+                    //sql구문 실행 (Select문의 결과는 ResultSet에 저장. (위에서 선언))
+                    rs = stmt.executeQuery(sql);
+                    while (rs.next()) {
+                        System.out.println("what? ");
+                        isreserd = true;
+                        if (isreserd) break;
+                    }
+                }
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+
+        } else {
+            System.out.println("데이터베이스 연결에 실패");
+            System.exit(0);
+        }
+        System.out.println(isreserd);
+        return isreserd;
+    }
 
     public String getClassAdmin(String classnumber, String today) {
         String id = "미정";
@@ -531,7 +554,6 @@ public class DAO {
             try {
                 //값이 삽입되어야 하는 자리에는 물음표
                 String sql = "SELECT * FROM reservation where classnumber = '" + classnumber + "' and reser_date= '" + today + "' and classadmin not in ('-','조교')";
-                System.out.println(sql);
                 PreparedStatement pstmt = con.prepareStatement(sql);
                 stmt = con.createStatement();
                 if (stmt != null) { //위 객체가 Null이 아니라는 것은 무언가를 받아왔다는 의미. SQL문장을 받아온 것.
@@ -896,7 +918,6 @@ public class DAO {
         if (this.connect()) {
             try {
                 String sql = "UPDATE classinformation SET maxseat=(?) WHERE classnumber =(?)";
-                System.out.println(sql);
                 PreparedStatement pstmt = con.prepareStatement(sql);
                 pstmt.setString(1, maxseat);
                 pstmt.setString(2, classnumber);
