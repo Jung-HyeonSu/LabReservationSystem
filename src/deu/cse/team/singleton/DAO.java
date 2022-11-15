@@ -793,7 +793,7 @@ public class DAO {
 
         if (this.connect()) {
             try {
-                String sql = "UPDATE reservation SET ok=2 WHERE reser_number =" + reser_number;
+                String sql = "UPDATE reservation SET ok=2 classadmin=- WHERE reser_number =" + reser_number;
 
                 PreparedStatement pstmt = con.prepareStatement(sql);
 

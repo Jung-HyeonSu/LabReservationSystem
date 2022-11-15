@@ -38,17 +38,20 @@ public class StudentMain extends javax.swing.JFrame {
     ShowClassTimetable classtimetable;
     AccountInfo accountInfo;
     MBoard mboard;
-
+    String id;
     public StudentMain() {
+}
+    public StudentMain(String id) {
+        this.id=id;
         initComponents();
         setLocationRelativeTo(this);
         setTitle("Student Main");
-        reserve = new Reserve(idarea.getText());
-        reservationManage = new ReservationMgmt(idarea.getText());
+        reserve = new Reserve(id);
+        reservationManage = new ReservationMgmt(id);
         reserveStatus = new ReserveStatus();
         classtimetable = new ShowClassTimetable();
-        accountInfo = new AccountInfo(idarea.getText());
-        mboard = new MBoard(idarea.getText(), "Student");
+        accountInfo = new AccountInfo(id);
+        mboard = new MBoard(id, "Student");
         
 
         jPanel1.setLayout(layout);
@@ -364,7 +367,7 @@ public class StudentMain extends javax.swing.JFrame {
         DAO dao = DAO.getInstance();
         List<AccountDTO> accountlist = dao.getAccountList();
         for (int i = 0; i < accountlist.size(); i++) {
-            if ((accountlist.get(i).getId()).equals(idarea.getText())) {
+            if ((accountlist.get(i).getId()).equals(id)) {
                 if ((accountlist.get(i).getPassword()).equals(jTextField1.getText())) {
                     reserve.setVisible(false);
                     reservationManage.setVisible(false);

@@ -152,7 +152,7 @@ public class Login extends javax.swing.JFrame {
             if (stu_id.equals(SignInIdField.getText()) && password.equals(SignInPwField.getText())) {
                 check = true;
                 if (power.equals("X")) {
-                    StudentMain studentMain = new StudentMain();
+                    StudentMain studentMain = new StudentMain(stu_id);
                     studentMain.idarea.setText(stu_id);
                     studentMain.setVisible(true);
                     dispose();

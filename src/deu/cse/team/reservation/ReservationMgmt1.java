@@ -34,7 +34,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author PC
  */
-public class ReservationMgmt extends javax.swing.JPanel {
+public class ReservationMgmt1 extends javax.swing.JPanel {
 
     /**
      * Creates new form NewJPanel
@@ -45,13 +45,12 @@ public class ReservationMgmt extends javax.swing.JPanel {
     String classnumber;
     String reser_date;
     String reser_endtime;
-    String seat_number;
 
-    public ReservationMgmt() {
+    public ReservationMgmt1() {
         initComponents();
     }
 
-    public ReservationMgmt(String id) {
+    public ReservationMgmt1(String id) {
         this.id = id;
         initComponents();
         loadReserTable();
@@ -395,7 +394,6 @@ public class ReservationMgmt extends javax.swing.JPanel {
         classnumber = model.getValueAt(row, 3).toString();
         reser_date = model.getValueAt(row, 1).toString();
         reser_endtime = model.getValueAt(row, 5).toString();
-        seat_number = model.getValueAt(row, 2).toString();
 
         jDialog2.setVisible(true);
         jDialog2.setLocationRelativeTo(this);
@@ -428,193 +426,205 @@ public class ReservationMgmt extends javax.swing.JPanel {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
-        Calendar cal = Calendar.getInstance();
+        boolean isChecked = false;
+        boolean adminChecked = false;
+        boolean newChecked = false;
+        Date starttime1;
+        Date starttime2;
         Date endtime1;
         Date endtime2;
         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
         DAO dao = DAO.getInstance();
         List<ReservationDTO> reservationList = dao.getReserList();
         Time time = null;
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        int row = jTable1.getSelectedRow();
 
-        String resultTime = null;
-        String oldAdminReserNum = null;
+        for (int i = 0; i < reservationList.size(); i++) {
 
-        boolean addX = false;
-        boolean addO = false;
-        boolean okX = false;
-        boolean okO = false;
-        boolean adminAsis = false;
-        boolean adminX = false;
-        boolean adminMe = false;
+            if (reser_number.equals(Integer.toString(reservationList.get(i).getReser_number()))) {
+                time = new SeatNumber(reser_number);
+                for (int j = 0; j < jTable4.getRowCount(); j++) {
+                    if ("15분".equals(String.valueOf(jTable4.getValueAt(j, 0)))) {
+                        time = new QuarterTime(time);
+                    }
+                    if ("30분".equals(String.valueOf(jTable4.getValueAt(j, 0)))) {
+                        time = new HalfTime(time);
+                    }
+                    if ("1시간".equals(String.valueOf(jTable4.getValueAt(j, 0)))) {
+                        time = new OneHourTime(time);
+                    }
+                }
 
-        for (int j = 0; j < jTable4.getRowCount(); j++) {
-            time = new SeatNumber(reser_number);
-            if ("15분".equals(String.valueOf(jTable4.getValueAt(j, 0)))) {
-                time = new QuarterTime(time);
-            }
-            if ("30분".equals(String.valueOf(jTable4.getValueAt(j, 0)))) {
-                time = new HalfTime(time);
-            }
-            if ("1시간".equals(String.valueOf(jTable4.getValueAt(j, 0)))) {
-                time = new OneHourTime(time);
-            }
-        }
+                for (int j = 0; j < reservationList.size(); j++) {
+                    if ((reservationList.get(i).getSeat_number() == reservationList.get(j).getSeat_number()) && (reservationList.get(i).getReser_number() != reservationList.get(j).getReser_number())) {
+                        if ((reservationList.get(i).getReser_date()).equals(reservationList.get(j).getReser_date()) && (reservationList.get(i).getClassnumber()).equals(reservationList.get(j).getClassnumber())) {
 
-        // 테이블에서 가져온 끝시간 date 자료형으로 변환
-        try {
-            cal.setTime(formatter.parse(reser_endtime));
-            endtime1 = formatter.parse(formatter.format(cal.getTime()));
+                            try {
+                                Calendar cal = Calendar.getInstance();
+                                cal.setTime(formatter.parse(reservationList.get(i).getReser_endtime()));
+                                cal.add(Calendar.MINUTE, time.time());
 
-        } catch (ParseException ex) {
-            Logger.getLogger(ReservationMgmt.class.getName()).log(Level.SEVERE, null, ex);
-        }
+                                starttime1 = formatter.parse(reservationList.get(i).getReser_starttime());
+                                starttime2 = formatter.parse(reservationList.get(j).getReser_starttime());
+                                endtime1 = formatter.parse(formatter.format(cal.getTime()));
+                                endtime2 = formatter.parse(reservationList.get(j).getReser_endtime());
+                                if (Integer.parseInt((reser_endtime).substring(0, 2)) <= 17 && Integer.parseInt((formatter.format(cal.getTime())).substring(0, 2)) > 17) {
+                                    newChecked = true;
+                                } else if (starttime1.equals(starttime2) || endtime1.equals(endtime2)) {
+                                    isChecked = true;
+                                } else if (starttime1.before(starttime2) && endtime1.after(starttime2)) {
+                                    isChecked = true;
+                                } else if (starttime1.before(starttime2) && endtime1.after(endtime2)) {
+                                    isChecked = true;
+                                }
+                            } catch (ParseException ex) {
+                                Logger.getLogger(ReservationMgmt1.class.getName()).log(Level.SEVERE, null, ex);
 
-        try {
-            cal.setTime(formatter.parse(reser_endtime));
-            cal.add(Calendar.MINUTE, time.time());
-            resultTime = formatter.format(cal.getTime());
+                            }
+                        }
+                    } else if ((reservationList.get(i).getSeat_number() != reservationList.get(j).getSeat_number()) && (reservationList.get(i).getReser_number() != reservationList.get(j).getReser_number())) {
+                        if ((reservationList.get(i).getReser_date()).equals(reservationList.get(j).getReser_date()) && (reservationList.get(i).getClassnumber()).equals(reservationList.get(j).getClassnumber())) {
+                            try {
+                                Calendar cal = Calendar.getInstance();
+                                cal.setTime(formatter.parse(reservationList.get(i).getReser_endtime()));
+                                cal.add(Calendar.MINUTE, time.time());
 
-            endtime2 = formatter.parse(formatter.format(cal.getTime()));
-            if ((cal.getTime()).before(formatter.parse("17:00")) && (cal.getTime()).equals(formatter.parse("17:00"))) { // 테이블에서 가져온 끝시간이 17시와 같거나 17시 이전일 경우
-                for (int i = 0; i < reservationList.size(); i++) {
-                    if (Integer.toString(reservationList.get(i).getReser_number()) != reser_number) { //자신의 예약 제외
-                        if ((reservationList.get(i).getReser_date()).equals(reser_date) && (reservationList.get(i).getClassnumber()).equals(classnumber)) {// 예약 날짜와 강의실번호가 같은 경우
+                                endtime1 = formatter.parse(formatter.format(cal.getTime()));
+                                endtime2 = formatter.parse(reservationList.get(j).getReser_endtime());
+                                
+                                System.out.println((reser_endtime).substring(0, 2));
+                                System.out.println(formatter.format(cal.getTime()));
+                                if (Integer.parseInt((reser_endtime).substring(0, 2)) <= 17 && Integer.parseInt((formatter.format(cal.getTime())).substring(0, 2)) > 17) {
+                                    newChecked = true;
+                                    System.out.println("hi?");
+                                }
+                                if (endtime1.after(endtime2) || endtime1.equals(endtime2)) {
+                                        adminChecked = true;
+                                        System.out.println("by");
 
-                            // 1. 같은 좌석일 경우
-                            // 2. 다른 좌석일 경우
-                            if (Integer.toString(reservationList.get(i).getSeat_number()) == seat_number) { // 1. 같은 좌석일 경우
-                                if (endtime2.after(formatter.parse(reservationList.get(i).getReser_starttime()))) { // 1-1. 예약 연장 후 끝시간이 같은 좌석에 있는 예약의 시작시간 이후에 있는 경우
-                                    addX = true;
-                                    //연장 안됨
-                                } else if (endtime2.before(formatter.parse(reservationList.get(i).getReser_starttime())) && endtime2.equals(formatter.parse(reservationList.get(i).getReser_starttime()))) { //1-2 예약 연장 후 끝시간이 같은 좌석에 있는 예약의 시작시간 이전에 있는 경우, 같은 경우
-                                    // 연장 됨
-                                    addO = true;
-                                    if (endtime2.after(formatter.parse("17:00"))) {
-                                        // 승인을 다시 해야함, 관리권한자: '-', 예약시간 변경x
-                                        okX = true;
-                                        adminX = true;
-                                    } else {
-                                        // 관리 권한자: 조교, 예약 시간 변경
-                                        okO = true;
-                                        adminAsis = true;
+                                }
+                            } catch (ParseException ex) {
+                                Logger.getLogger(ReservationMgmt1.class.getName()).log(Level.SEVERE, null, ex);
+
+                            }
+                        }
+                    }
+
+                }
+
+                System.out.println(time.getDescription() + time.time());
+                Calendar cal = Calendar.getInstance();
+                if (newChecked == true) {
+                    ReservationDTO dto = new ReservationDTO();
+                    dao.UpdateReser(dto, reser_number, "-", "0");
+                    dao.UpdateReser(dto, reser_number, formatter.format(cal.getTime()));
+                    showMessageDialog(null, "※       연장성공※\n예약 시간이 17시를 넘었습니다. 다시 승인을 받으세요.");
+                }
+                if (adminChecked == true) {
+                        ReservationDTO dto = new ReservationDTO();
+                        List<ReservationDTO> reserlist = dao.getReserList();
+                        List<AccountDTO> accountlist = dao.getAccountList();
+                        int maxReserNum = -1;
+
+                        SendMessage send = new SendMessage();
+                        String phonenumber = "01066885399";
+
+                        SimpleDateFormat formatterr = new SimpleDateFormat("HH:mm");
+                        String max = "17:01"; // 최장시간을 구하기 위함
+
+                        String admin = "-";
+                        int count = 0; //삭제 후 리스트에 값이 0개일 경우를 계산하기 위함
+                        boolean check = false; // 리스트에 값이 없는지 확인
+
+                        int str = 0;
+                        try {
+                            cal.setTime(formatter.parse(reservationList.get(i).getReser_endtime()));
+                            cal.add(Calendar.MINUTE, time.time());
+                            str = time.time();
+
+                        } catch (ParseException ex) {
+                            Logger.getLogger(ReservationMgmt1.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+
+                        for (int j = 0; j < reserlist.size(); j++) {
+                            if (classnumber.equals(reserlist.get(j).getClassnumber()) && (reserlist.get(j).getClassadmin()).equals(classnumber + "관리권한") && !(reser_number.equals(reserlist.get(j).getReser_number()))) { //같은 강의실, 관리권한자인 경우만 비교
+                                if ((reserlist.get(j).getReser_date()).equals(reser_date)) { // 날짜가 같은 경우만 비교
+                                    if ((reserlist.get(j).getOk()).equals("1")) {
+                                        try {
+                                            if ((formatter.parse(formatter.format(cal.getTime()))).after(formatter.parse(reserlist.get(j).getReser_endtime())) || (formatter.parse(formatter.format(cal.getTime()))).equals(formatter.parse(reserlist.get(j).getReser_endtime()))) {
+                                                count++;
+                                                dao.UpdateReser(dto, Integer.toString(reserlist.get(j).getReser_number()), "-", "1");
+                                            }
+
+                                        } catch (ParseException ex) {
+                                            java.util.logging.Logger.getLogger(ReserveAuth.class.getName()).log(Level.SEVERE, null, ex);
+                                        }
                                     }
                                 }
-                            } else { // 2.다른 좌석일 경우
-                                if (endtime2.after(formatter.parse("17:00"))) {
-                                    // 승인을 다시 해야함, 관리권한자: '-', 예약시간 변경x
-                                    okX = true;
-                                    adminX = true;
-                                } else {
-                                    // 관리 권한자: 조교, 예약 시간 변경
-                                    okO = true;
-                                    adminAsis = true;
-                                }
                             }
                         }
-                    }
-                }
-            } else if ((cal.getTime()).after(formatter.parse("17:00"))) { //테이블에서 가져온 끝시간이 17시 이후일 경우
-                for (int i = 0; i < reservationList.size(); i++) {
-                    if (Integer.toString(reservationList.get(i).getReser_number()) != reser_number) { //자신의 예약 제외
-                        if ((reservationList.get(i).getReser_date()).equals(reser_date) && (reservationList.get(i).getClassnumber()).equals(classnumber)) {// 예약 날짜와 강의실번호가 같은 경우
-                            if (Integer.toString(reservationList.get(i).getSeat_number()) == seat_number) { // 1. 같은 좌석일 경우
-                                if (endtime2.after(formatter.parse(reservationList.get(i).getReser_starttime()))) { // 1-1. 예약 연장 후 끝시간이 같은 좌석에 있는 예약의 시작시간 이후에 있는 경우
-                                    //연장 안됨
-                                    addX = true;
-                                } else if (endtime2.before(formatter.parse(reservationList.get(i).getReser_starttime())) && endtime2.equals(formatter.parse(reservationList.get(i).getReser_starttime()))) {
-                                    //관리권한자: '-', 예약 시간 변경
-                                    addO = true;
-                                    adminX = true;
-                                }
-
-                            } else { // 2.다른 좌석일 경우
-                                if (endtime2.after(formatter.parse(reservationList.get(i).getReser_endtime()))) { // 2-1. 예약 연장 후 시간이 DB에 있는 모든 endtime보다 클 경우
-                                    // 연장됨, 관리 권한자 O
-                                    // 기존 관리권한자는  '-'
-                                    addO = true;
-                                    adminMe = true;
-                                    oldAdminReserNum = Integer.toString(reservationList.get(i).getReser_number());
-                                } else if (endtime2.before(formatter.parse(reservationList.get(i).getReser_endtime())) && endtime2.equals(formatter.parse(reservationList.get(i).getReser_endtime()))) {
-                                    // 연장됨, 관리권한자는 '-'
-                                    addO = true;
-                                    adminX = true;
-                                }
+                        for (int j = 0; j < accountlist.size(); j++) { // 전화번호를 얻기 위함
+                            if (id.equals(accountlist.get(j).getId())) {
+                                phonenumber = accountlist.get(j).getPhonenumber();
                             }
                         }
+                        if (classnumber.equals("915")) {
+                            //send.send(phonenumber);
+                            LectureRoom class915 = new Class915();
+                            class915.setAllowedBehavior(new AllowedStudent());
+                            dao.UpdateReser(dto, reser_number, class915.display(), "1");
+                            dao.UpdateReser(dto, reser_number, formatter.format(cal.getTime()));
+                        }
+                        if (classnumber.equals("916")) {
+                            send.send(phonenumber);
+                            LectureRoom class916 = new Class916();
+                            class916.setAllowedBehavior(new AllowedStudent());
+                            dao.UpdateReser(dto, reser_number, class916.display(), "1");
+                            dao.UpdateReser(dto, reser_number, formatter.format(cal.getTime()));
+                        }
+                        if (classnumber.equals("918")) {
+                            send.send(phonenumber);
+                            LectureRoom class918 = new Class918();
+                            class918.setAllowedBehavior(new AllowedStudent());
+                            dao.UpdateReser(dto, reser_number, class918.display(), "1");
+                            dao.UpdateReser(dto, reser_number, formatter.format(cal.getTime()));
+                        }
+                        if (classnumber.equals("911")) {
+                            send.send(phonenumber);
+                            LectureRoom class911 = new Class911();
+                            class911.setAllowedBehavior(new AllowedStudent());
+                            dao.UpdateReser(dto, reser_number, class911.display(), "1");
+                            dao.UpdateReser(dto, reser_number, formatter.format(cal.getTime()));
+                        }
+
+                        loadReserTable();
+                        showMessageDialog(null, "※       연장성공※\n예약이 " + Integer.toString(str) + "분 연장됩니다.");
+
+                        //classadmin 추가해야함
+                    } else if (isChecked == false) {
+                        Calendar cal2 = Calendar.getInstance();
+                        int str = 0;
+                        try {
+                            cal2.setTime(formatter.parse(reservationList.get(i).getReser_endtime()));
+                            cal2.add(Calendar.MINUTE, time.time());
+                            str = time.time();
+
+                        } catch (ParseException ex) {
+                            Logger.getLogger(ReservationMgmt1.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+
+                        ReservationDTO dto = new ReservationDTO();
+                        dao.UpdateReser(dto, reser_number, formatter.format(cal2.getTime()));
+                        loadReserTable();
+                        showMessageDialog(null, "※       연장성공※\n예약이 " + Integer.toString(str) + "분 연장됩니다.");
+
+                    } else {
+                        showMessageDialog(null, "       ※연장실패※\n다른 사용자와 예약 시간이 중복됩니다.");
                     }
-                }
             }
-        } catch (ParseException ex) {
-            Logger.getLogger(ReservationMgmt.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        ReservationDTO dto = new ReservationDTO();
-        String str = null;
-        if (classnumber.equals("915")) {
-            //send.send(phonenumber);
-            LectureRoom class915 = new Class915();
-            class915.setAllowedBehavior(new AllowedStudent());
-            str = class915.display();
-        } else if (classnumber.equals("916")) {
-            //send.send(phonenumber);
-            LectureRoom class916 = new Class916();
-            class916.setAllowedBehavior(new AllowedStudent());
-            str = class916.display();
-        } else if (classnumber.equals("918")) {
-            //send.send(phonenumber);
-            LectureRoom class918 = new Class918();
-            class918.setAllowedBehavior(new AllowedStudent());
-            str = class918.display();
-        } else if (classnumber.equals("911")) {
-            //send.send(phonenumber);
-            LectureRoom class911 = new Class911();
-            class911.setAllowedBehavior(new AllowedStudent());
-            str = class911.display();
-        }
-
-        if (addX == true) { //연장 안됨
-            showMessageDialog(null, "       ※연장실패※\n다른 사용자와 예약 시간이 중복됩니다.");
-        } else if (addO == true) {
-            showMessageDialog(null, "※       연장성공※\n예약이 " + jLabel7.getText() + " 연장됩니다.");
-            dao.UpdateReser(dto, reser_number, resultTime);
-            if (adminX == true) {
-                if (okO == true) {
-                    System.out.println("22222222");
-                    dao.UpdateReser(dto, reser_number, "-", "1");
-                } else if (okX == true) {
-                    System.out.println("333333333");
-                    dao.UpdateReser(dto, reser_number, "-", "0");
-                    showMessageDialog(null, "※예약이 17시를 넘어 예약 재승인이 필요합니다.");
-                }
-            }
-            if (adminMe == true) {
-
-                showMessageDialog(null, "※당신은 [" + classnumber + "]강의실의 관리권한자 입니다");
-                if (okO == true) {
-                    System.out.println("444444444");
-                    dao.UpdateReser(dto, reser_number, str, "1");
-                    dao.UpdateReser(dto, oldAdminReserNum, "-", "1");
-
-                } else if (okX == true) {
-                    System.out.println("5555555555");
-                    dao.UpdateReser(dto, reser_number, str, "0");
-                    dao.UpdateReser(dto, oldAdminReserNum, "-", "1");
-                }
-
-            }
-            if (adminAsis == true) {
-                if (okO == true) {
-                    System.out.println("66666666");
-                    dao.UpdateReser(dto, reser_number, "조교", "1");
-                } else if (okX == true) {
-                    System.out.println("777777777777");
-                    dao.UpdateReser(dto, reser_number, "조교", "0");
-                }
-            }
-        } // 디비에 값없을 때 추가
-        reser_endtime = resultTime;
-        loadReserTable();
-        System.out.println("88888");
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
