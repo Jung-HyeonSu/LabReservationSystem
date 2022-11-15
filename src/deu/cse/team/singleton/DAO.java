@@ -614,6 +614,38 @@ public class DAO {
         }
         return id;
     }
+    
+    public String[] getClassAdminEndtime(String classnumber, String today) {
+        String[] str = new String[2];
+        
+        String reser_endtime = "미정";
+        String reser_number ="미정";
+        if (this.connect()) {
+            try {
+                //값이 삽입되어야 하는 자리에는 물음표
+                String sql = "SELECT * FROM reservation where classnumber = '" + classnumber + "' and reser_date= '" + today + "' and classadmin not in ('-','조교')";
+                PreparedStatement pstmt = con.prepareStatement(sql);
+                stmt = con.createStatement();
+                if (stmt != null) { //위 객체가 Null이 아니라는 것은 무언가를 받아왔다는 의미. SQL문장을 받아온 것.
+                    //sql구문 실행 (Select문의 결과는 ResultSet에 저장. (위에서 선언))
+                    rs = stmt.executeQuery(sql);
+                    while (rs.next()) {
+                        reser_endtime = rs.getString("reser_endtime");
+                        reser_number = rs.getString("reser_number");
+                    }
+                }
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+
+        } else {
+            System.out.println("데이터베이스 연결에 실패");
+            System.exit(0);
+        }
+        str[0] = reser_endtime;
+        str[1] = reser_number;
+        return str;
+    }
 
     /*
     public boolean InsertC(ClassTimetableDTO time) {
