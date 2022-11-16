@@ -81,7 +81,16 @@ public class Reserve extends javax.swing.JPanel {
         initComponents();
         max = cid.get(index).getMaxseat();
         setSeat();
-        getreserseat();
+        getreserseat();        
+        for (int i = 0; i < max; i++) {
+            seatcheckbox.get(i).setVisible(true);
+            seatcheckbox.get(i).setEnabled(false);
+            seatstatus.get(i).setVisible(false);
+        }
+        for (int i = max; i < 40; i++) {
+            seatcheckbox.get(i).setVisible(false);
+            seatstatus.get(i).setVisible(false);
+        }
     }
 
     void getreserseat() {
@@ -426,7 +435,7 @@ public class Reserve extends javax.swing.JPanel {
         resertime.setText("시간을 선택하세요");
 
         classnumberarea.setFont(new java.awt.Font("맑은 고딕", 1, 24)); // NOI18N
-        classnumberarea.setText("강의실");
+        classnumberarea.setText("915");
 
         okreser.setText("예약");
         okreser.addActionListener(new java.awt.event.ActionListener() {
@@ -438,7 +447,7 @@ public class Reserve extends javax.swing.JPanel {
         settotal.setText("예약된 좌석의 수");
 
         seattotal.setForeground(new java.awt.Color(255, 0, 51));
-        seattotal.setText("0/30");
+        seattotal.setText("시간을 선택하세요");
 
         jLabel2.setText("관리책임자");
 
@@ -450,13 +459,8 @@ public class Reserve extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(349, 349, 349)
-                        .addComponent(classnumberarea))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(363, 363, 363)
-                        .addComponent(okreser)))
+                .addGap(363, 363, 363)
+                .addComponent(okreser)
                 .addGap(97, 97, 97))
             .addGroup(layout.createSequentialGroup()
                 .addGap(87, 87, 87)
@@ -464,14 +468,16 @@ public class Reserve extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(settotal)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(seattotal))
+                        .addComponent(seattotal)
+                        .addGap(89, 89, 89)
+                        .addComponent(classnumberarea))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(resertimearea)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(resertime)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(changebtn)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 315, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 235, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(adminid)
@@ -483,13 +489,16 @@ public class Reserve extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addComponent(classnumberarea, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(settotal)
-                    .addComponent(seattotal)
-                    .addComponent(jLabel2))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(87, 87, 87)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(settotal)
+                            .addComponent(seattotal)
+                            .addComponent(jLabel2)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(48, 48, 48)
+                        .addComponent(classnumberarea, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(changebtn)

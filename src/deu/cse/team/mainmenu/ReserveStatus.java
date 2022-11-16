@@ -54,7 +54,16 @@ public class ReserveStatus extends javax.swing.JPanel {
         max = cid.get(0).getMaxseat();
         setSeat();
         getreserseat();
-        getSchedule(0);
+        getSchedule(0);        
+        for (int i = 0; i < max; i++) {
+            seatcheckbox.get(i).setVisible(true);
+            seatcheckbox.get(i).setEnabled(false);
+            seatstatus.get(i).setVisible(false);
+        }
+        for (int i = max; i < 40; i++) {
+            seatcheckbox.get(i).setVisible(false);
+            seatstatus.get(i).setVisible(false);
+        }
     }
 
     void setSeat() {
@@ -77,6 +86,7 @@ public class ReserveStatus extends javax.swing.JPanel {
             add(seatcheckbox.get(k));
             add(seatstatus.get(k));
             seatcheckbox.get(k).setVisible(false);
+            seatcheckbox.get(k).setFocusable(false);
             seatstatus.get(k).setVisible(false);
             SeatChecking tmpsc = new SeatChecking(seatcheckbox.get(k), seatstatus.get(k)); //전부 예약 가능한 상태
             sc.add(tmpsc);
@@ -287,7 +297,7 @@ public class ReserveStatus extends javax.swing.JPanel {
         settotal.setText("예약된 좌석의 수");
 
         seattotal.setForeground(new java.awt.Color(255, 0, 51));
-        seattotal.setText("0/30");
+        seattotal.setText("시간을 선택하세요");
 
         changebtn.setText("시간 변경");
         changebtn.addActionListener(new java.awt.event.ActionListener() {
@@ -370,11 +380,17 @@ public class ReserveStatus extends javax.swing.JPanel {
         index = selectclassnumber.getSelectedIndex();
         max = cid.get(selectclassnumber.getSelectedIndex()).getMaxseat();
         resertime.setText("시간을 선택하세요");
-        for (int i = 0; i < 40; i++) {
+        
+        for (int i = 0; i < max; i++) {
+            seatcheckbox.get(i).setVisible(true);
+            seatcheckbox.get(i).setEnabled(false);
+            seatstatus.get(i).setVisible(false);
+        }
+        for (int i = max; i < 40; i++) {
             seatcheckbox.get(i).setVisible(false);
             seatstatus.get(i).setVisible(false);
         }
-        seattotal.setText("0/" + max);
+        seattotal.setText("시간을 선택하세요");
     }//GEN-LAST:event_selectclassnumberItemStateChanged
 
     private void selectclassnumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectclassnumberActionPerformed
@@ -403,7 +419,9 @@ public class ReserveStatus extends javax.swing.JPanel {
                     if (classTime[i] == true) {
                         iscount = true;
                         for (int j = 0; j < max; j++) {
-                            seatcheckbox.get(j).setVisible(false);
+                            seatcheckbox.get(j).setVisible(true);
+                            seatcheckbox.get(j).setSelected(false);
+                            seatcheckbox.get(j).setEnabled(false);
                             seatstatus.get(j).setVisible(false);
                         }
                         showMessageDialog(null, "선택한 시간사이에 수업이 있습니다.");
