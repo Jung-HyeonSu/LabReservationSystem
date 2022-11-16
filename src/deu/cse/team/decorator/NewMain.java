@@ -17,6 +17,7 @@ public class NewMain {
         // TODO code application logic here
         Time time = new SeatNumber("24");
         time = new QuarterTime(time);
+        time = new OneHourTime(time);
         System.out.println(Integer.toString(time.time()));
     }
     

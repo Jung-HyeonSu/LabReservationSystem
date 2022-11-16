@@ -329,12 +329,15 @@ public class StudentMain extends javax.swing.JFrame {
 
     private void Frame1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Frame1ActionPerformed
         // TODO add your handling code here:
+        jPanel1.remove(reservationManage);
+        reservationManage = new ReservationMgmt(id);        
+        jPanel1.add(reservationManage);
         reserve.setVisible(false);
         reservationManage.setVisible(true);
         reserveStatus.setVisible(false);
         classtimetable.setVisible(false);
         accountInfo.setVisible(false);
-        mboard.setVisible(false);
+        mboard.setVisible(false);  
     }//GEN-LAST:event_Frame1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

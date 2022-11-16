@@ -261,6 +261,8 @@ public class Reserve extends javax.swing.JPanel {
         okreser = new javax.swing.JButton();
         settotal = new javax.swing.JLabel();
         seattotal = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        adminid = new javax.swing.JLabel();
 
         jLabel5.setText("인원수:");
 
@@ -438,6 +440,11 @@ public class Reserve extends javax.swing.JPanel {
         seattotal.setForeground(new java.awt.Color(255, 0, 51));
         seattotal.setText("0/30");
 
+        jLabel2.setText("관리책임자");
+
+        adminid.setForeground(new java.awt.Color(255, 0, 51));
+        adminid.setText("조교");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -445,25 +452,33 @@ public class Reserve extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(87, 87, 87)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(resertimearea)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(resertime)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(changebtn))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(settotal)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(seattotal))))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(349, 349, 349)
                         .addComponent(classnumberarea))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(363, 363, 363)
                         .addComponent(okreser)))
-                .addContainerGap(381, Short.MAX_VALUE))
+                .addGap(97, 97, 97))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(87, 87, 87)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(settotal)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(seattotal))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(resertimearea)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(resertime)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(changebtn)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 315, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(adminid)
+                        .addGap(117, 117, 117))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(99, 99, 99))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -473,12 +488,14 @@ public class Reserve extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(settotal)
-                    .addComponent(seattotal))
+                    .addComponent(seattotal)
+                    .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(changebtn)
                     .addComponent(resertimearea)
-                    .addComponent(resertime))
+                    .addComponent(resertime)
+                    .addComponent(adminid))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 292, Short.MAX_VALUE)
                 .addComponent(okreser)
                 .addGap(29, 29, 29))
@@ -622,7 +639,7 @@ public class Reserve extends javax.swing.JPanel {
             showMessageDialog(null, "시작 시간이 종료 시간과 같을 수는 없습니다.");
         } else {
             editTime.dispose();
-            resertime.setText(starttime + ":00 ~ " + endtime + ":00");
+            resertime.setText(starttime + ":00 ~ " + endtime + ":00");            
             for (; index < cid.size(); index++) {
                 getSchedule(index);
                 iscount = false;
@@ -674,6 +691,9 @@ public class Reserve extends javax.swing.JPanel {
             if (index == cid.size()) {
                 showMessageDialog(null, "현재 예약가능한 강의실이 없습니다.");
             } else {
+                if (Integer.parseInt(endtime)>17) {
+                adminid.setText(dao.getClassAdmin(cid.get(index).getClassnumber(), today));
+            }
                 classnumberarea.setText(cid.get(index).getClassnumber());
                 seattotal.setText(Integer.toString(count) + " / " + max);
             }
@@ -688,6 +708,7 @@ public class Reserve extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel adminid;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton cancel1;
     private javax.swing.JButton cancelbtn;
@@ -698,6 +719,7 @@ public class Reserve extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> endtimebox;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;

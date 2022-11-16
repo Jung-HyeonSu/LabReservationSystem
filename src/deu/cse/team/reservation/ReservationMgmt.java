@@ -48,7 +48,8 @@ public class ReservationMgmt extends javax.swing.JPanel {
     String seat_number;
     Calendar c = Calendar.getInstance();
     String today = Integer.toString(c.get(Calendar.YEAR)) + "/" + Integer.toString(c.get(Calendar.MONTH) + 1) + "/" + Integer.toString(c.get(Calendar.DATE));
-
+    int row;
+ 
     public ReservationMgmt() {
         initComponents();
     }
@@ -381,7 +382,7 @@ public class ReservationMgmt extends javax.swing.JPanel {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        int row = jTable1.getSelectedRow();
+        row = jTable1.getSelectedRow();
         reser_number = model.getValueAt(row, 0).toString();
 
         jDialog1.setVisible(true);
@@ -392,7 +393,7 @@ public class ReservationMgmt extends javax.swing.JPanel {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        int row = jTable1.getSelectedRow();
+        row = jTable1.getSelectedRow();
         reser_number = model.getValueAt(row, 0).toString();
         classnumber = model.getValueAt(row, 3).toString();
         reser_date = model.getValueAt(row, 1).toString();
@@ -474,7 +475,6 @@ public class ReservationMgmt extends javax.swing.JPanel {
         
 
         for (int j = 0; j < jTable4.getRowCount(); j++) {
-            timeresult = new SeatNumber(reser_number);
             if ("15분".equals(String.valueOf(jTable4.getValueAt(j, 0)))) {
                 timeresult = new QuarterTime(timeresult);
             }
@@ -487,25 +487,33 @@ public class ReservationMgmt extends javax.swing.JPanel {
         }
 
         ReservationDTO dto = new ReservationDTO();
+        List<ReservationDTO> reservationList = null;
             dao.UpdateReser(dto, reser_number, resultTime);
             dao.UpdateReser(dto, reser_number, "-", "1");
         // 테이블에서 가져온 끝시간 date 자료형으로 변환
-        try { 
-            endtime1 = formatter.parse(formatter.format(cal.getTime())); //처음 예약된 값
+        try {    
             cal.setTime(formatter.parse(reser_endtime));      
+            endtime1 = formatter.parse(formatter.format(cal.getTime())); //처음 예약된 값 DATE 자료형
+            System.out.println("endtime1="+formatter.format(cal.getTime()));
             cal.add(Calendar.MINUTE, timeresult.time());
             endtime2 = formatter.parse(formatter.format(cal.getTime()));
             resultTime = formatter.format(cal.getTime());
-            List<ReservationDTO> reservationList = dao.getreservationcanadd(classnumber, today, resultTime ,seat_number);
+            reservationList = dao.getreservationcanadd(classnumber, today, resultTime ,seat_number);
             System.out.println("addtime = "+formatter.format(cal.getTime()));
             System.out.println(reservationList.size());
-            if (reservationList.size() != 1 ) { //연장 불가능
+            if (reservationList.size() > 1 ) { //연장 불가능
                 showMessageDialog(null, "       ※연장실패※\n다른 사용자와 예약 시간이 중복됩니다.");
+            } else if (reservationList.size() == 0 ) { //연장 불가능
+                showMessageDialog(null, "       ※연장실패※\n당일 예약이 아니라서 연장이 불가능합니다.");
             } else {
                 //1. 연장시간이 17시 이전
                 if ((cal.getTime()).before(formatter.parse("17:00")) || (cal.getTime()).equals(formatter.parse("17:00"))) {
                     showMessageDialog(null, " 17시이전이라 바로 연장가능 ");
                     dao.UpdateReser(dto, reser_number, resultTime);
+                     
+                    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                    reser_endtime = model.getValueAt(row, 5).toString();
+                    loadReserTable();
                 }
                 
                 //2. 연장시간이 17시 초과
@@ -526,11 +534,13 @@ public class ReservationMgmt extends javax.swing.JPanel {
                         
                         //만약에 classadminEndtime 미정일시 현재 예약하는 사람이 관리권한자
                         
-                        if("미정".equals(classadminEndtime)){
+                        if("미정".equals(classadminEndtime[1])){
+                            System.out.println(classadminEndtime[1]);
                             dao.UpdateReser(dto, reser_number, str, "1");
                         }
-                        else {
-                            Date old = formatter.parse(formatter.format(classadminEndtime[0].split(":")[0]));
+                        else { 
+                            Date old = formatter.parse(classadminEndtime[0]);
+                            showMessageDialog(null, "OLD="+old);
                             if(endtime2.before(old)){
                                 dao.UpdateReser(dto, reser_number, "-", "1");
                                 
@@ -548,14 +558,19 @@ public class ReservationMgmt extends javax.swing.JPanel {
                     
                 
 
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            reser_endtime = model.getValueAt(row, 5).toString();
+             loadReserTable();
             }
 
         } catch (ParseException ex) {
             Logger.getLogger(ReservationMgmt.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-
-        loadReserTable();
+         if (reservationList.size() == 1 ){
+            
+         }
+        
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
