@@ -81,7 +81,7 @@ public class Reserve extends javax.swing.JPanel {
         initComponents();
         max = cid.get(index).getMaxseat();
         setSeat();
-        getreserseat();        
+        getreserseat();
         for (int i = 0; i < max; i++) {
             seatcheckbox.get(i).setVisible(true);
             seatcheckbox.get(i).setEnabled(false);
@@ -156,6 +156,7 @@ public class Reserve extends javax.swing.JPanel {
             seatstatus.get(k).setVisible(false);
             SeatChecking tmpsc = new SeatChecking(seatcheckbox.get(k), seatstatus.get(k)); //전부 예약 가능한 상태
             sc.add(tmpsc);
+
             seatcheckbox.get(k).addItemListener(new clickseat(((count + 1) + (row * 8))));
             if (row * 8 + count == max - 1) {
                 break;
@@ -201,17 +202,20 @@ public class Reserve extends javax.swing.JPanel {
                 }
             }// 예약이랑 비교하는 알고리즘
             if (bool) {
-                sc.get(i).setState(sc.get(i).getUsingState());
+                sc.get(i).using();
                 count++;
             } else {
-                sc.get(i).setState(sc.get(i).getEmptyState());
+                sc.get(i).empty();
             }
+
             sc.get(i).toset();
         }
         for (int j = max; j < 40; j++) {
-            sc.get(j).setState(sc.get(j).getNotusing());
+            sc.get(j).notuse();
             sc.get(j).toset();
+
         }
+
     }
 
     void checkingclassschedule() {
@@ -632,7 +636,7 @@ public class Reserve extends javax.swing.JPanel {
 
     private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
         // TODO add your handling code here:
-        
+
         usernumber.setEnabled(true);
     }//GEN-LAST:event_jRadioButton2ActionPerformed
 
@@ -648,7 +652,7 @@ public class Reserve extends javax.swing.JPanel {
             showMessageDialog(null, "시작 시간이 종료 시간과 같을 수는 없습니다.");
         } else {
             editTime.dispose();
-            resertime.setText(starttime + ":00 ~ " + endtime + ":00");            
+            resertime.setText(starttime + ":00 ~ " + endtime + ":00");
             for (; index < cid.size(); index++) {
                 getSchedule(index);
                 iscount = false;
@@ -700,9 +704,9 @@ public class Reserve extends javax.swing.JPanel {
             if (index == cid.size()) {
                 showMessageDialog(null, "현재 예약가능한 강의실이 없습니다.");
             } else {
-                if (Integer.parseInt(endtime)>17) {
-                adminid.setText(dao.getClassAdmin(cid.get(index).getClassnumber(), today));
-            }
+                if (Integer.parseInt(endtime) > 17) {
+                    adminid.setText(dao.getClassAdmin(cid.get(index).getClassnumber(), today));
+                }
                 classnumberarea.setText(cid.get(index).getClassnumber());
                 seattotal.setText(Integer.toString(count) + " / " + max);
             }

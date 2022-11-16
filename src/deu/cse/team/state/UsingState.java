@@ -9,26 +9,29 @@ public class UsingState implements State {
     }
 
     @Override
-    public String using() {
-        return ("사용중");
+    public void using() {
+        seatchecking.getSeatcheckbox().setVisible(true);
+        seatchecking.getSeatstatus().setVisible(true);
+        seatchecking.getSeatcheckbox().setEnabled(false);
+        seatchecking.getSeatcheckbox().setSelected(false);
+        seatchecking.getSeatstatus().setText("예약완료");
     }
 
     @Override
-    public String empty() {
-        return ("빈자리");
+    public void empty() {
+        seatchecking.setState(seatchecking.getEmptyState());
     }
-    
+
+    @Override
+    public void notuse() {
+        seatchecking.setState(seatchecking.getNotusing());
+    }
 
     public String toString() {
         return "예약완료";
     }
 
     public void toset() {
-        seatchecking.getSeatcheckbox().setVisible(true);
-        seatchecking.getSeatstatus().setVisible(true);
-        seatchecking.getSeatcheckbox().setEnabled(false);
-        seatchecking.getSeatcheckbox().setSelected(false);
-        seatchecking.getSeatstatus().setText("예약완료");        
+        using();
     }
-
 }

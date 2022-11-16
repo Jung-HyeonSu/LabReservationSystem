@@ -32,11 +32,6 @@ public class SeatChecking {
         this.seatcheckbox=seatcheckbox;
         this.seatstatus=seatstatus;
         state = emptyState;
-//        if (status) { //예약이면 true
-//            state = usingState;
-//        } else {
-//            state = emptyState;
-//        }
     }
 
     public void using() {
@@ -45,6 +40,9 @@ public class SeatChecking {
 
     public void empty() {
         state = emptyState;
+    }
+    public void notuse() {
+        state = notusing;
     }
 
     public boolean getStatus() {

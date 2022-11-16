@@ -9,13 +9,22 @@ public class EmptyState implements State {
     }
 
     @Override
-    public String using() {
-        return "use";
+    public void using() {
+        seatchecking.setState(seatchecking.getUsingState());
     }
 
     @Override
-    public String empty() {
-        return "empty";
+    public void empty() {
+        seatchecking.getSeatcheckbox().setVisible(true);
+        seatchecking.getSeatstatus().setVisible(true);
+        seatchecking.getSeatcheckbox().setEnabled(true);
+        seatchecking.getSeatcheckbox().setSelected(false);
+        seatchecking.getSeatstatus().setText("예약가능");
+    }
+
+    @Override
+    public void notuse() {
+        seatchecking.setState(seatchecking.getNotusing());
     }
 
     public String toString() {
@@ -25,10 +34,7 @@ public class EmptyState implements State {
 
     @Override
     public void toset() {
-        seatchecking.getSeatcheckbox().setVisible(true);
-        seatchecking.getSeatstatus().setVisible(true);
-        seatchecking.getSeatcheckbox().setEnabled(true);
-        seatchecking.getSeatcheckbox().setSelected(false);
-        seatchecking.getSeatstatus().setText("예약가능");
+        empty();
     }
+
 }

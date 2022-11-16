@@ -2,8 +2,9 @@ package deu.cse.team.state;
 
 public interface State {
  
-	public String using();
-	public String empty();
+	public void using();
+	public void empty();
+        public void notuse();
         public void toset();
 
 }

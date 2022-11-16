@@ -9,13 +9,19 @@ public class NotUse implements State {
     }
 
     @Override
-    public String using() {
-        return "use";
+    public void using() {
+        seatchecking.setState(seatchecking.getUsingState());
     }
 
     @Override
-    public String empty() {
-        return "empty";
+    public void empty() {
+        seatchecking.setState(seatchecking.getEmptyState());
+    }
+
+    @Override
+    public void notuse() {
+        seatchecking.getSeatcheckbox().setVisible(false);
+        seatchecking.getSeatstatus().setVisible(false);
     }
 
     public String toString() {
@@ -24,8 +30,7 @@ public class NotUse implements State {
     }
 
     @Override
-    public void toset() {        
-        seatchecking.getSeatcheckbox().setVisible(false);
-        seatchecking.getSeatstatus().setVisible(false);
+    public void toset() {
+        notuse();
     }
 }
