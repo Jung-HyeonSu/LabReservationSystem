@@ -4,10 +4,7 @@
  */
 package deu.cse.team.command;
 
-/**
- *
- * @author Yool
- */
+
 public class IndividualCommand implements Command{
     HeadcountConfirm headcountConfirm;
     
