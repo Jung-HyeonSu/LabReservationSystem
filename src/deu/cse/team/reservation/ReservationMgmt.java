@@ -49,7 +49,7 @@ public class ReservationMgmt extends javax.swing.JPanel {
     Calendar c = Calendar.getInstance();
     String today = Integer.toString(c.get(Calendar.YEAR)) + "/" + Integer.toString(c.get(Calendar.MONTH) + 1) + "/" + Integer.toString(c.get(Calendar.DATE));
     int row;
- 
+
     public ReservationMgmt() {
         initComponents();
     }
@@ -415,7 +415,7 @@ public class ReservationMgmt extends javax.swing.JPanel {
                 ClassAdmin classadmin = new ClassAdmin();
                 classadmin.classAdminSet(reservationList.get(i).getOk(), reservationList.get(i).getClassadmin(), reservationList.get(i).getClassnumber(), Integer.toString(reservationList.get(i).getReser_number()), reservationList.get(i).getReser_date(), reservationList.get(i).getReser_endtime(), reservationList.get(i).getId());
 
-                dao.UpdateReser(dto, reser_number, "-","2");
+                dao.UpdateReser(dto, reser_number, "-", "2");
             }
         }
         loadReserTable();
@@ -436,36 +436,31 @@ public class ReservationMgmt extends javax.swing.JPanel {
         Date endtime2;
         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
         DAO dao = DAO.getInstance();
-
         Time timeresult = new SeatNumber(seat_number);
 
         String resultTime = null;
 
-        
         String str = null;
+        // 관리 권한
         if (classnumber.equals("915")) {
-            //send.send(phonenumber);
             LectureRoom class915 = new Class915();
             class915.setAllowedBehavior(new AllowedStudent());
             str = class915.display();
         } else if (classnumber.equals("916")) {
-            //send.send(phonenumber);
             LectureRoom class916 = new Class916();
             class916.setAllowedBehavior(new AllowedStudent());
             str = class916.display();
         } else if (classnumber.equals("918")) {
-            //send.send(phonenumber);
             LectureRoom class918 = new Class918();
             class918.setAllowedBehavior(new AllowedStudent());
             str = class918.display();
         } else if (classnumber.equals("911")) {
-            //send.send(phonenumber);
             LectureRoom class911 = new Class911();
             class911.setAllowedBehavior(new AllowedStudent());
             str = class911.display();
         }
-        
 
+        //연장 시간
         for (int j = 0; j < jTable4.getRowCount(); j++) {
             if ("15분".equals(String.valueOf(jTable4.getValueAt(j, 0)))) {
                 timeresult = new QuarterTime(timeresult);
@@ -480,90 +475,87 @@ public class ReservationMgmt extends javax.swing.JPanel {
 
         ReservationDTO dto = new ReservationDTO();
         List<ReservationDTO> reservationList = null;
-            dao.UpdateReser(dto, reser_number, resultTime);
-            dao.UpdateReser(dto, reser_number, "-", "1");
+        dao.UpdateReser(dto, reser_number, resultTime);
+        dao.UpdateReser(dto, reser_number, "-", "1");
         // 테이블에서 가져온 끝시간 date 자료형으로 변환
-        try {    
-            cal.setTime(formatter.parse(reser_endtime));      
+        try {
+            cal.setTime(formatter.parse(reser_endtime));
             endtime1 = formatter.parse(formatter.format(cal.getTime())); //처음 예약된 값 DATE 자료형
-            System.out.println("endtime1="+formatter.format(cal.getTime()));
+            System.out.println("endtime1=" + formatter.format(cal.getTime()));
             cal.add(Calendar.MINUTE, timeresult.time());
             endtime2 = formatter.parse(formatter.format(cal.getTime()));
             resultTime = formatter.format(cal.getTime());
-            reservationList = dao.getreservationcanadd(classnumber, today, resultTime ,seat_number);
-            System.out.println("addtime = "+formatter.format(cal.getTime()));
+            reservationList = dao.getreservationcanadd(classnumber, today, resultTime, seat_number);
+            System.out.println("addtime = " + formatter.format(cal.getTime()));
             System.out.println(reservationList.size());
-            if (reservationList.size() > 1 ) { //연장 불가능
+            if (reservationList.size() > 1) { //연장 불가능
                 showMessageDialog(null, "※연장실패※\n다른 사용자와 예약 시간이 중복됩니다.");
-            } else if (reservationList.size() == 0 ) { //연장 불가능
+            } else if (reservationList.size() == 0) { //연장 불가능
                 showMessageDialog(null, "※연장실패※\n당일 예약이 아니라서 연장이 불가능합니다.");
             } else {
                 //1. 연장시간이 17시 이전
                 if ((cal.getTime()).before(formatter.parse("17:00")) || (cal.getTime()).equals(formatter.parse("17:00"))) {
-                    showMessageDialog(null, "※연장성공※\n"+formatter.format(cal.getTime())+"까지 연장되었습니다."); //17시이전이라 바로 연장가능
+                    showMessageDialog(null, "※연장성공※\n" + formatter.format(cal.getTime()) + "까지 연장되었습니다."); //17시이전이라 바로 연장가능
                     dao.UpdateReser(dto, reser_number, resultTime);
-                     
+
                     DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
                     reser_endtime = model.getValueAt(row, 5).toString();
                     loadReserTable();
-                }
-                
-                //2. 연장시간이 17시 초과
-                else{
+                } //2. 연장시간이 17시 초과
+                else {
                     //만약 원래 시간이 17시 이전이면
-                    if (endtime1.before(formatter.parse("17:00")) || endtime1.equals(formatter.parse("17:00"))) { 
-                        showMessageDialog(null, "※연장성공※\n"+formatter.format(cal.getTime())+"까지 연장되었습니다.\n 예약시간이 17시를 초과하여 예약 재승인이 필요합니다."); //17시이후 새로운 예약이라 허락연장으로 이동
+                    if (endtime1.before(formatter.parse("17:00")) || endtime1.equals(formatter.parse("17:00"))) {
+                        showMessageDialog(null, "※연장성공※\n" + formatter.format(cal.getTime()) + "까지 연장되었습니다.\n 예약시간이 17시를 초과하여 예약 재승인이 필요합니다."); //17시이후 새로운 예약이라 허락연장으로 이동
                         dao.UpdateReser(dto, reser_number, resultTime);
                         dao.UpdateReser(dto, reser_number, "-", "0");
-                        System.out.println("resultTime="+resultTime);
+                        System.out.println("resultTime=" + resultTime);
 //                        ok=0
 //                        
-                    }
-                    //원래부터 17시 이후
-                    else{
+                    } //원래부터 17시 이후
+                    else {
                         dao.UpdateReser(dto, reser_number, resultTime);
                         String[] classadminEndtime = new String[2];
-                        classadminEndtime=dao.getClassAdminEndtime(classnumber, today);
-                        showMessageDialog(null, "※연장성공※\n"+formatter.format(cal.getTime())+"까지 연장되었습니다.");
+                        classadminEndtime = dao.getClassAdminEndtime(classnumber, today);
+                        showMessageDialog(null, "※연장성공※\n" + formatter.format(cal.getTime()) + "까지 연장되었습니다.");
                         //만약에 classadminEndtime 미정일시 현재 예약하는 사람이 관리권한자
-                        
-                        if("미정".equals(classadminEndtime[1])){
+                        if(classadminEndtime[1].equals(reser_number)){
+                            dao.UpdateReser(dto, reser_number, str, "1");
+                        }
+                        else if ("미정".equals(classadminEndtime[1])) {
                             dao.UpdateReser(dto, reser_number, str, "1");
                             showMessageDialog(null, "당신은 관리권한자입니다.");
-                        }
-                        else { 
+                            SendMessage(reser_number);
+                        } else {
                             Date old = formatter.parse(classadminEndtime[0]);
-                            if(endtime2.before(old)){
+                            if (endtime2.before(old)) {
                                 dao.UpdateReser(dto, reser_number, "-", "1");
-                                
-                            }
-                            else if(endtime2.after(old)){
-                                dao.UpdateReser(dto,classadminEndtime[1], "-", "1");
+
+                            } else if (endtime2.after(old)) {
+                                dao.UpdateReser(dto, classadminEndtime[1], "-", "1");
                                 dao.UpdateReser(dto, reser_number, str, "1");
                                 showMessageDialog(null, "당신은 관리권한자입니다.");
+                                SendMessage(reser_number);
                             }
                         }
                     }
                 }
-                    
-                
 
-            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-            reser_endtime = model.getValueAt(row, 5).toString();
-             loadReserTable();
+                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                reser_endtime = model.getValueAt(row, 5).toString();
+                loadReserTable();
             }
 
         } catch (ParseException ex) {
             Logger.getLogger(ReservationMgmt.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-         if (reservationList.size() == 1 ){
-            
-         }
-        
-         jDialog2.dispose();
-         DefaultTableModel model = (DefaultTableModel) jTable4.getModel();
-           model.setNumRows(0);
+        if (reservationList.size() == 1) {
+
+        }
+
+        jDialog2.dispose();
+        DefaultTableModel model = (DefaultTableModel) jTable4.getModel();
+        model.setNumRows(0);
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
@@ -590,6 +582,7 @@ public class ReservationMgmt extends javax.swing.JPanel {
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
         int row = jTable4.getSelectedRow();
+        totalTime = 0;
         DefaultTableModel model = (DefaultTableModel) jTable4.getModel();
 
         if ("15분".equals(jTable4.getValueAt(row, 0))) {
@@ -632,7 +625,30 @@ public class ReservationMgmt extends javax.swing.JPanel {
                     reservationList.get(i).getClassnumber(), reservationList.get(i).getReser_starttime(), reservationList.get(i).getReser_endtime(), state});
             }
         }
+    }
 
+    void SendMessage(String reser_num) {
+        //전화번호
+        System.out.println("reser_num: "+reser_num);
+        DAO dao = DAO.getInstance();
+        List<AccountDTO> accountList = dao.getAccountList();
+        List<ReservationDTO> reser_List = dao.getReserList();
+        String phoneNumber = null;
+        for (int i = 0; i < accountList.size(); i++) {
+            for (int j = 0; j < reser_List.size(); j++) {
+                if (reser_num.equals(Integer.toString(reser_List.get(j).getReser_number()))) {
+                    String stu_id = reser_List.get(j).getId();
+                    System.out.println("stu_id: "+stu_id);
+                    if (stu_id.equals(accountList.get(i).getId())) {
+                        phoneNumber = accountList.get(i).getPhonenumber();
+                        System.out.println("phoneNumber: "+phoneNumber);
+                    }
+                }
+            }
+        }
+        System.out.println("phoneNumber!!!: "+phoneNumber);
+        SendMessage send = new SendMessage();
+        send.send(phoneNumber);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
