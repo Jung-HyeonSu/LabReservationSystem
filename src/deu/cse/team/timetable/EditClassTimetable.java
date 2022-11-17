@@ -33,30 +33,30 @@ public class EditClassTimetable extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton3 = new javax.swing.JButton();
+        LookupBtn = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        classnumLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        saveBtn = new javax.swing.JButton();
+        classnumComboBox = new javax.swing.JComboBox<>();
 
         setPreferredSize(new java.awt.Dimension(818, 477));
 
-        jButton3.setText("조회");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        LookupBtn.setText("조회");
+        LookupBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                LookupBtnActionPerformed(evt);
             }
         });
 
         jLabel3.setText("현재 강의실:");
 
-        jLabel4.setFont(new java.awt.Font("맑은 고딕", 1, 12)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 0, 255));
-        jLabel4.setText("915");
+        classnumLabel.setFont(new java.awt.Font("맑은 고딕", 1, 12)); // NOI18N
+        classnumLabel.setForeground(new java.awt.Color(0, 0, 255));
+        classnumLabel.setText("915");
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -74,17 +74,17 @@ public class EditClassTimetable extends javax.swing.JPanel {
 
         jLabel2.setText("※테이블 더블클릭으로 수정 가능");
 
-        jButton1.setText("저장");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        saveBtn.setText("저장");
+        saveBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                saveBtnActionPerformed(evt);
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "915", "916", "918", "911" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        classnumComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "915", "916", "918", "911" }));
+        classnumComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                classnumComboBoxActionPerformed(evt);
             }
         });
 
@@ -94,7 +94,7 @@ public class EditClassTimetable extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(saveBtn)
                 .addGap(369, 369, 369))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -105,13 +105,13 @@ public class EditClassTimetable extends javax.swing.JPanel {
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 784, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(classnumComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(LookupBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel3)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jLabel4)))))
+                                    .addComponent(classnumLabel)))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(317, 317, 317)
                         .addComponent(jLabel1)))
@@ -120,31 +120,31 @@ public class EditClassTimetable extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(41, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3)
+                    .addComponent(classnumComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(LookupBtn)
                     .addComponent(jLabel3)
-                    .addComponent(jLabel4))
+                    .addComponent(classnumLabel))
                 .addGap(10, 10, 10)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
+                .addComponent(saveBtn)
                 .addGap(20, 20, 20))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void LookupBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LookupBtnActionPerformed
         // TODO add your handling code here:
-        jLabel4.setText(jComboBox1.getSelectedItem().toString());
+        classnumLabel.setText(classnumComboBox.getSelectedItem().toString());
         loadTimeTable();
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_LookupBtnActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
         // TODO add your handling code here:
         DAO dao = DAO.getInstance();
         ClassTimetableDTO dto = new ClassTimetableDTO();
@@ -181,12 +181,12 @@ public class EditClassTimetable extends javax.swing.JPanel {
             }
         }
 
-        String classnum = jComboBox1.getSelectedItem().toString();
+        String classnum = classnumComboBox.getSelectedItem().toString();
         dao.UpdateTimetable(dto, classnum, time[0], time[1], time[2], time[3], time[4], time[5], time[6], time[7]);
         loadTimeTable();
         showMessageDialog(null, "시간표가 저장되었습니다.");
 
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_saveBtnActionPerformed
     void loadTimeTable() {
         DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
         model.setNumRows(0);
@@ -197,7 +197,7 @@ public class EditClassTimetable extends javax.swing.JPanel {
 
         for (int i = 0; i < timetableList.size(); i++) {
             classNum = timetableList.get(i).getClassnumber();
-            if (classNum.equals(jComboBox1.getSelectedItem().toString())) {
+            if (classNum.equals(classnumComboBox.getSelectedItem().toString())) {
                 time[0] = timetableList.get(i).getTime1();
                 time[1] = timetableList.get(i).getTime2();
                 time[2] = timetableList.get(i).getTime3();
@@ -218,20 +218,20 @@ public class EditClassTimetable extends javax.swing.JPanel {
         }
 
     }
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void classnumComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_classnumComboBoxActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    }//GEN-LAST:event_classnumComboBoxActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JButton LookupBtn;
+    private javax.swing.JComboBox<String> classnumComboBox;
+    private javax.swing.JLabel classnumLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable2;
+    private javax.swing.JButton saveBtn;
     // End of variables declaration//GEN-END:variables
 }

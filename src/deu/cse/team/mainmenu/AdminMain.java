@@ -71,6 +71,7 @@ public class AdminMain extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(this);
         setTitle("AdminMain");
+        loadToken();
         tokenAuth = new TokenAuth();
         adminRegister = new AdminRegister();
         mgmtAccount = new Accountmanagement();
@@ -508,7 +509,32 @@ public class AdminMain extends javax.swing.JFrame {
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
         // TODO add your handling code here:
-
+        String oldToken = jLabel7.getText();
+        String newToken=null;
+        try {
+            Date date = new Date();
+            Random random = new Random();
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String str = format.format(date);
+            int value = Math.abs(str.hashCode() / (random.nextInt(10000)+1));
+            while (true) {
+                if ((int) (Math.log10(value) + 1) != 6) {
+                    value = Math.abs(str.hashCode() / (random.nextInt(10000)+1));
+                } else {
+                    break;
+                }
+            }
+            newToken = Integer.toString(value);
+            jLabel7.setText(newToken);
+            
+            //디비저장
+            DAO dao = DAO.getInstance();
+            TokenDTO dto = new TokenDTO();
+            dao.UpdateToken(dto,oldToken,newToken);
+            
+        }catch (Exception ex) {
+            Logger.getLogger(AdminMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
@@ -613,6 +639,11 @@ public class AdminMain extends javax.swing.JFrame {
         dtm.setRowCount(0);
         for (int i = 0; i < cidto.size(); i++) dtm.addRow(new Object[]{cidto.get(i).getClassnumber(), cidto.get(i).getMaxseat()});        
         classinformationtable.updateUI();
+    }
+    
+    private void loadToken(){
+        DAO dao = DAO.getInstance();
+        jLabel7.setText(dao.getTokenList());
     }
     
     /**

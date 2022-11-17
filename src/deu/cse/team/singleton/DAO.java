@@ -704,7 +704,7 @@ public class DAO {
 
         if (this.connect()) {
             try {
-                String sql = "UPDATE token SET token_value=" + newToken + " WHERE token_value =" + oldToken;
+                String sql = "UPDATE token SET token_value=" + newToken +", changeday= sysdate WHERE token_value =" + oldToken;
                 PreparedStatement pstmt = con.prepareStatement(sql);
 
                 int r = pstmt.executeUpdate();
