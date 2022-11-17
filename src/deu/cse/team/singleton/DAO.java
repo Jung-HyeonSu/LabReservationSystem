@@ -452,9 +452,10 @@ public class DAO {
 
         return count;
     }
-    public ArrayList<ReservationDTO> getreservationcanadd(String classnumber, String today,String endtime,String seat_number) {
-        ArrayList<ReservationDTO> list=null;
-        String sql = "SELECT * FROM reservation where classnumber = '" + classnumber + "' and reser_date= '" + today + "' and reser_starttime <= '" + endtime + "' and seat_number = '"+seat_number+"' and ok='1'";
+
+    public ArrayList<ReservationDTO> getreservationcanadd(String classnumber, String today, String endtime, String seat_number) {
+        ArrayList<ReservationDTO> list = null;
+        String sql = "SELECT * FROM reservation where classnumber = '" + classnumber + "' and reser_date= '" + today + "' and reser_starttime <= '" + endtime + "' and seat_number = '" + seat_number + "' and ok='1'";
         System.out.println(sql);
         if (this.connect()) {
             try {
@@ -494,7 +495,7 @@ public class DAO {
     }
 
     public ArrayList<ReservationDTO> getreservation(String classnumber, String today, String starttime, String endtime) {
-        ArrayList<ReservationDTO> list=null;
+        ArrayList<ReservationDTO> list = null;
         String sql = "SELECT * FROM reservation where classnumber = '" + classnumber + "' and reser_date= '" + today + "' and reser_starttime >= '" + starttime + ":00' and reser_endtime <= '" + endtime + ":00'";
         if (this.connect()) {
             try {
@@ -559,6 +560,7 @@ public class DAO {
         System.out.println(count);
         return count;
     }
+
     public boolean isuserreserd(String id, String today, String starttime) {
         boolean isreserd = false;
         if (this.connect()) {
@@ -574,7 +576,9 @@ public class DAO {
                     while (rs.next()) {
                         System.out.println("what? ");
                         isreserd = true;
-                        if (isreserd) break;
+                        if (isreserd) {
+                            break;
+                        }
                     }
                 }
             } catch (SQLException e) {
@@ -615,12 +619,12 @@ public class DAO {
         }
         return id;
     }
-    
+
     public String[] getClassAdminEndtime(String classnumber, String today) {
         String[] str = new String[2];
-        
+
         String reser_endtime = "미정";
-        String reser_number ="미정";
+        String reser_number = "미정";
         if (this.connect()) {
             try {
                 //값이 삽입되어야 하는 자리에는 물음표
@@ -754,11 +758,12 @@ public class DAO {
 
         return result;
     }
-    public void Updateallowed(String id) {       
-        boolean result =false;
+
+    public void Updateallowed(String id) {
+        boolean result = false;
         if (this.connect()) {
             try {
-                String sql = "UPDATE account SET allowed ='1' WHERE id ='" + id+"'";
+                String sql = "UPDATE account SET allowed ='1' WHERE id ='" + id + "'";
                 PreparedStatement pstmt = con.prepareStatement(sql);
                 int r = pstmt.executeUpdate();
                 if (r > 0) {
@@ -884,7 +889,7 @@ public class DAO {
 
         return result;
     }
-    
+
     public boolean UpdateCancelReser(ReservationDTO reservation, String reser_number) {
         boolean result = false;
 
@@ -1251,7 +1256,7 @@ public class DAO {
             System.exit(0);
         }
     }
-    
+
     public void AllowedUpdate(String sid) {
         if (this.connect()) {
             try {
@@ -1270,12 +1275,12 @@ public class DAO {
             System.exit(0);
         }
     }
-    
+
     public String getUserAllowed(String id) {
-        String allowed=null;
+        String allowed = null;
         if (connect()) {
             try {
-                String sql = "select allowed from account where id='"+id+"'";
+                String sql = "select allowed from account where id='" + id + "'";
                 System.out.println(sql);
                 stmt = con.createStatement();
                 if (stmt != null) {
@@ -1387,5 +1392,61 @@ public class DAO {
         }
 
         return result;
+    }
+
+    public boolean CheckSemester() {
+        boolean result = false;
+        String[] sql = new String[2];
+        sql[0] = "select * from token where extract( month from to_date(changeday)) in ('9','10','11','12','1','2') and extract( month from to_date(sysdate)) in ('3','4','5','6','7','8')";
+        sql[0] = "select * from token where extract( month from to_date(changeday)) in ('3','4','5','6','7','8') and extract( month from to_date(sysdate)) in ('9','10','11','12','1','2')";
+        if (connect()) {
+            try {
+                stmt = con.createStatement();
+                if (stmt != null) {
+                    for (int i = 0; i < 10; i++) {
+                        rs = stmt.executeQuery(sql[i]);
+                        while (rs.next()) {                            
+                            result = true;
+                        }
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("데이터베이스 연결에 실패했습니다.");
+            System.exit(0);
+        }
+
+        return result;
+    }
+
+    public void UpdateSemester() {
+
+        if (this.connect()) {
+            try {
+                String sql[] = new String[4];
+                sql[0] = "update token set token_value = TRUNC(DBMS_RANDOM.VALUE(100000,1000000)),changeday=sysdate;";
+                sql[1] = "update account set allowed='0' where power='X';";
+                sql[2] = "delete reservation where 1=1;";
+                sql[3] = "update classtimetable set time1 = ' , , , , , , ', time2 = ' , , , , , , ', time3 = ' , , , , , , ', time4 = ' , , , , , , ', time5 = ' , , , , , , ', time6 = ' , , , , , , ', time7 = ' , , , , , , ', time8 = ' , , , , , , ';";
+
+                PreparedStatement pstmt = null;
+                for (int i = 0; i < 4; i++) {
+                    pstmt = con.prepareStatement(sql[i]);
+                    int r = pstmt.executeUpdate();
+                }
+                //데이터베이스 생성 객체 해제
+                pstmt.close();
+                this.close();
+
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+
+        } else {
+            System.out.println("데이터베이스 연결에 실패");
+            System.exit(0);
+        }
     }
 }
