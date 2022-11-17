@@ -374,6 +374,7 @@ public class ReserveStatus extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void changebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changebtnActionPerformed
+        cid = dao.getClassInformation();
         editTime.setVisible(true);
         editTime.setLocationRelativeTo(this);
         editTime.setSize(450, 400);
@@ -386,6 +387,7 @@ public class ReserveStatus extends javax.swing.JPanel {
         getreserseat();
         getSchedule(selectclassnumber.getSelectedIndex());
         index = selectclassnumber.getSelectedIndex();
+        cid = dao.getClassInformation();
         max = cid.get(selectclassnumber.getSelectedIndex()).getMaxseat();
         resertime.setText("시간을 선택하세요");
         
