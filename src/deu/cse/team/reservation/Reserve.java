@@ -105,7 +105,6 @@ public class Reserve extends javax.swing.JPanel {
             for (int i = 0; i < rdto.size(); i++) {
                 numberValue = rdto.get(i).getSeat_number();
                 numberValue -= 1;
-                System.out.println(rdto.size());
                 if (rdto.size() != 0) {
                     reserStartValue = Integer.parseInt(rdto.get(i).getReser_starttime().split(":")[0]);
                     reserEndValue = Integer.parseInt(rdto.get(i).getReser_endtime().split(":")[0]);
