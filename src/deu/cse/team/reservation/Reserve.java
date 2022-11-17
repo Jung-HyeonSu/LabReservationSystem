@@ -561,6 +561,7 @@ public class Reserve extends javax.swing.JPanel {
                 reserseatnumber.clear();
                 Notice notice = new Notice();
                 notice.setSize(359, 300);
+                notice.setLocationRelativeTo(this);
                 notice.setVisible(true);
             } else {
                 showMessageDialog(null, "예약 명단보다 선택한 좌석이 많거나 적습니다");
@@ -690,6 +691,7 @@ public class Reserve extends javax.swing.JPanel {
                         //예약시 사람수 체크해서 알고리즘 ㄲ
                         jDialog1.setVisible(true);
                         jDialog1.setSize(400, 300);
+                        jDialog1.setLocationRelativeTo(this);
                         break;
                     } else if (resercount < 25) {
                         max = cid.get(index).getMaxseat();
