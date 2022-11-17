@@ -199,7 +199,7 @@ public class MBoard extends javax.swing.JPanel {
             new detailView(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()).setVisible(true);
 
         } else {
-            new checkPerm(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()).setVisible(true);
+            new checkPerm(id, jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()).setVisible(true);
         }
     }//GEN-LAST:event_jTable1MouseClicked
 

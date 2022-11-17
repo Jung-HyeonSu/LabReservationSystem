@@ -5,8 +5,10 @@
 package deu.cse.team.noticeBoard;
 
 import deu.cse.team.login.Login;
+import deu.cse.team.singleton.AccountDTO;
 import deu.cse.team.singleton.BoardDTO;
 import deu.cse.team.singleton.DAO;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -21,13 +23,15 @@ public class checkPerm extends javax.swing.JFrame {
     
     DAO dao = DAO.getInstance();
     String index1;
+    String id;
     public checkPerm() {
         initComponents();
     }
 
-    public checkPerm(String index){
+    public checkPerm(String id, String index){
         initComponents();
         BoardDTO t = dao.boardNoSelect(Integer.parseInt(index));
+        this.id=id;
         index1=index;
     }
     /**
@@ -102,11 +106,19 @@ public class checkPerm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if(Login.S.getPassword().equals(jTextField1.getText())){
-                    new detailView(index1).setVisible(true);
-                    dispose();
-        }else
-            JOptionPane.showMessageDialog(null, "비밀번호 확인.");
+        boolean count =false;
+        DAO dao = DAO.getInstance();
+        List<AccountDTO> accountlist = dao.getAccountList();
+        for (int i = 0; i < accountlist.size(); i++) {
+            if (id.equals(accountlist.get(i).getId())&& (jTextField1.getText()).equals(accountlist.get(i).getPassword())) {
+                new detailView(index1).setVisible(true);
+                count = true;
+                dispose();    
+            }
+        }
+        if(count==false){
+            JOptionPane.showMessageDialog(null, "비밀번호가 틀렸습니다.");
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
