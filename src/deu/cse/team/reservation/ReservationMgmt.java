@@ -11,6 +11,8 @@ import deu.cse.team.decorator.QuarterTime;
 import deu.cse.team.decorator.SeatNumber;
 import deu.cse.team.decorator.Time;
 import deu.cse.team.message.SendMessage;
+import deu.cse.team.observer.NoticeData;
+import deu.cse.team.observer.StudentObserver;
 import deu.cse.team.singleton.AccountDTO;
 import deu.cse.team.singleton.DAO;
 import deu.cse.team.singleton.ReservationDTO;
@@ -418,9 +420,13 @@ public class ReservationMgmt extends javax.swing.JPanel {
                 dao.UpdateReser(dto, reser_number, "-", "2");
             }
         }
+        String contents = null;
         loadReserTable();
-
-        showMessageDialog(null, "취소되었습니다.");
+        NoticeData noticeData = new NoticeData();
+        StudentObserver studentObserver = new StudentObserver(noticeData);
+        noticeData.setNotice("예약이 취소되었습니다.");
+        contents = studentObserver.display();
+        showMessageDialog(null, contents);
         jDialog1.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -524,7 +530,7 @@ public class ReservationMgmt extends javax.swing.JPanel {
                         else if ("미정".equals(classadminEndtime[1])) {
                             dao.UpdateReser(dto, reser_number, str, "1");
                             showMessageDialog(null, "당신은 관리권한자입니다.");
-                            SendMessage(reser_number);
+                            //SendMessage(reser_number);
                         } else {
                             Date old = formatter.parse(classadminEndtime[0]);
                             if (endtime2.before(old)) {
@@ -534,7 +540,7 @@ public class ReservationMgmt extends javax.swing.JPanel {
                                 dao.UpdateReser(dto, classadminEndtime[1], "-", "1");
                                 dao.UpdateReser(dto, reser_number, str, "1");
                                 showMessageDialog(null, "당신은 관리권한자입니다.");
-                                SendMessage(reser_number);
+                                //SendMessage(reser_number);
                             }
                         }
                     }

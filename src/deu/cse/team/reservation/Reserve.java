@@ -561,7 +561,7 @@ public class Reserve extends javax.swing.JPanel {
                 }
                 reserseatnumber.clear();
                 Notice notice = new Notice();
-                notice.setSize(359, 300);
+                notice.setSize(400, 300);
                 notice.setLocationRelativeTo(this);
                 notice.setVisible(true);
             } else {

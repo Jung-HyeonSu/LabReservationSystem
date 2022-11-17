@@ -85,7 +85,7 @@ public class ReserveAuth extends javax.swing.JPanel {
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "911", "915", "916", "918", " " }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "911", "915", "916", "918" }));
 
         jButton3.setText("조회");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
