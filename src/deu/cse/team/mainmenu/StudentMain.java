@@ -13,6 +13,7 @@ import deu.cse.team.reservation.Reserve;
 import deu.cse.team.singleton.AccountDTO;
 import deu.cse.team.singleton.DAO;
 import deu.cse.team.timetable.ShowClassTimetable;
+import java.awt.Color;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
@@ -20,6 +21,7 @@ import java.util.logging.Logger;
 import javax.naming.NamingException;
 import javax.swing.JOptionPane;
 import java.awt.GridBagLayout;
+import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
  *
@@ -39,11 +41,20 @@ public class StudentMain extends javax.swing.JFrame {
     AccountInfo accountInfo;
     MBoard mboard;
     String id;
+    String allowed;
+    DAO dao = DAO.getInstance();
     public StudentMain() {
 }
     public StudentMain(String id) {
-        this.id=id;
         initComponents();
+        this.id=id;
+        allowed = dao.getUserAllowed(id);
+        if (allowed.equals("1")) {
+            allowedstatus.setText("인증 확인");
+            allowedstatus.setForeground(Color.blue);
+            updateAllowed.setVisible(false);
+        }
+        
         setLocationRelativeTo(this);
         setTitle("Student Main");
         reserve = new Reserve(id);
@@ -92,6 +103,12 @@ public class StudentMain extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jButton14 = new javax.swing.JButton();
+        jDialog3 = new javax.swing.JDialog();
+        jLabel3 = new javax.swing.JLabel();
+        jButton6 = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
+        tokenvalue = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
         Frame1 = new javax.swing.JButton();
         idarea = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -102,6 +119,9 @@ public class StudentMain extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jButton11 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        allowedstatus = new javax.swing.JLabel();
+        updateAllowed = new javax.swing.JButton();
 
         jLabel4.setText("예약 관리");
 
@@ -204,6 +224,52 @@ public class StudentMain extends javax.swing.JFrame {
                 .addContainerGap(23, Short.MAX_VALUE))
         );
 
+        jLabel3.setFont(new java.awt.Font("맑은 고딕", 1, 24)); // NOI18N
+        jLabel3.setText("토큰값 인증하기");
+
+        jButton6.setText("인증하기");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
+        jLabel7.setText("토큰값");
+
+        javax.swing.GroupLayout jDialog3Layout = new javax.swing.GroupLayout(jDialog3.getContentPane());
+        jDialog3.getContentPane().setLayout(jDialog3Layout);
+        jDialog3Layout.setHorizontalGroup(
+            jDialog3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialog3Layout.createSequentialGroup()
+                .addContainerGap(40, Short.MAX_VALUE)
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jDialog3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addGroup(jDialog3Layout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addGroup(jDialog3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(tokenvalue, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton6)))
+                .addGap(18, 18, 18))
+        );
+        jDialog3Layout.setVerticalGroup(
+            jDialog3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialog3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3)
+                .addGap(18, 18, 18)
+                .addGroup(jDialog3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(jButton6)
+                    .addComponent(tokenvalue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(15, Short.MAX_VALUE))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         Frame1.setText("예약 관리");
@@ -271,6 +337,18 @@ public class StudentMain extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("인증 상태 :");
+
+        allowedstatus.setForeground(new java.awt.Color(255, 51, 51));
+        allowedstatus.setText("인증 필요");
+
+        updateAllowed.setText("토큰 인증하기");
+        updateAllowed.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateAllowedActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -295,6 +373,12 @@ public class StudentMain extends javax.swing.JFrame {
                         .addComponent(idarea)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton11)
+                        .addGap(32, 32, 32)
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(allowedstatus)
+                        .addGap(18, 18, 18)
+                        .addComponent(updateAllowed)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -304,7 +388,10 @@ public class StudentMain extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(idarea)
-                    .addComponent(jButton11))
+                    .addComponent(jButton11)
+                    .addComponent(jLabel1)
+                    .addComponent(allowedstatus)
+                    .addComponent(updateAllowed))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -366,8 +453,7 @@ public class StudentMain extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
-
-        DAO dao = DAO.getInstance();
+        
         List<AccountDTO> accountlist = dao.getAccountList();
         for (int i = 0; i < accountlist.size(); i++) {
             if ((accountlist.get(i).getId()).equals(id)) {
@@ -420,6 +506,29 @@ public class StudentMain extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jButton11ActionPerformed
 
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        if (tokenvalue.getText().equals(dao.getTokenList())) {
+            allowedstatus.setText("인증 확인");
+            allowedstatus.setForeground(Color.blue);
+            jLabel8.setText("토큰값 인증 성공");
+            jLabel8.setVisible(false);
+            showMessageDialog(null, "토큰값 인증에 성공하셨습니다.");
+            dao.Updateallowed(id);
+            jDialog3.dispose();
+        } else {
+            jLabel8.setForeground(Color.RED);
+            jLabel8.setText("토큰값 인증 실패");
+        }
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void updateAllowedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateAllowedActionPerformed
+        // TODO add your handling code here:
+        jDialog3.setVisible(true);
+        jDialog3.setLocationRelativeTo(this);
+        jDialog3.setSize(359, 135);
+    }//GEN-LAST:event_updateAllowedActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -461,6 +570,7 @@ public class StudentMain extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Frame1;
+    private javax.swing.JLabel allowedstatus;
     public javax.swing.JLabel idarea;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
@@ -471,16 +581,24 @@ public class StudentMain extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JDialog jDialog2;
+    private javax.swing.JDialog jDialog3;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField tokenvalue;
+    private javax.swing.JButton updateAllowed;
     // End of variables declaration//GEN-END:variables
 }

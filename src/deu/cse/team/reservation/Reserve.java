@@ -532,10 +532,7 @@ public class Reserve extends javax.swing.JPanel {
         if (isresered)
             showMessageDialog(null, "해당시간에 이미 예약한 내역이 있습니다.");
         else {
-            if (isselected && checkboxcount == head) { //단체예약이면 단체로 바꿔줄 예정
-                //            if ("ok".equals(remoteControl.A_ButtonWasPushed(1))) {
-                //                showMessageDialog(null, Message);
-                //            }
+            if (isselected && checkboxcount == head) {                 
                 String time[] = resertime.getText().split("~");
                 ReservationDTO rdto;
                 String today = Integer.toString(c.get(Calendar.YEAR)) + "/" + Integer.toString(c.get(Calendar.MONTH) + 1) + "/" + Integer.toString(c.get(Calendar.DATE));
@@ -615,10 +612,8 @@ public class Reserve extends javax.swing.JPanel {
                 } else {
                     headCount = usernumber.getText();
                     jDialog1.dispose();
-
                 }
             }
-
             if (index >= cid.size()) {
                 showMessageDialog(null, "설정한 시간에 해당 인원으로 예약할 수 있는 강의실이 없습니다. 다시설정해주세요");
                 index = firstindex;
@@ -670,10 +665,6 @@ public class Reserve extends javax.swing.JPanel {
                     break;
                 } else {
                     showMessageDialog(null, cid.get(index).getClassnumber() + "강의실은 선택한 시간사이에 수업이 있습니다.");
-                    //                    for (int i = 0; i < max; i++) {
-                    //                        SeatChecking sc = new SeatChecking(true, seatcheckbox[i], seatstatus[i]);
-                    //                    }
-                    //좌석 보여주는 것 컨트롤 필요
                 }
             }
             //수업이 없는 경우

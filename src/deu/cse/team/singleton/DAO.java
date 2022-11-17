@@ -754,6 +754,29 @@ public class DAO {
 
         return result;
     }
+    public void Updateallowed(String id) {       
+        boolean result =false;
+        if (this.connect()) {
+            try {
+                String sql = "UPDATE account SET allowed ='1' WHERE id ='" + id+"'";
+                PreparedStatement pstmt = con.prepareStatement(sql);
+                int r = pstmt.executeUpdate();
+                if (r > 0) {
+                    result = true;
+                }
+                //데이터베이스 생성 객체 해제
+                pstmt.close();
+                this.close();
+
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+
+        } else {
+            System.out.println("데이터베이스 연결에 실패");
+            System.exit(0);
+        }
+    }
 
     public boolean UpdateAccount(AccountDTO account, String id, String password, String name, String phonenumber) {
         boolean result = false;
@@ -1228,7 +1251,7 @@ public class DAO {
             System.exit(0);
         }
     }
-
+    
     public void AllowedUpdate(String sid) {
         if (this.connect()) {
             try {
@@ -1246,6 +1269,30 @@ public class DAO {
             System.out.println("데이터베이스 연결에 실패");
             System.exit(0);
         }
+    }
+    
+    public String getUserAllowed(String id) {
+        String allowed=null;
+        if (connect()) {
+            try {
+                String sql = "select allowed from account where id='"+id+"'";
+                System.out.println(sql);
+                stmt = con.createStatement();
+                if (stmt != null) {
+                    rs = stmt.executeQuery(sql);
+                    while (rs.next()) {
+                        allowed = rs.getString("allowed");
+                    }
+                    stmt.close();
+                    this.close();
+                }
+            } catch (SQLException e) {
+            }
+        } else {
+            System.out.println("데이터베이스 연결에 실패했습니다.");
+            System.exit(0);
+        }
+        return allowed;
     }
 
     public List<NoticeDTO> getNoticeList(String id) {
