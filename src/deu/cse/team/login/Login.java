@@ -151,6 +151,11 @@ public class Login extends javax.swing.JFrame {
 
             if (stu_id.equals(SignInIdField.getText()) && password.equals(SignInPwField.getText())) {
                 check = true;
+                boolean checksemester = dao.CheckSemester();
+                if (checksemester) {
+                    System.out.println("check0");
+                    dao.UpdateSemester();
+                }
                 if (power.equals("X")) {
                     StudentMain studentMain = new StudentMain(stu_id);
                     studentMain.idarea.setText(stu_id);
@@ -168,10 +173,7 @@ public class Login extends javax.swing.JFrame {
         if (check == false) {
             JOptionPane.showMessageDialog(null, "로그인 실패");
         }
-        boolean checksemester = dao.CheckSemester();
-        if (checksemester) {
-            dao.UpdateSemester();
-        }
+
 
     }//GEN-LAST:event_SignInButtActionPerformed
 

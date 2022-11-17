@@ -106,7 +106,7 @@ public class Reserve extends javax.swing.JPanel {
                 numberValue = rdto.get(i).getSeat_number();
                 numberValue -= 1;
                 System.out.println(rdto.size());
-                if (rdto.size() != 0) {
+                if (rdto.size() != 0) {                    
                     reserStartValue = Integer.parseInt(rdto.get(i).getReser_starttime().split(":")[0]);
                     reserEndValue = Integer.parseInt(rdto.get(i).getReser_endtime().split(":")[0]);
                     if (today.equals(rdto.get(i).getReser_date()) && rdto.get(i).getOk().equals("1")) { // 예약완료되면 1 + 오늘 예약인지 확인                
