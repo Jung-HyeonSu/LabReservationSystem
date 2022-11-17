@@ -561,6 +561,7 @@ public class Reserve extends javax.swing.JPanel {
                 reserseatnumber.clear();
                 Notice notice = new Notice();
                 notice.setSize(359, 300);
+                notice.setVisible(true);
             } else {
                 showMessageDialog(null, "예약 명단보다 선택한 좌석이 많거나 적습니다");
             }
