@@ -74,9 +74,9 @@ public class StudentMain extends javax.swing.JFrame {
         jPanel1.add(accountInfo);
         jPanel1.add(mboard);
 
-        reserve.setVisible(true);
+        reserve.setVisible(false);
         reservationManage.setVisible(false);
-        reserveStatus.setVisible(false);
+        reserveStatus.setVisible(true);
         classtimetable.setVisible(false);
         accountInfo.setVisible(false);
         mboard.setVisible(false);

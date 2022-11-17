@@ -221,6 +221,7 @@ public class ReserveStatus extends javax.swing.JPanel {
         resertimearea = new javax.swing.JLabel();
         resertime = new javax.swing.JLabel();
         selectclassnumber = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
 
         jLabel1.setFont(new java.awt.Font("맑은 고딕", 1, 24)); // NOI18N
         jLabel1.setText("시간설정");
@@ -323,6 +324,9 @@ public class ReserveStatus extends javax.swing.JPanel {
             }
         });
 
+        jLabel2.setFont(new java.awt.Font("맑은 고딕", 1, 24)); // NOI18N
+        jLabel2.setText("좌석 현황 조회");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -343,15 +347,19 @@ public class ReserveStatus extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(seattotal))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(328, 328, 328)
-                        .addComponent(selectclassnumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(314, Short.MAX_VALUE))
+                        .addGap(234, 234, 234)
+                        .addComponent(selectclassnumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel2)))
+                .addContainerGap(236, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(36, 36, 36)
-                .addComponent(selectclassnumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(selectclassnumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(settotal)
@@ -361,7 +369,7 @@ public class ReserveStatus extends javax.swing.JPanel {
                     .addComponent(changebtn)
                     .addComponent(resertimearea)
                     .addComponent(resertime))
-                .addContainerGap(352, Short.MAX_VALUE))
+                .addContainerGap(371, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -452,6 +460,7 @@ public class ReserveStatus extends javax.swing.JPanel {
     private javax.swing.JDialog editTime;
     private javax.swing.JComboBox<String> endtimebox;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jlabel;
     public javax.swing.JLabel resertime;
