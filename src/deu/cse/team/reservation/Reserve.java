@@ -105,14 +105,18 @@ public class Reserve extends javax.swing.JPanel {
             for (int i = 0; i < rdto.size(); i++) {
                 numberValue = rdto.get(i).getSeat_number();
                 numberValue -= 1;
-
-                reserStartValue = Integer.parseInt(rdto.get(i).getReser_starttime().split(":")[0]);
-                reserEndValue = Integer.parseInt(rdto.get(i).getReser_endtime().split(":")[0]);
-                if (today.equals(rdto.get(i).getReser_date()) && rdto.get(i).getOk().equals("1")) { // 예약완료되면 1 + 오늘 예약인지 확인                
+                System.out.println(rdto.size());
+                if (rdto.size() != 0) {
+                    reserStartValue = Integer.parseInt(rdto.get(i).getReser_starttime().split(":")[0]);
+                    reserEndValue = Integer.parseInt(rdto.get(i).getReser_endtime().split(":")[0]);
+                    if (today.equals(rdto.get(i).getReser_date()) && rdto.get(i).getOk().equals("1")) { // 예약완료되면 1 + 오늘 예약인지 확인                
                     for (int j = reserStartValue - 9; j < reserEndValue - 9; j++) {
                         reserseat[k][numberValue][j] = true;//예약이 되어있다.
                     }
                 }
+                }
+
+                
             }
         }
 //                        }
@@ -532,7 +536,7 @@ public class Reserve extends javax.swing.JPanel {
         if (isresered)
             showMessageDialog(null, "해당시간에 이미 예약한 내역이 있습니다.");
         else {
-            if (isselected && checkboxcount == head) {                 
+            if (isselected && checkboxcount == head) {
                 String time[] = resertime.getText().split("~");
                 ReservationDTO rdto;
                 String today = Integer.toString(c.get(Calendar.YEAR)) + "/" + Integer.toString(c.get(Calendar.MONTH) + 1) + "/" + Integer.toString(c.get(Calendar.DATE));

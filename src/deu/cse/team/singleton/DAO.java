@@ -1398,14 +1398,15 @@ public class DAO {
         boolean result = false;
         String[] sql = new String[2];
         sql[0] = "select * from token where extract( month from to_date(changeday)) in ('9','10','11','12','1','2') and extract( month from to_date(sysdate)) in ('3','4','5','6','7','8')";
-        sql[0] = "select * from token where extract( month from to_date(changeday)) in ('3','4','5','6','7','8') and extract( month from to_date(sysdate)) in ('9','10','11','12','1','2')";
+        sql[1] = "select * from token where extract( month from to_date(changeday)) in ('3','4','5','6','7','8') and extract( month from to_date(sysdate)) in ('9','10','11','12','1','2')";
         if (connect()) {
             try {
                 stmt = con.createStatement();
                 if (stmt != null) {
-                    for (int i = 0; i < 10; i++) {
+                    for (int i = 0; i < 1; i++) {
                         rs = stmt.executeQuery(sql[i]);
-                        while (rs.next()) {                            
+                        while (rs.next()) {   
+                            System.out.println(rs.getString("changeday"));
                             result = true;
                         }
                     }
@@ -1430,11 +1431,11 @@ public class DAO {
                 sql[1] = "update account set allowed='0' where power='X';";
                 sql[2] = "delete reservation where 1=1;";
                 sql[3] = "update classtimetable set time1 = ' , , , , , , ', time2 = ' , , , , , , ', time3 = ' , , , , , , ', time4 = ' , , , , , , ', time5 = ' , , , , , , ', time6 = ' , , , , , , ', time7 = ' , , , , , , ', time8 = ' , , , , , , ';";
-
                 PreparedStatement pstmt = null;
                 for (int i = 0; i < 4; i++) {
                     pstmt = con.prepareStatement(sql[i]);
                     int r = pstmt.executeUpdate();
+                    System.out.println(r);
                 }
                 //데이터베이스 생성 객체 해제
                 pstmt.close();
