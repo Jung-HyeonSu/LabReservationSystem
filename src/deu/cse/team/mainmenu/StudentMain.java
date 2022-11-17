@@ -4,7 +4,6 @@
  */
 package deu.cse.team.mainmenu;
 
-
 import deu.cse.team.accountmanagement.AccountInfo;
 import deu.cse.team.login.Login;
 import deu.cse.team.noticeBoard.MBoard;
@@ -33,7 +32,7 @@ public class StudentMain extends javax.swing.JFrame {
      * [최초작성자 정현수 2022.11.14]
      */
     GridBagLayout layout = new GridBagLayout();
-    
+
     Reserve reserve;
     ReservationMgmt reservationManage;
     ReserveStatus reserveStatus;
@@ -43,18 +42,20 @@ public class StudentMain extends javax.swing.JFrame {
     String id;
     String allowed;
     DAO dao = DAO.getInstance();
+
     public StudentMain() {
-}
+    }
+
     public StudentMain(String id) {
         initComponents();
-        this.id=id;
+        this.id = id;
         allowed = dao.getUserAllowed(id);
         if (allowed.equals("1")) {
             allowedstatus.setText("인증 확인");
             allowedstatus.setForeground(Color.blue);
             updateAllowed.setVisible(false);
         }
-        
+
         setLocationRelativeTo(this);
         setTitle("Student Main");
         reserve = new Reserve(id);
@@ -63,10 +64,9 @@ public class StudentMain extends javax.swing.JFrame {
         classtimetable = new ShowClassTimetable();
         accountInfo = new AccountInfo(id);
         mboard = new MBoard(id, "Student");
-        
 
         jPanel1.setLayout(layout);
-        
+
         jPanel1.add(reserve);
         jPanel1.add(reservationManage);
         jPanel1.add(reserveStatus);
@@ -417,14 +417,14 @@ public class StudentMain extends javax.swing.JFrame {
     private void Frame1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Frame1ActionPerformed
         // TODO add your handling code here:
         jPanel1.remove(reservationManage);
-        reservationManage = new ReservationMgmt(id);        
+        reservationManage = new ReservationMgmt(id);
         jPanel1.add(reservationManage);
         reserve.setVisible(false);
         reservationManage.setVisible(true);
         reserveStatus.setVisible(false);
         classtimetable.setVisible(false);
         accountInfo.setVisible(false);
-        mboard.setVisible(false);  
+        mboard.setVisible(false);
     }//GEN-LAST:event_Frame1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -453,7 +453,7 @@ public class StudentMain extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
-        
+
         List<AccountDTO> accountlist = dao.getAccountList();
         for (int i = 0; i < accountlist.size(); i++) {
             if ((accountlist.get(i).getId()).equals(id)) {
@@ -492,12 +492,18 @@ public class StudentMain extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
-        reserve.setVisible(true);
-        reservationManage.setVisible(false);
-        reserveStatus.setVisible(false);
-        classtimetable.setVisible(false);
-        accountInfo.setVisible(false);
-        mboard.setVisible(false);
+        if (allowed.equals("1")) {
+            reserve.setVisible(true);
+            reservationManage.setVisible(false);
+            reserveStatus.setVisible(false);
+            classtimetable.setVisible(false);
+            accountInfo.setVisible(false);
+            mboard.setVisible(false);            
+        }
+        else{
+            showMessageDialog(null, "토큰값 인증을 인증해야 예약할 수 있습니다.");
+        }
+
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
@@ -511,10 +517,12 @@ public class StudentMain extends javax.swing.JFrame {
         if (tokenvalue.getText().equals(dao.getTokenList())) {
             allowedstatus.setText("인증 확인");
             allowedstatus.setForeground(Color.blue);
+            updateAllowed.setVisible(false);
             jLabel8.setText("토큰값 인증 성공");
             jLabel8.setVisible(false);
-            showMessageDialog(null, "토큰값 인증에 성공하셨습니다.");
+            showMessageDialog(null, "토큰값 인증에 성공하셨습니다.");            
             dao.Updateallowed(id);
+            allowed = dao.getUserAllowed(id);
             jDialog3.dispose();
         } else {
             jLabel8.setForeground(Color.RED);
@@ -563,7 +571,7 @@ public class StudentMain extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new StudentMain().setVisible(true);
-                
+
             }
         });
     }

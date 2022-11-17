@@ -273,6 +273,11 @@
     <Component class="javax.swing.ButtonGroup" name="buttonGroup1">
     </Component>
   </NonVisualComponents>
+  <Properties>
+    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+      <Dimension value="[815, 504]"/>
+    </Property>
+  </Properties>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
@@ -288,11 +293,6 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
-              <EmptySpace min="-2" pref="363" max="-2" attributes="0"/>
-              <Component id="okreser" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="97" max="-2" attributes="0"/>
-          </Group>
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="87" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -300,8 +300,6 @@
                       <Component id="settotal" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="seattotal" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="89" max="-2" attributes="0"/>
-                      <Component id="classnumberarea" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="resertimearea" min="-2" max="-2" attributes="0"/>
@@ -311,7 +309,7 @@
                       <Component id="changebtn" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="235" max="32767" attributes="0"/>
+              <EmptySpace pref="315" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <Component id="adminid" min="-2" max="-2" attributes="0"/>
@@ -323,24 +321,31 @@
                   </Group>
               </Group>
           </Group>
+          <Group type="102" attributes="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="-2" pref="363" max="-2" attributes="0"/>
+                      <Component id="okreser" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="382" max="-2" attributes="0"/>
+                      <Component id="classnumberarea" min="-2" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+              <EmptySpace max="32767" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="-2" pref="87" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="settotal" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="seattotal" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
-                      <Component id="classnumberarea" min="-2" pref="41" max="-2" attributes="0"/>
-                  </Group>
+              <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+              <Component id="classnumberarea" min="-2" pref="41" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="settotal" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="seattotal" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">

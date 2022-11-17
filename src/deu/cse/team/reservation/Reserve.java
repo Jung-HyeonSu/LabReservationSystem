@@ -106,17 +106,16 @@ public class Reserve extends javax.swing.JPanel {
                 numberValue = rdto.get(i).getSeat_number();
                 numberValue -= 1;
                 System.out.println(rdto.size());
-                if (rdto.size() != 0) {                    
+                if (rdto.size() != 0) {
                     reserStartValue = Integer.parseInt(rdto.get(i).getReser_starttime().split(":")[0]);
                     reserEndValue = Integer.parseInt(rdto.get(i).getReser_endtime().split(":")[0]);
                     if (today.equals(rdto.get(i).getReser_date()) && rdto.get(i).getOk().equals("1")) { // 예약완료되면 1 + 오늘 예약인지 확인                
-                    for (int j = reserStartValue - 9; j < reserEndValue - 9; j++) {
-                        reserseat[k][numberValue][j] = true;//예약이 되어있다.
+                        for (int j = reserStartValue - 9; j < reserEndValue - 9; j++) {
+                            reserseat[k][numberValue][j] = true;//예약이 되어있다.
+                        }
                     }
                 }
-                }
 
-                
             }
         }
 //                        }
@@ -431,6 +430,8 @@ public class Reserve extends javax.swing.JPanel {
                 .addGap(45, 45, 45))
         );
 
+        setPreferredSize(new java.awt.Dimension(815, 504));
+
         changebtn.setText("시간 변경");
         changebtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -467,25 +468,19 @@ public class Reserve extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(363, 363, 363)
-                .addComponent(okreser)
-                .addGap(97, 97, 97))
-            .addGroup(layout.createSequentialGroup()
                 .addGap(87, 87, 87)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(settotal)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(seattotal)
-                        .addGap(89, 89, 89)
-                        .addComponent(classnumberarea))
+                        .addComponent(seattotal))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(resertimearea)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(resertime)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(changebtn)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 235, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 315, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(adminid)
@@ -493,20 +488,26 @@ public class Reserve extends javax.swing.JPanel {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(99, 99, 99))))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(363, 363, 363)
+                        .addComponent(okreser))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(382, 382, 382)
+                        .addComponent(classnumberarea)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(87, 87, 87)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(settotal)
-                            .addComponent(seattotal)
-                            .addComponent(jLabel2)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(48, 48, 48)
-                        .addComponent(classnumberarea, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(40, 40, 40)
+                .addComponent(classnumberarea, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(settotal)
+                    .addComponent(seattotal))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(changebtn)
@@ -625,6 +626,11 @@ public class Reserve extends javax.swing.JPanel {
                 index = firstindex;
             }
         }
+        if (Integer.parseInt(endtime) > 17) {
+            adminid.setText(dao.getClassAdmin(cid.get(index).getClassnumber(), today));
+        } else {
+            adminid.setText("조교");
+        }
         max = cid.get(index).getMaxseat();
         setseatstatus(this.max);
         classnumberarea.setText(cid.get(index).getClassnumber());
@@ -705,6 +711,8 @@ public class Reserve extends javax.swing.JPanel {
             } else {
                 if (Integer.parseInt(endtime) > 17) {
                     adminid.setText(dao.getClassAdmin(cid.get(index).getClassnumber(), today));
+                } else {
+                    adminid.setText("조교");
                 }
                 classnumberarea.setText(cid.get(index).getClassnumber());
                 seattotal.setText(Integer.toString(count) + " / " + max);
