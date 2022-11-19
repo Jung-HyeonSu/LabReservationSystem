@@ -160,6 +160,9 @@ public class ReserveStatus extends javax.swing.JPanel {
     }
 
     void getSchedule(int index) {
+        if (dayofWeek == 1) {
+            dayofWeek = 8;
+        }
         classTime[0] = !(cdto.get(index).getTime1().split(",")[dayofWeek - 2].equals(" ")); //0=방 번호 915 916 917 918 | 0,1,2,3
         classTime[1] = !(cdto.get(index).getTime2().split(",")[dayofWeek - 2].equals(" "));
         classTime[2] = !(cdto.get(index).getTime3().split(",")[dayofWeek - 2].equals(" "));
